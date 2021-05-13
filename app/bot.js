@@ -14,7 +14,6 @@ exports.start = async function start() {
 
         console.log(sn + `Logged in as ${dcClient.user.tag}!`)
 
-        /*
         console.log(sn + 'Starting FTP-Watcher')
         ftpWatcher.start()
 
@@ -23,7 +22,7 @@ exports.start = async function start() {
 
         console.log(sn + 'Starting Discord-Writer')
         dcWriter.start(dcClient)
-        */
+
         console.log(sn+'Starting State-Display')
         state.start(dcClient)
 
