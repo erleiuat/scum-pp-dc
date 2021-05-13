@@ -5,14 +5,14 @@ const sn = global.chalk.blue('[DCWriter] -> [Format] -> ')
 function hasImg(weapon) {
     if (!weapon) return false
     if (weapon.includes('_C')) weapon = weapon.split('_C')[0].replace(/\s/g, '')
-    if (wpImg[weapon]) return process.env.bot_img_url + 'weapon/' + wpImg[weapon]
+    if (wpImg[weapon]) return process.env.IMG_URL + 'weapon/' + wpImg[weapon]
 }
 
 
 exports.kill = async function kill(entry) {
 
     let distance = 0
-    if (entry.Killer.ServerLocation.X) {
+    if (entry.Killer && entry.Killer.ServerLocation.X) {
         var dx = entry.Killer.ServerLocation.X - entry.Victim.ServerLocation.X
         var dy = entry.Killer.ServerLocation.Y - entry.Victim.ServerLocation.Y
         var dz = entry.Killer.ServerLocation.Z - entry.Victim.ServerLocation.Z

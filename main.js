@@ -10,12 +10,6 @@ global.newEntries = {
     login: {}
 }
 
-/* 
-Usage:
---log           -> Use Log-Reader service
---state         -> Use state service
---statistics    -> Generate Player-Statistics
-*/
 
 const sn = global.chalk.red('[MAIN] -> ')
 const bot = require('./app/bot')

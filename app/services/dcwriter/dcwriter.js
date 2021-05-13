@@ -11,21 +11,25 @@ const channels = {
     dump: process.env.DISCORD_CH_DUMP
 }
 
+async function iterate(logFunction, dcClient) {
+    do {
+        await global.sleep.timer(1)
+        await logFunction(dcClient)
+    } while (true)
+}
 
 exports.start = async function start(dcClient) {
 
-    do {
-        await global.sleep.timer(1)
-        if (Object.keys(global.newEntries.kill).length > 0) await sendKills(dcClient)
-        if (Object.keys(global.newEntries.chat).length > 0) await sendChats(dcClient)
-        if (Object.keys(global.newEntries.admin).length > 0) await sendAdmins(dcClient)
-        if (Object.keys(global.newEntries.login).length > 0) await sendLogins(dcClient)
-        if (Object.keys(dump).length > 0) await sendDump(dcClient)
-    } while (true)
+    iterate(sendKills, dcClient)
+    iterate(sendChats, dcClient)
+    iterate(sendAdmins, dcClient)
+    iterate(sendLogins, dcClient)
+    iterate(sendDump, dcClient)
 
 }
 
 async function sendKills(dcClient) {
+    if (Object.keys(global.newEntries.kill).length <= 0) return
     let channel = dcClient.channels.cache.find(channel => channel.id === channels.kill)
     for (const el in global.newEntries.kill) {
         await channel.send(new Discord.MessageEmbed(await format.kill(global.newEntries.kill[el])))
@@ -39,6 +43,7 @@ async function sendKills(dcClient) {
 }
 
 async function sendChats(dcClient) {
+    if (Object.keys(global.newEntries.chat).length <= 0) return
     let channel = dcClient.channels.cache.find(channel => channel.id === channels.chat)
     for (const el in global.newEntries.chat) {
         if (global.newEntries.chat[el].type == 'Global') {
@@ -54,6 +59,7 @@ async function sendChats(dcClient) {
 }
 
 async function sendAdmins(dcClient) {
+    if (Object.keys(global.newEntries.admin).length <= 0) return
     let channel = dcClient.channels.cache.find(channel => channel.id === channels.admin)
     for (const el in global.newEntries.admin) {
 
@@ -87,6 +93,7 @@ async function sendAdmins(dcClient) {
 }
 
 async function sendLogins(dcClient) {
+    if (Object.keys(global.newEntries.login).length <= 0) return
     let channel = dcClient.channels.cache.find(channel => channel.id === channels.login)
     for (const el in global.newEntries.login) {
         await channel.send(new Discord.MessageEmbed(await format.login(global.newEntries.login[el])))
@@ -100,16 +107,29 @@ async function sendLogins(dcClient) {
 }
 
 async function sendDump(dcClient) {
+    if (Object.keys(dump).length <= 0) return
     let channel = dcClient.channels.cache.find(channel => channel.id === channels.dump)
     for (const el in dump) {
 
         let msg = false
-        if (dump[el].dump == 'kill') msg = {...await format.kill(dump[el]), color: 'ff0000'}
-        else if (entry.dump == 'chat') msg = {...await format.kill(dump[el]), color: '0000ff'}
-        else if (entry.dump == 'admin') msg = {...await format.kill(dump[el]), color: '00ff00'}
-        else if (entry.dump == 'login') msg = {...await format.kill(dump[el]), color: '242424'}
+        if (dump[el].dump == 'kill') msg = {
+            ...await format.kill(dump[el]),
+            color: 'ff0000'
+        }
+        else if (dump[el].dump == 'chat') msg = {
+            ...await format.chat(dump[el]),
+            color: '0000ff'
+        }
+        else if (dump[el].dump == 'admin') msg = {
+            ...await format.admin(dump[el]),
+            color: '00ff00'
+        }
+        else if (dump[el].dump == 'login') msg = {
+            ...await format.login(dump[el]),
+            color: '242424'
+        }
 
-        if(msg) await channel.send(new Discord.MessageEmbed(msg))
+        if (msg) await channel.send(new Discord.MessageEmbed(msg))
         console.log(sn + 'DUMP sent: ' + el)
         delete dump[el]
     }

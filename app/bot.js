@@ -5,6 +5,8 @@ const dcClient = new Discord.Client()
 const ftpWatcher = require('./services/ftpwatcher')
 const logProcessor = require('./services/logprocessor/logprocessor')
 const dcWriter = require('./services/dcwriter/dcwriter')
+const state = require('./services/state')
+const statistics = require('./services/statistics')
 
 exports.start = async function start() {
 
@@ -12,6 +14,7 @@ exports.start = async function start() {
 
         console.log(sn + `Logged in as ${dcClient.user.tag}!`)
 
+        /*
         console.log(sn + 'Starting FTP-Watcher')
         ftpWatcher.start()
 
@@ -20,6 +23,12 @@ exports.start = async function start() {
 
         console.log(sn + 'Starting Discord-Writer')
         dcWriter.start(dcClient)
+        */
+        console.log(sn+'Starting State-Display')
+        state.start(dcClient)
+
+        console.log(sn+'Starting Statistics')
+        statistics.start(dcClient)
 
     })
 

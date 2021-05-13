@@ -107,7 +107,7 @@ async function login(file) {
         if (line.includes('logged in')) {
 
             let ip = line.slice(22, line.substring(22).indexOf(' ') + 22)
-            let steamID = line.slice(line.indexOf(ip) + ip.length +1, line.indexOf(ip) + ip.length + 17)
+            let steamID = line.slice(line.indexOf(ip) + ip.length +1, line.indexOf(ip) + ip.length + 18)
             let userID = line.substring(line.indexOf(ip) + ip.length + 19).match(regexname)
             let user = line.substring(line.indexOf(ip) + ip.length + 19).replace(userID, '')
             userID = userID[0].slice(userID[0].indexOf('(') + 1, userID[0].indexOf(')'))
