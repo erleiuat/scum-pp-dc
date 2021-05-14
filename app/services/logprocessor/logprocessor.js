@@ -65,7 +65,7 @@ async function updateExisting(cache, updates) {
             secure: true
         })
 
-        for (const key in cache) await ftp.uploadFrom('./app/storage/logs/' + key + '.json', process.env.RM_FTP_LOG_DIR + '/' + key + '.json')
+        //for (const key in cache) await ftp.uploadFrom('./app/storage/logs/' + key + '.json', process.env.RM_FTP_LOG_DIR + '/' + key + '.json')
 
     } catch (error) {
         console.log(sn + error)

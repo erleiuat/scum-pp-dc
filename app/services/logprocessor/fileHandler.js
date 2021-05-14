@@ -5,7 +5,7 @@ const sn = global.chalk.yellow('[LOGProcessor] -> ')
 
 exports.getLines = async function getLines(type) {
 
-    let files = fs.readdirSync('./app/storage/raw_logs/')
+    let files = fs.readdirSync('./app/storage/raw_logs/new/')
     let lines = {}
 
     for (const file of files) {
@@ -107,12 +107,12 @@ async function login(file) {
         if (line.includes('logged in')) {
 
             let ip = line.slice(22, line.substring(22).indexOf(' ') + 22)
-            let steamID = line.slice(line.indexOf(ip) + ip.length +1, line.indexOf(ip) + ip.length + 18)
+            let steamID = line.slice(line.indexOf(ip) + ip.length + 1, line.indexOf(ip) + ip.length + 18)
             let userID = line.substring(line.indexOf(ip) + ip.length + 19).match(regexname)
             let user = line.substring(line.indexOf(ip) + ip.length + 19).replace(userID, '')
             userID = userID[0].slice(userID[0].indexOf('(') + 1, userID[0].indexOf(')'))
             let key = formKey(t, userID)
-            
+
             formatted[key] = {
                 type: 'login',
                 steamID: steamID,
@@ -160,7 +160,10 @@ async function kill(file) {
 }
 
 async function getContent(file) {
-    let content = fs.readFileSync('./app/storage/raw_logs/' + file)
+    let content = fs.readFileSync('./app/storage/raw_logs/new/' + file)
+    await fs.rename('./app/storage/raw_logs/new/' + file, './app/storage/raw_logs/' + file, (error) => {
+        if (error) console.log(sn + 'Error: ' + error)
+    })
     return iconv.decode(new Buffer.from(content), 'utf16le')
 }
 

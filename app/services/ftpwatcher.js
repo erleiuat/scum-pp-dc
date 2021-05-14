@@ -41,7 +41,7 @@ exports.start = async function start() {
         console.log(sn + 'New Updates found! Downloading files...')
         for (file in newFiles) {
             console.log(sn + 'Downloading ' + file)
-            await ftp.downloadTo('./app/storage/raw_logs/' + file, process.env.PP_FTP_LOG_DIR + '/' + file)
+            await ftp.downloadTo('./app/storage/raw_logs/new/' + file, process.env.PP_FTP_LOG_DIR + '/' + file)
         }
 
         console.log(sn + 'Download complete')
