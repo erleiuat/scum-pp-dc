@@ -6,7 +6,6 @@ const fileHandler = require('./fileHandler')
 
 exports.start = async function start() {
 
-    console.log(sn + 'Checking for existing logs')
     await initFiles({
         kill: {},
         chat: {},
@@ -48,7 +47,7 @@ exports.start = async function start() {
 
 async function updateExisting(cache, updates) {
 
-    console.log(sn + 'Updating existing Log-Files.')
+    console.log(sn + 'Updating Log-Cache')
 
     for (const key in cache) fs.writeFileSync('./app/storage/logs/' + key + '.json', JSON.stringify({
         ...cache[key],
@@ -65,7 +64,7 @@ async function updateExisting(cache, updates) {
             secure: true
         })
 
-        //for (const key in cache) await ftp.uploadFrom('./app/storage/logs/' + key + '.json', process.env.RM_FTP_LOG_DIR + '/' + key + '.json')
+        for (const key in cache) await ftp.uploadFrom('./app/storage/logs/' + key + '.json', process.env.RM_FTP_LOG_DIR + '/' + key + '.json')
 
     } catch (error) {
         console.log(sn + error)
@@ -77,7 +76,7 @@ async function updateExisting(cache, updates) {
 
 async function initFiles(logTypes) {
 
-    console.log(sn + 'Checking existing Log-Files.')
+    console.log(sn + 'Getting Log-Cache')
 
     try {
 
