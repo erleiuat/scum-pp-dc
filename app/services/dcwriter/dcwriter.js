@@ -13,19 +13,17 @@ const channels = {
 
 async function iterate(logFunction, dcClient) {
     do {
-        await global.sleep.timer(1)
+        await global.sleep.timer(0.5)
         await logFunction(dcClient)
     } while (true)
 }
 
 exports.start = async function start(dcClient) {
-
     iterate(sendKills, dcClient)
     iterate(sendChats, dcClient)
     iterate(sendAdmins, dcClient)
     iterate(sendLogins, dcClient)
     iterate(sendDump, dcClient)
-
 }
 
 async function sendKills(dcClient) {
@@ -118,7 +116,8 @@ async function sendDump(dcClient) {
         }
         else if (dump[el].dump == 'chat') msg = {
             ...await format.chat(dump[el]),
-            color: '0000ff'
+            color: '0000ff',
+            description: dump[el].type.toUpperCase() + '-CHAT'
         }
         else if (dump[el].dump == 'admin') msg = {
             ...await format.admin(dump[el]),
