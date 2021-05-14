@@ -17,27 +17,39 @@ exports.start = async function start() {
     }
 
     console.log(sn + 'FTP-Connection established. Starting watcher.')
+
+    let fileCache = {}
     let dirSize = 0
+    let i = 1
 
     do {
         await global.sleep.timer(1)
         if (global.updates) continue
 
-        console.log(sn + 'Checking for new updates...')
+        console.log(sn + 'Checking for new updates (#' + i + ')')
         let files = await ftp.list(process.env.PP_FTP_LOG_DIR)
-        let currSize = 0
+        let newFiles = {}
+        i++
 
-        for (const file of files)
-            currSize += file.size
-
-        if (currSize !== dirSize) {
-            console.log(sn + 'New Updates found! Downloading files...')
-            await ftp.downloadToDir('./app/storage/raw_logs', process.env.PP_FTP_LOG_DIR)
-            dirSize = currSize
-            console.log(sn + 'Download complete')
-            global.updates = true
+        for (const file of files) {
+            if (file.name.startsWith('violations')) continue
+            if (fileCache[file.name] && fileCache[file.name].size == file.size) continue
+            newFiles[file.name] = file
         }
 
+        if (Object.keys(newFiles).length <= 0) continue
+        console.log(sn + 'New Updates found! Downloading files...')
+        for (file in newFiles) {
+            console.log(sn + 'Downloading ' + file)
+            await ftp.downloadTo('./app/storage/raw_logs/' + file, process.env.PP_FTP_LOG_DIR + '/' + file)
+        }
+
+        console.log(sn + 'Download complete')
+        global.updates = true
+        fileCache = {
+            ...fileCache,
+            ...newFiles
+        }
 
     } while (true)
 
