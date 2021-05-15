@@ -25,11 +25,9 @@ exports.start = async function start() {
         
         console.log(sn+'Starting State-Display')
         state.start(dcClient)
-        /*
-        */
        
         console.log(sn+'Starting Statistics')
-        //statistics.start(dcClient)
+        statistics.start(dcClient)
 
     })
 
