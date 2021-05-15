@@ -89,33 +89,10 @@ exports.admin = async function admin(entry) {
 
 exports.login = async function login(entry) {
 
-    if (entry.type == 'logout') return {
-        'color': 'FF0000',
-        'title': entry.userID + ' -> **Logout**',
+    let msg = {
         'fields': [{
-            'name': 'Name',
-            'value': 'unknown',
-            'inline': true
-        }, {
-            'name': 'IP',
-            'value': 'unknown',
-            'inline': true
-        }, {
-            'name': 'SteamID',
-            'value': 'unknown',
-            'inline': true
-        }],
-        'footer': {
-            'text': entry.time.date + ` - ` + entry.time.time
-        }
-    }
-
-    return {
-        'color': 'FFFF00',
-        'title': entry.userID + ' -> **Login**',
-        'fields': [{
-            'name': 'Name',
-            'value': entry.user,
+            'name': 'ID',
+            'value': entry.userID,
             'inline': true
         }, {
             'name': 'IP',
@@ -129,6 +106,18 @@ exports.login = async function login(entry) {
         'footer': {
             'text': entry.time.date + ` - ` + entry.time.time
         }
+    }
+
+    if (entry.type == 'logout') return {
+        'color': 'FF0000',
+        'title': 'Logout -> ' + entry.user,
+        ...msg
+    }
+
+    return {
+        'color': 'FFFF00',
+        'title': 'Login -> ' + entry.user,
+        ...msg
     }
 
 }

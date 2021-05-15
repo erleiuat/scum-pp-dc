@@ -1,8 +1,21 @@
 const request = require('request')
 const sn = global.chalk.grey('[State] -> ')
 
-exports.start = async function start(dcClient) {
-    let iteration = 1
+let online = 0
+let serverTime = false
+
+async function checkOnline() {
+    do {
+        await global.sleep.timer(1)
+        let tmpOnline = 0
+        for (const e in global.playerlist) {
+            if (global.playerlist[e].online) tmpOnline++
+        }
+        online = tmpOnline
+    } while (true)
+}
+
+async function checkTime() {
     do {
         request({
             'url': process.env.BATTLEMETRICS_URL
@@ -11,21 +24,8 @@ exports.start = async function start(dcClient) {
             else {
                 try {
                     let data = (JSON.parse(response.body))
-                    if (data.data) {
-                        data = data.data.attributes
-                        dcClient.user.setActivity(
-                            data.players + ' 👥 | ' + data.details.time.slice(0, -3) + ' 🕒', {
-                                type: 'WATCHING'
-                            }
-                        )
-                        console.log(sn + 'State updated (#' + iteration + ')')
-                        iteration++
-                    } else {
-                        console.log(sn + 'Unable to read Server-Status')
-                        dcClient.user.setActivity('-', {
-                            type: 'WATCHING'
-                        })
-                    }
+                    if (data.data) serverTime = data.data.attributes.details.time.slice(0, -3)
+                    else console.log(sn + 'Unable to read Server-Status')
                 } catch (e) {
                     console.log(sn + 'Unable to read Server-Status')
                 }
@@ -33,4 +33,24 @@ exports.start = async function start(dcClient) {
         })
         await global.sleep.timer(30)
     } while (true)
+}
+
+
+exports.start = async function start(dcClient) {
+
+    checkOnline()
+    checkTime()
+
+    let iteration = 0
+    do {
+        await global.sleep.timer(5)
+        let msg = online + ' 👥'
+        if (serverTime) msg += ' | ' + serverTime + ' 🕒'
+        dcClient.user.setActivity(msg, {
+            type: 'WATCHING'
+        })
+        console.log(sn + 'State updated (#' + iteration + ')')
+        iteration++
+    } while (true)
+
 }

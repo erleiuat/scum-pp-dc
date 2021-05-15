@@ -3,10 +3,10 @@ const Discord = require('discord.js')
 const sn = global.chalk.white('[STATISTICS] -> ')
 
 const admins = [
-    '76561198058320009', 
-    '76561198082374095', 
-    '76561198907112461', 
-    '76561199166410611', 
+    '76561198058320009',
+    '76561198082374095',
+    '76561198907112461',
+    '76561199166410611',
     '76561198046659274'
 ]
 
@@ -108,6 +108,8 @@ async function sendList(channel, list) {
         ]
     }))
 
+    console.log(list)
+
     pTime = getDuration(list[1].playtime)
     await channel.send(new Discord.MessageEmbed({
         title: '2. ' + list[1].name.toUpperCase(),
@@ -196,35 +198,32 @@ async function updateTimes() {
     let file = await getLogins()
     users = []
 
-    for (el in file) {
+    for (e in file) {
+        //console.log(file[e])
 
-        if (file[el].type == 'login') {
-
-            if (!users[file[el].steamID]) users[file[el].steamID] = {
-                name: null,
-                tmpID: null,
-                login: null,
-                playtime: 0,
-                totalLogins: 0
-            }
-
-            users[file[el].steamID].name = file[el].user
-            users[file[el].steamID].tmpID = file[el].userID
-            users[file[el].steamID].login = formDate(file[el].time)
-            users[file[el].steamID].totalLogins += 1
-
+        let eID = file[e].steamID
+        if (!users[eID]) users[eID] = {
+            login: null,
+            logout: null,
+            playtime: 0,
+            online: false,
+            totalLogins: 0
+        }
+        
+        if (file[e].type == 'login') {
+            users[eID].login = formDate(file[e].time).getTime()
+            users[eID].name = file[e].user
+            users[eID].online = true
+            users[eID].totalLogins++
         } else {
+            users[eID].logout = formDate(file[e].time).getTime()
+            users[eID].online = false
+        }
 
-            let date = formDate(file[el].time)
-            let tmpID = file[el].userID
-
-            for (u in users)
-                if (users[u].tmpID == tmpID) {
-                    users[u].playtime += date.getTime() - users[u].login.getTime()
-                    users[u].tmpID = null
-                    break;
-                }
-
+        if(users[eID].login && users[eID].logout) {
+            users[eID].playtime += users[eID].logout - users[eID].login
+            users[eID].login = null
+            users[eID].logout = null
         }
 
     }

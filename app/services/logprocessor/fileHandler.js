@@ -2,6 +2,7 @@ const fs = require('fs')
 const iconv = require('iconv-lite')
 const regexname = /\(([^)]+)\).*/gm
 const sn = global.chalk.yellow('[LOGProcessor] -> ')
+const playerlist = {}
 
 exports.getLines = async function getLines(type) {
 
@@ -119,8 +120,11 @@ async function login(file) {
                 userID: userID,
                 user: user,
                 time: t,
-                ip: ip
+                ip: ip,
+                online: true
             }
+
+            global.playerlist[userID] = formatted[key]
 
         } else {
 
@@ -128,12 +132,15 @@ async function login(file) {
             let key = formKey(t, userID)
             formatted[key] = {
                 type: 'logout',
-                steamID: null,
+                steamID: global.playerlist[userID].steamID,
                 userID: userID,
-                user: null,
+                user: global.playerlist[userID].user,
                 time: t,
-                ip: null
+                ip: global.playerlist[userID].ip,
+                online: false
             }
+
+            global.playerlist[userID] = formatted[key]
 
         }
 

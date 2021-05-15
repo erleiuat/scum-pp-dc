@@ -6,12 +6,13 @@ const ftpWatcher = require('./services/ftpwatcher')
 const logProcessor = require('./services/logprocessor/logprocessor')
 const dcWriter = require('./services/dcwriter/dcwriter')
 const state = require('./services/state')
-const statistics = require('./services/statistics')
+const statistics = require('./services/statistics/statistics')
 
 exports.start = async function start() {
 
     dcClient.on('ready', () => {
 
+        /*
         console.log(sn + `Logged in as ${dcClient.user.tag}!`)
 
         console.log(sn + 'Starting FTP-Watcher')
@@ -25,9 +26,10 @@ exports.start = async function start() {
 
         console.log(sn+'Starting State-Display')
         state.start(dcClient)
+        */
 
         console.log(sn+'Starting Statistics')
-        statistics.start(dcClient)
+        //statistics.start(dcClient)
 
     })
 
