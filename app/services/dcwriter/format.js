@@ -88,7 +88,6 @@ exports.admin = async function admin(entry) {
 }
 
 exports.login = async function login(entry) {
-
     let msg = {
         'fields': [{
             'name': 'ID',

@@ -45,7 +45,10 @@ async function sendChats(dcClient) {
     let channel = dcClient.channels.cache.find(channel => channel.id === channels.chat)
     for (const el in global.newEntries.chat) {
         if (global.newEntries.chat[el].type == 'Global') {
-            await channel.send(new Discord.MessageEmbed(await format.chat(global.newEntries.chat[el])))
+            let msg = await format.chat(global.newEntries.chat[el])
+            if (msg.fields[0].value.match(/(?:admin|support)/gmi))
+                await channel.send(' <@&' + process.env.DISCORD_ROLE_SUPPORT + '> ')
+            await channel.send(new Discord.MessageEmbed(msg))
             console.log(sn + 'Chat sent: ' + el)
         }
         dump[el] = {
@@ -114,12 +117,15 @@ async function sendDump(dcClient) {
             ...await format.kill(dump[el]),
             color: 'ff0000'
         }
-        else if (dump[el].dump == 'chat') msg = {
-            ...await format.chat(dump[el]),
-            color: '0000ff',
-            description: dump[el].type.toUpperCase() + '-CHAT'
-        }
-        else if (dump[el].dump == 'admin') msg = {
+        else if (dump[el].dump == 'chat') {
+            msg = {
+                ...await format.chat(dump[el]),
+                color: '0000ff',
+                description: dump[el].type.toUpperCase() + '-CHAT'
+            }
+            if (msg.fields[0].value.match(/(?:admin|support)/gmi))
+                await channel.send(' <@&' + process.env.DISCORD_ROLE_SUPPORT + '> ')
+        } else if (dump[el].dump == 'admin') msg = {
             ...await format.admin(dump[el]),
             color: '00ff00'
         }
@@ -127,7 +133,6 @@ async function sendDump(dcClient) {
             ...await format.login(dump[el]),
             color: '242424'
         }
-
         if (msg) await channel.send(new Discord.MessageEmbed(msg))
         console.log(sn + 'DUMP sent: ' + el)
         delete dump[el]
