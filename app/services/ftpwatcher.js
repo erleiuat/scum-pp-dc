@@ -35,10 +35,10 @@ exports.start = async function start() {
 
     do {
         await global.sleep.timer(1)
+        if (global.updates) continue
         if (connected > 60) await ftpReconnect()
         connected++
 
-        if (global.updates) continue
         console.log(sn + 'Checking for new updates (#' + i + ')')
         let files = await ftp.list(process.env.PP_FTP_LOG_DIR)
         let newFiles = {}
