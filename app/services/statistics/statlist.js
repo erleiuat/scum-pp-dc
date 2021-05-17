@@ -26,8 +26,10 @@ exports.get = async function get() {
                 if (!state[key].lastLogin || state[key].lastLogin.getTime() < formDate(data[e].time).getTime())
                     state[key].lastLogin = formDate(data[e].time)
             } else {
-                state[key].playtime += formDate(data[e].time).getTime() - state[key].login
-                state[key].login = null
+                if (state[key].login) {
+                    state[key].playtime += formDate(data[e].time).getTime() - state[key].login
+                    state[key].login = null
+                }
             }
         }
 
