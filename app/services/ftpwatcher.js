@@ -2,13 +2,13 @@ const sn = global.chalk.green('[FTPWatcher] -> ')
 const ftp = new(require('basic-ftp')).Client()
 //ftp.ftp.verbose = true
 
-let connected = 0
+let accessCounter = 60
 
 async function ftpReconnect() {
     console.log(sn + 'FTP -> Reconnect')
     ftp.close()
     await ftpConnect()
-    connected = 0
+    accessCounter = 0
 }
 
 async function ftpConnect() {
@@ -27,22 +27,24 @@ async function ftpConnect() {
 }
 
 exports.start = async function start() {
-
-    await ftpConnect()
     let fileCache = {}
-    let dirSize = 0
-    let i = 1
+    let i = 0
 
     do {
         await global.sleep.timer(1)
-        if (global.updates) continue
-        if (connected > 60) await ftpReconnect()
-        connected++
+        try {
+            if (accessCounter >= 30) await ftpReconnect()
+        } catch (error) {
+            console.log(sn + 'Error while FTP-Reconnect: ' + error)
+            continue
+        }
 
+        accessCounter++
+        if (global.updates) continue
+        i++
         console.log(sn + 'Checking for new updates (#' + i + ')')
         let files = await ftp.list(process.env.PP_FTP_LOG_DIR)
         let newFiles = {}
-        i++
 
         for (const file of files) {
             if (file.name.startsWith('violations')) continue

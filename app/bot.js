@@ -13,20 +13,20 @@ exports.start = async function start() {
     dcClient.on('ready', () => {
 
         console.log(sn + `Logged in as ${dcClient.user.tag}!`)
-        
+
         console.log(sn + 'Starting FTP-Watcher')
         ftpWatcher.start()
-        
+
         console.log(sn + 'Starting Log-Processor')
         logProcessor.start()
-        
+
         console.log(sn + 'Starting Discord-Writer')
         dcWriter.start(dcClient)
-        
-        console.log(sn+'Starting State-Display')
+
+        console.log(sn + 'Starting State-Display')
         state.start(dcClient)
-       
-        console.log(sn+'Starting Statistics')
+
+        console.log(sn + 'Starting Statistics')
         statistics.start(dcClient)
 
     })
