@@ -6,7 +6,7 @@ let serverTime = false
 
 async function checkOnline() {
     do {
-        await global.sleep.timer(1)
+        await global.sleep.timer(5)
         let tmpOnline = 0
         for (const e in global.playerlist) {
             if (global.playerlist[e].online) tmpOnline++
@@ -31,7 +31,7 @@ async function checkTime() {
                 }
             }
         })
-        await global.sleep.timer(30)
+        await global.sleep.timer(60)
     } while (true)
 }
 

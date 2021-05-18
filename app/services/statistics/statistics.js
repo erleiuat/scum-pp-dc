@@ -1,5 +1,5 @@
 const Discord = require('discord.js')
-const sn = global.chalk.white('[STATISTICS] -> ')
+const sn = global.chalk.grey('[STATISTICS] -> ')
 const statList = require('./statlist')
 const playerstats = require('./playerstats')
 
