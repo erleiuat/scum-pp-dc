@@ -21,8 +21,8 @@ process.on('uncaughtException', err => {
     process.exit(1)
 })
 
-process.on('unhandledRejection', (reason, promise) => {
-    console.log('Unhandled rejection at ', promise, `reason: ${err.message}`)
+process.on('unhandledRejection', err => {
+    console.log('Unhandled rejection', err)
     process.exit(1)
 })
 

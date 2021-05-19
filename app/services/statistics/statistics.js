@@ -37,7 +37,7 @@ async function iterateOnline(dcClient) {
             await dcSend(list3, dcClient.channels.cache.find(channel => channel.id === process.env.DISCORD_CH_PLAYERONLINE))
             cache.list3 = list3
         }
-        await global.sleep.timer(5)
+        await global.sleep.timer(1)
     } while (true)
 }
 

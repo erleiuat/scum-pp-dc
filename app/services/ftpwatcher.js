@@ -1,17 +1,8 @@
 const sn = global.chalk.green('[FTPWatcher] -> ')
 const ftp = new(require('basic-ftp')).Client()
-//ftp.ftp.verbose = true
 
-let accessCounter = 60
+exports.start = async function start() {
 
-async function ftpReconnect() {
-    console.log(sn + 'FTP -> Reconnect')
-    ftp.close()
-    await ftpConnect()
-    accessCounter = 0
-}
-
-async function ftpConnect() {
     try {
         await ftp.access({
             host: process.env.PP_FTP_HOST,
@@ -21,26 +12,17 @@ async function ftpConnect() {
             secure: false
         })
     } catch (error) {
-        console.log(sn + error)
+        throw new Error(error)
     }
-    console.log(sn + 'FTP -> Connection established')
-}
 
-exports.start = async function start() {
+    console.log(sn + 'FTP -> Connection established')
     let fileCache = {}
     let i = 0
 
     do {
-        await global.sleep.timer(1)
-        try {
-            if (accessCounter >= 30) await ftpReconnect()
-        } catch (error) {
-            console.log(sn + 'Error while FTP-Reconnect: ' + error)
-            continue
-        }
-
-        accessCounter++
+        await global.sleep.timer(0.5)
         if (global.updates) continue
+
         i++
         console.log(sn + 'Checking for new updates (#' + i + ')')
         let files = await ftp.list(process.env.PP_FTP_LOG_DIR)

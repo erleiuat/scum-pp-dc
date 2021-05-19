@@ -14,7 +14,7 @@ exports.start = async function start() {
     })
 
     do {
-        await global.sleep.timer(0.5)
+        await global.sleep.timer(0.2)
         if (!global.updates) continue
 
         let logs = {

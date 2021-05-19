@@ -13,7 +13,7 @@ const channels = {
 
 async function iterate(logFunction, dcClient) {
     do {
-        await global.sleep.timer(0.5)
+        await global.sleep.timer(0.2)
         await logFunction(dcClient)
     } while (true)
 }
