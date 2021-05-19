@@ -1,6 +1,22 @@
 const fs = require('fs')
 const sn = global.chalk.white('[STATISTICS] -> ')
 
+exports.highscore = async function highscore(current) {
+
+    let latest = fs.readFileSync('./app/storage/maxplayers.txt', {
+        encoding: 'utf8',
+        flag: 'r'
+    })
+
+    if (current > parseInt(latest)) {
+        fs.writeFileSync('./app/storage/maxplayers.txt', current.toString())
+        return current
+    }
+
+    return latest
+
+}
+
 exports.get = async function get() {
 
     try {

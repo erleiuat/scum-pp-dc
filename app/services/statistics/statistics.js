@@ -32,17 +32,24 @@ async function iterateLists(dcClient) {
 }
 
 async function iterateOnline(dcClient) {
+
     do {
+
         await global.sleep.timer(1)
         if (global.updates) continue
         let states = await statList.get()
         let list3 = await playerstats.online(states)
+        list3.push('\n**Currently:** ' + list3.length + '\n')
+        list3.push('\n**Highscore:** ' + await statList.highscore(list3.length) + '\n')
+
         if (JSON.stringify(list3) != JSON.stringify(cache.list3)) {
             await dcSend(list3, dcClient.channels.cache.find(channel => channel.id === process.env.DISCORD_CH_PLAYERONLINE))
             cache.list3 = list3
             console.log(sn + 'Updated players-online')
         }
+
     } while (true)
+
 }
 
 exports.start = async function start(dcClient) {

@@ -75,7 +75,7 @@ exports.start = async function start(dcClient) {
     let msgCache = ''
 
     do {
-        await global.sleep.timer(10)
+        await global.sleep.timer(1)
         if (global.updates) continue
 
         if (online < 1) continue
