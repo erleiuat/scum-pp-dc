@@ -11,6 +11,11 @@ global.newEntries = {
     login: {}
 }
 
+console.log('\n----------------------------------------------------------\nWelcome to SDP-Bot 1.0!\n----------------------------------------------------------\n')
+
+const sn = global.chalk.red('[MAIN] -> ')
+const bot = require('./app/bot')
+
 process.on('uncaughtException', err => {
     console.error('There was an uncaught error', err)
     process.exit(1)
@@ -21,9 +26,7 @@ process.on('unhandledRejection', (reason, promise) => {
     process.exit(1)
 })
 
-const sn = global.chalk.red('[MAIN] -> ')
-const bot = require('./app/bot')
+console.log('\n----------------------------------------------------------\nBot initialized, starting processes\n----------------------------------------------------------\n')
 
-console.log('\n----------------------------------------------------------\nWelcome to SDP-Bot 1.0!\n----------------------------------------------------------\n')
 
 bot.start()
