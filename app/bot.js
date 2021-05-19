@@ -41,7 +41,7 @@ exports.start = async function start() {
                     fetched = await msg.channel.messages.fetch({
                         limit: 100
                     })
-                    msg.channel.bulkDelete(fetched)
+                    if (fetched.size > 0) msg.channel.bulkDelete(fetched)
                 } while (fetched.size >= 2)
                 console.log(sn + 'Channel cleaned.')
             }

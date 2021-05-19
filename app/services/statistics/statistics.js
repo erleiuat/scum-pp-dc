@@ -12,32 +12,36 @@ const cache = {
 async function iterateLists(dcClient) {
     let iteration = 1
     do {
+        await global.sleep.timer(5)
+        if (global.updates) continue
         let states = await statList.get()
         let list1 = await playerstats.ranking(states)
         if (JSON.stringify(list1) != JSON.stringify(cache.list1)) {
             await dcSend(list1, dcClient.channels.cache.find(channel => channel.id === process.env.DISCORD_CH_RANKING))
             cache.list1 = list1
+            console.log(sn + 'Updated ranking')
         }
         let list2 = await playerstats.list(states)
         if (JSON.stringify(list2) != JSON.stringify(cache.list2)) {
             await dcSend(list2, dcClient.channels.cache.find(channel => channel.id === process.env.DISCORD_CH_PLAYERSTATS))
             cache.list2 = list2
+            console.log(sn + 'Updated player-stats')
         }
-        console.log(sn + 'Updated (#'+iteration+')')
         iteration++
-        await global.sleep.timer(60)
     } while (true)
 }
 
 async function iterateOnline(dcClient) {
     do {
+        await global.sleep.timer(1)
+        if (global.updates) continue
         let states = await statList.get()
         let list3 = await playerstats.online(states)
         if (JSON.stringify(list3) != JSON.stringify(cache.list3)) {
             await dcSend(list3, dcClient.channels.cache.find(channel => channel.id === process.env.DISCORD_CH_PLAYERONLINE))
             cache.list3 = list3
+            console.log(sn + 'Updated players-online')
         }
-        await global.sleep.timer(1)
     } while (true)
 }
 
@@ -59,6 +63,6 @@ async function clearChannel(channel) {
         fetched = await channel.messages.fetch({
             limit: 100
         })
-        channel.bulkDelete(fetched)
+        if (fetched.size > 0) channel.bulkDelete(fetched)
     } while (fetched.size >= 2)
 }

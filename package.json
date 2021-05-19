@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/erleiuat/scum-pp-dc#readme",
   "dependencies": {
+    "@pm2/io": "^5.0.0",
     "basic-ftp": "^4.6.6",
     "chalk": "^4.1.1",
     "discord.js": "^12.5.3",
