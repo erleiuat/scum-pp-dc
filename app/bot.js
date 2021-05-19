@@ -29,6 +29,7 @@ exports.start = async function start() {
         console.log(sn + 'Starting Statistics')
         statistics.start(dcClient)
 
+
     })
 
     dcClient.on("message", async msg => {

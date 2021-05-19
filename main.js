@@ -11,6 +11,15 @@ global.newEntries = {
     login: {}
 }
 
+process.on('uncaughtException', err => {
+    console.error('There was an uncaught error', err)
+    process.exit(1)
+})
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.log('Unhandled rejection at ', promise, `reason: ${err.message}`)
+    process.exit(1)
+})
 
 const sn = global.chalk.red('[MAIN] -> ')
 const bot = require('./app/bot')

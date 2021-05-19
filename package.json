@@ -24,5 +24,9 @@
     "iconv-lite": "^0.6.2",
     "minimist": "^1.2.5",
     "request": "^2.88.2"
+  },
+  "nodemonConfig": {
+    "ignore": ["app/storage/*"],
+    "delay": 2000
   }
 }
