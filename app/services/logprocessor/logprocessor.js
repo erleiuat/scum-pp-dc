@@ -16,7 +16,7 @@ exports.start = async function start() {
     do {
         await global.sleep.timer(0.01)
         if (!global.updates) continue
-        global.updates = false
+        
 
         let logs = {
             kill: {},
@@ -40,6 +40,7 @@ exports.start = async function start() {
         }
 
         await updateExisting(logCache, logs)
+        global.updates = false
 
     } while (true)
 
