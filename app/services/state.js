@@ -4,6 +4,7 @@ const sn = global.chalk.grey('[State] -> ')
 let online = 0
 let serverTime = false
 
+/*
 async function checkOnline() {
     do {
         await global.sleep.timer(1)
@@ -15,6 +16,7 @@ async function checkOnline() {
         online = tmpOnline
     } while (true)
 }
+*/
 
 async function checkTime() {
     let timeCache = ''
@@ -27,6 +29,10 @@ async function checkTime() {
                 try {
                     let data = (JSON.parse(response.body))
                     if (data.data && timeCache != data.data.attributes.details.time) {
+
+                        // Load from Battlemetrics
+                        online = data.data.attributes.players
+
                         timeCache = data.data.attributes.details.time
                         serverTime = data.data.attributes.details.time
                         console.log(sn + 'Server-time updated')
@@ -69,7 +75,7 @@ async function incrementTime() {
 
 exports.start = async function start(dcClient) {
 
-    checkOnline()
+    //checkOnline()
     checkTime()
     incrementTime()
     let msgCache = ''
