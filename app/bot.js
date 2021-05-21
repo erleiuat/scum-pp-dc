@@ -14,12 +14,6 @@ exports.start = async function start() {
 
         console.log(sn + `Logged in as ${dcClient.user.tag}!`)
 
-        console.log(sn + 'Starting FTP-Watcher')
-        ftpWatcher.start()
-
-        console.log(sn + 'Starting Log-Processor')
-        logProcessor.start()
-
         console.log(sn + 'Starting Discord-Writer')
         dcWriter.start(dcClient)
 
@@ -29,6 +23,11 @@ exports.start = async function start() {
         console.log(sn + 'Starting Statistics')
         statistics.start(dcClient)
 
+        console.log(sn + 'Starting FTP-Watcher')
+        ftpWatcher.start()
+
+        console.log(sn + 'Starting Log-Processor')
+        logProcessor.start()
 
     })
 
@@ -50,6 +49,5 @@ exports.start = async function start() {
 
     console.log(sn + 'Login on Discord')
     dcClient.login(process.env.DISCORD_TOKEN)
-
 
 }
