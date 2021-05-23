@@ -58,15 +58,15 @@ async function iterateLists(dcClient) {
 }
 
 async function iterateOnline(dcClient) {
-    let channel = dcClient.channels.cache.find(channel => channel.id === process.env.DISCORD_CH_PLAYERONLINE)
+    let chOnline = dcClient.channels.cache.find(channel => channel.id === process.env.DISCORD_CH_PLAYERONLINE)
 
     do {
         await global.sleep.timer(1)
         if (global.updates) continue
         let list = await playerstats.online(await statList.get())
         list.push('\n-----\n\n**Currently: ' + list.length + '**\n\n**Highscore: ' + await statList.highscore(list.length) + '**\n')
-        if (JSON.stringify(list) != JSON.stringify(cache.list)) {
-            await dcSend(formMsgs(list), channel)
+        if (JSON.stringify(list) != JSON.stringify(cache.list3)) {
+            await dcSend(formMsgs(list), chOnline)
             console.log(sn + 'Updated players-online')
             cache.list3 = list
         }
