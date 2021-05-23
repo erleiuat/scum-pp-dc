@@ -9,45 +9,67 @@ const cache = {
     list3: {}
 }
 
+function formMsgs(listArr) {
+    let msgs = []
+    let count = 0
+    let tmpMsg = ''
+    for (let i = 0; i < listArr.length; i++) {
+        count++
+        tmpMsg += listArr[i]
+        if (count >= 10) {
+            msgs.push(tmpMsg)
+            tmpMsg = ''
+            count = 0
+        }
+    }
+    msgs.push(tmpMsg)
+    return msgs
+}
+
 async function iterateLists(dcClient) {
     let iteration = 1
+    let chRanking = dcClient.channels.cache.find(channel => channel.id === process.env.DISCORD_CH_RANKING)
+    let chStats = dcClient.channels.cache.find(channel => channel.id === process.env.DISCORD_CH_PLAYERSTATS)
+
     do {
+
         await global.sleep.timer(5)
         if (global.updates) continue
         let states = await statList.get()
+
         let list1 = await playerstats.ranking(states)
         if (JSON.stringify(list1) != JSON.stringify(cache.list1)) {
-            await dcSend(list1, dcClient.channels.cache.find(channel => channel.id === process.env.DISCORD_CH_RANKING))
-            cache.list1 = list1
+            await dcSend(list1, chRanking)
             console.log(sn + 'Updated ranking')
+            cache.list1 = list1
         }
+
         let list2 = await playerstats.list(states)
         if (JSON.stringify(list2) != JSON.stringify(cache.list2)) {
-            await dcSend(list2, dcClient.channels.cache.find(channel => channel.id === process.env.DISCORD_CH_PLAYERSTATS))
-            cache.list2 = list2
+            let msgs = formMsgs(list2)
+            msgs.push('\n-----\n\n**TOTAL: ' + list2.length + '**')
+            await dcSend(msgs, chStats)
             console.log(sn + 'Updated player-stats')
+            cache.list2 = list2
         }
+
         iteration++
     } while (true)
 }
 
 async function iterateOnline(dcClient) {
+    let channel = dcClient.channels.cache.find(channel => channel.id === process.env.DISCORD_CH_PLAYERONLINE)
 
     do {
-
         await global.sleep.timer(1)
         if (global.updates) continue
-        let states = await statList.get()
-        let list3 = await playerstats.online(states)
-
-        list3.push('\n-----\n**Currently:** ' + list3.length + '\n')
-        list3.push('\n-----\n**Highscore:** ' + await statList.highscore(list3.length) + '\n')
-        if (JSON.stringify(list3) != JSON.stringify(cache.list3)) {
-            await dcSend(list3, dcClient.channels.cache.find(channel => channel.id === process.env.DISCORD_CH_PLAYERONLINE))
-            cache.list3 = list3
+        let list = await playerstats.online(await statList.get())
+        list.push('\n-----\n\n**Currently: ' + list.length + '**\n\n**Highscore: ' + await statList.highscore(list.length) + '**\n')
+        if (JSON.stringify(list) != JSON.stringify(cache.list)) {
+            await dcSend(formMsgs(list), channel)
             console.log(sn + 'Updated players-online')
+            cache.list3 = list
         }
-
     } while (true)
 
 }
