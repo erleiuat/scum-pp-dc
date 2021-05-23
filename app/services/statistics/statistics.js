@@ -22,8 +22,8 @@ async function iterateLists(dcClient) {
             console.log(sn + 'Updated ranking')
         }
         let list2 = await playerstats.list(states)
+        list2.push('Total: ' + list2.length)
         if (JSON.stringify(list2) != JSON.stringify(cache.list2)) {
-            list2.push('Total: ' + list2.length)
             await dcSend(list2, dcClient.channels.cache.find(channel => channel.id === process.env.DISCORD_CH_PLAYERSTATS))
             cache.list2 = list2
             console.log(sn + 'Updated player-stats')
