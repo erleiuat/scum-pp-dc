@@ -82,6 +82,8 @@ async function sendAdmins(dcClient) {
             else if (line.message.toLowerCase().includes('spawn')) shouldHide = true
             else if (line.message.toLowerCase().includes('showotherplayerinfo')) shouldHide = true
             else if (line.message.toLowerCase().includes('godmode')) shouldHide = true
+            else if (line.message.toLowerCase().includes('setfakename')) shouldHide = true
+            else if (line.message.toLowerCase().includes('clearfakename')) shouldHide = true
         }
 
         if (!shouldHide) {
