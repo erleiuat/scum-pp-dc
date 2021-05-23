@@ -10,11 +10,12 @@ const admins = [
 
 exports.online = async function online(statesOrg) {
     let statesTmp = {}
-    for(u in statesOrg) if(statesOrg[u].login) statesTmp[u] = statesOrg[u]
+    for (u in statesOrg)
+        if (statesOrg[u].login) statesTmp[u] = statesOrg[u]
     return this.list(statesTmp, '00ff00')
 }
 
-exports.list = async function list(statesOrg, color = 'ffffff') {
+exports.list = async function list(statesOrg) {
 
     let msgs = []
     let states = []
@@ -30,7 +31,8 @@ exports.list = async function list(statesOrg, color = 'ffffff') {
 
     for (let i = 0; i < states.length; i++) {
         let formed = getDuration(states[i].playtime)
-        tmpMsg += '**'+states[i].user+'**\nSteamID: ' + states[i].steamID + '\nPlaytime: ' + formed.d + 'd ' + formed.h + 'h ' + formed.m + 'm \nLast Login: ' + states[i].lastLogin.toLocaleString() + '\nTotal Logins: ' + states[i].totalLogins
+        tmpMsg += '\n-----\n**' + states[i].user + '**\nSteamID: ' + states[i].steamID + '\nPlaytime: ' + formed.d + 'd ' + formed.h + 'h ' + formed.m + 'm \nLast Login: ' + states[i].lastLogin.toLocaleString() + '\nTotal Logins: ' + states[i].totalLogins
+        counter++
         if (counter >= 10) {
             msgs.push(tmpMsg)
             tmpMsg = ''
@@ -38,6 +40,8 @@ exports.list = async function list(statesOrg, color = 'ffffff') {
         }
     }
 
+    msgs.push(tmpMsg)
+    msgs.push(states.length)
     return msgs
 
 }
@@ -50,12 +54,14 @@ exports.ranking = async function ranking(statesOrg) {
         if (!admins.includes(e)) states.push(statesOrg[e])
 
     states.sort((a, b) => (a.playtime > b.playtime) ? 1 : -1).reverse()
-    for (let i = 3; i < states.length; i++) {
+    let tmpMsg = ''
+    for (let i = 3; i < 15; i++) {
         let formed = getDuration(states[i].playtime)
-        msgs.push('\n**' + (i + 1) + '. ' + states[i].user + '**\nPlaytime: ' + formed.d + ' Days, ' + formed.h + ' Hours, ' + formed.m + ' Minutes \nLogins: ' + states[i].totalLogins + '\n\n')
+        tmpMsg = '\n**' + (i + 1) + '. ' + states[i].user + '**\nPlaytime: ' + formed.d + ' Days, ' + formed.h + ' Hours, ' + formed.m + ' Minutes \nLogins: ' + states[i].totalLogins + '\n' + tmpMsg
     }
 
-    msgs.reverse()
+    msgs.push(tmpMsg)
+    msgs.push('\n-----\n')
     msgs.push(formWinner(states[2], '3', 'bf8970', 'medal/bronze.png'))
     msgs.push(formWinner(states[1], '2', 'bec2cb', 'medal/silver.png'))
     msgs.push(formWinner(states[0], '1', 'fdbf00', 'medal/gold.png'))

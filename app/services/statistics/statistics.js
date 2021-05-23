@@ -22,7 +22,6 @@ async function iterateLists(dcClient) {
             console.log(sn + 'Updated ranking')
         }
         let list2 = await playerstats.list(states)
-        list2.push('Total: ' + list2.length)
         if (JSON.stringify(list2) != JSON.stringify(cache.list2)) {
             await dcSend(list2, dcClient.channels.cache.find(channel => channel.id === process.env.DISCORD_CH_PLAYERSTATS))
             cache.list2 = list2
@@ -40,9 +39,7 @@ async function iterateOnline(dcClient) {
         if (global.updates) continue
         let states = await statList.get()
         let list3 = await playerstats.online(states)
-        list3.push('\n**Currently:** ' + list3.length + '\n')
-        list3.push('\n**Highscore:** ' + await statList.highscore(list3.length) + '\n')
-
+        list3.push('\n-----\n**Highscore:** ' + await statList.highscore(list3[list3.length - 1]) + '\n')
         if (JSON.stringify(list3) != JSON.stringify(cache.list3)) {
             await dcSend(list3, dcClient.channels.cache.find(channel => channel.id === process.env.DISCORD_CH_PLAYERONLINE))
             cache.list3 = list3
