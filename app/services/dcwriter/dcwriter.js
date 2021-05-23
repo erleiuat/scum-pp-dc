@@ -74,7 +74,6 @@ async function sendAdmins(dcClient) {
         if (
             line.steamID.includes('76561198058320009') ||
             line.steamID.includes('76561198082374095') ||
-            line.steamID.includes('76561198907112461') ||
             line.steamID.includes('76561198046659274')
         ) {
             if (line.message.toLowerCase().includes('teleport')) shouldHide = true

@@ -3,7 +3,6 @@ const sn = global.chalk.white('[STATISTICS] -> ')
 const admins = [
     '76561198058320009',
     '76561198082374095',
-    '76561198907112461',
     '76561199166410611',
     '76561198046659274'
 ]
@@ -25,25 +24,12 @@ exports.list = async function list(statesOrg) {
     })
 
     states.sort((a, b) => (a.lastLogin.getTime() > b.lastLogin.getTime()) ? 1 : -1)
-
-    let tmpMsg = ''
-    let counter = 0
-
     for (let i = 0; i < states.length; i++) {
         let formed = getDuration(states[i].playtime)
-        tmpMsg += '\n-----\n**' + states[i].user + '**\nSteamID: ' + states[i].steamID + '\nPlaytime: ' + formed.d + 'd ' + formed.h + 'h ' + formed.m + 'm \nLast Login: ' + states[i].lastLogin.toLocaleString() + '\nTotal Logins: ' + states[i].totalLogins
-        counter++
-        if (counter >= 10) {
-            msgs.push(tmpMsg)
-            tmpMsg = ''
-            counter = 0
-        }
+        msgs.push('\n-----\n**' + states[i].user + '**\nSteamID: ' + states[i].steamID + '\nPlaytime: ' + formed.d + 'd ' + formed.h + 'h ' + formed.m + 'm \nLast Login: ' + states[i].lastLogin.toLocaleString() + '\nTotal Logins: ' + states[i].totalLogins)
     }
 
-    msgs.push(tmpMsg)
-    msgs.push(states.length)
     return msgs
-
 }
 
 exports.ranking = async function ranking(statesOrg) {
