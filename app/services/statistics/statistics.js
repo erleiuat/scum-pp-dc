@@ -58,7 +58,7 @@ exports.start = async function start(dcClient) {
 async function dcSend(msgs, channel) {
     await clearChannel(channel)
     for (const msg of msgs) {
-        await channel.send(msg)
+        if(msg) await channel.send(msg)
     }
 }
 
