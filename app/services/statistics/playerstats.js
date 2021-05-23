@@ -25,13 +25,17 @@ exports.list = async function list(statesOrg, color = 'ffffff') {
 
     states.sort((a, b) => (a.lastLogin.getTime() > b.lastLogin.getTime()) ? 1 : -1)
 
+    let tmpMsg = ''
+    let counter = 0
+
     for (let i = 0; i < states.length; i++) {
         let formed = getDuration(states[i].playtime)
-        msgs.push(new Discord.MessageEmbed({
-            title: states[i].user,
-            color: color,
-            description: 'SteamID: ' + states[i].steamID + '\nPlaytime: ' + formed.d + 'd ' + formed.h + 'h ' + formed.m + 'm \nLast Login: ' + states[i].lastLogin.toLocaleString() + '\nTotal Logins: ' + states[i].totalLogins
-        }))
+        tmpMsg += '**'+states[i].user+'**\nSteamID: ' + states[i].steamID + '\nPlaytime: ' + formed.d + 'd ' + formed.h + 'h ' + formed.m + 'm \nLast Login: ' + states[i].lastLogin.toLocaleString() + '\nTotal Logins: ' + states[i].totalLogins
+        if (counter >= 10) {
+            msgs.push(tmpMsg)
+            tmpMsg = ''
+            counter = 0
+        }
     }
 
     return msgs
