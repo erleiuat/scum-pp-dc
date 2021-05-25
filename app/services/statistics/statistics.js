@@ -2,24 +2,23 @@ const Discord = require('discord.js')
 const sn = global.chalk.grey('[STATISTICS] -> ')
 const statList = require('./statlist')
 const playerstats = require('./playerstats')
+const newPlayers = require('./newplayers')
 
 const cache = {
     list1: {},
     list2: {},
-    list3: {}
+    list3: {},
+    list4: {}
 }
 
 function formMsgs(listArr) {
     let msgs = []
-    let count = 0
     let tmpMsg = ''
     for (let i = 0; i < listArr.length; i++) {
-        count++
         tmpMsg += listArr[i]
-        if (count >= 10) {
+        if (tmpMsg.length >= 1800) {
             msgs.push(tmpMsg)
             tmpMsg = ''
-            count = 0
         }
     }
     msgs.push(tmpMsg)
@@ -35,16 +34,17 @@ async function iterateLists(dcClient) {
 
         await global.sleep.timer(5)
         if (global.updates) continue
-        let states = await statList.get()
 
-        let list1 = await playerstats.ranking(states)
+        var d = new Date()
+        d.setDate(d.getDate() - 7)
+        let list1 = await playerstats.ranking(await statList.get(d.getTime()))
         if (JSON.stringify(list1) != JSON.stringify(cache.list1)) {
             await dcSend(list1, chRanking)
             console.log(sn + 'Updated ranking')
             cache.list1 = list1
         }
 
-        let list2 = await playerstats.list(states)
+        let list2 = await playerstats.list(await statList.get())
         if (JSON.stringify(list2) != JSON.stringify(cache.list2)) {
             let msgs = formMsgs(list2)
             msgs.push('\n-----\n\n**TOTAL: ' + list2.length + '**')
@@ -74,9 +74,28 @@ async function iterateOnline(dcClient) {
 
 }
 
+async function iterateNewPlayers(dcClient) {
+    let chNew = dcClient.channels.cache.find(channel => channel.id === process.env.DISCORD_CH_NEWPLAYERS)
+
+    do {
+
+        await global.sleep.timer(10)
+        if (global.updates) continue
+        let list = await newPlayers.get()
+        if (JSON.stringify(list) != JSON.stringify(cache.list4)) {
+            await dcSend(list, chNew)
+            console.log(sn + 'Updated new-players')
+            cache.list4 = list
+        }
+
+    } while (true)
+
+}
+
 exports.start = async function start(dcClient) {
     iterateLists(dcClient)
     iterateOnline(dcClient)
+    iterateNewPlayers(dcClient)
 }
 
 async function dcSend(msgs, channel) {

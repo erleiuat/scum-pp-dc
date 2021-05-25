@@ -17,13 +17,15 @@ exports.highscore = async function highscore(current) {
 
 }
 
-exports.get = async function get() {
+exports.get = async function get(startTime = 0) {
 
     try {
         let state = {}
         let data = JSON.parse(fs.readFileSync('./app/storage/logs/login.json'))
         for (const e in data) {
             let key = data[e].steamID
+            let time = formDate(data[e].time).getTime()
+            if (time < startTime) continue
             if (!state[key]) state[key] = {
                 userID: null,
                 user: null,
@@ -34,16 +36,16 @@ exports.get = async function get() {
                 login: false
             }
             if (data[e].type == 'login') {
-                state[key].login = formDate(data[e].time).getTime()
+                state[key].login = time
                 state[key].userID = data[e].userID
                 state[key].user = data[e].user
                 state[key].ip = data[e].ip
                 state[key].totalLogins++
-                if (!state[key].lastLogin || state[key].lastLogin.getTime() < formDate(data[e].time).getTime())
+                if (!state[key].lastLogin || state[key].lastLogin.getTime() < time)
                     state[key].lastLogin = formDate(data[e].time)
             } else {
                 if (state[key].login) {
-                    state[key].playtime += formDate(data[e].time).getTime() - state[key].login
+                    state[key].playtime += time - state[key].login
                     state[key].login = null
                 }
             }

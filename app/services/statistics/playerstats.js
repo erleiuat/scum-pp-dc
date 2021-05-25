@@ -51,6 +51,7 @@ exports.ranking = async function ranking(statesOrg) {
     msgs.push(formWinner(states[2], '3', 'bf8970', 'medal/bronze.png'))
     msgs.push(formWinner(states[1], '2', 'bec2cb', 'medal/silver.png'))
     msgs.push(formWinner(states[0], '1', 'fdbf00', 'medal/gold.png'))
+    msgs.push('\n-----\n Best players in the last 7 days by playing time / Beste Spieler der letzten 7 Tage nach Spielzeit')
     return msgs
 
 }
