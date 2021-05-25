@@ -5,7 +5,7 @@ const sn = global.chalk.blue('[DCWriter] -> [Format] -> ')
 function hasImg(weapon) {
     if (!weapon) return false
     if (weapon.includes('_C')) weapon = weapon.split('_C')[0].replace(/\s/g, '')
-    if (wpImg[weapon]) return process.env.IMG_URL + 'weapon/' + wpImg[weapon]
+    if (wpImg.image[weapon]) return process.env.IMG_URL + 'weapon/' + wpImg.image[weapon]
 }
 
 
