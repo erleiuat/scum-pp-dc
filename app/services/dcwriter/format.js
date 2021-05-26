@@ -1,13 +1,21 @@
-const wpImg = require('./weaponList')
+const fetch = require('node-fetch');
 const sn = global.chalk.blue('[DCWriter] -> [Format] -> ')
-
+let weaponImg = null
 
 function hasImg(weapon) {
     if (!weapon) return false
     if (weapon.includes('_C')) weapon = weapon.split('_C')[0].replace(/\s/g, '')
-    if (wpImg.image[weapon]) return process.env.IMG_URL + 'weapon/' + wpImg.image[weapon]
+    if (weaponImg[weapon]) return process.env.IMG_URL + 'weapon/' + weaponImg[weapon]
 }
 
+exports.loadWeapons = async function loadWeapons() {
+    let url = process.env.IMG_URL + 'weapon/_weaponlist.json'
+    await fetch(url, {
+        method: 'Get'
+    }).then(res => res.json()).then((json) => {
+        weaponImg = json
+    })
+}
 
 exports.kill = async function kill(entry) {
 

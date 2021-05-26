@@ -19,6 +19,7 @@ async function iterate(logFunction, dcClient) {
 }
 
 exports.start = async function start(dcClient) {
+    await format.loadWeapons()
     iterate(sendKills, dcClient)
     iterate(sendChats, dcClient)
     iterate(sendAdmins, dcClient)
