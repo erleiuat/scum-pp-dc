@@ -41,7 +41,7 @@ exports.ranking = async function ranking(statesOrg) {
 
     states.sort((a, b) => (a.playtime > b.playtime) ? 1 : -1).reverse()
     let tmpMsg = ''
-    for (let i = 3; i < 15; i++) {
+    for (let i = 3; i < 10; i++) {
         let formed = getDuration(states[i].playtime)
         tmpMsg = '\n**' + (i + 1) + '. ' + states[i].user + '**\nPlaytime: ' + formed.d + ' Days, ' + formed.h + ' Hours, ' + formed.m + ' Minutes \nLogins: ' + states[i].totalLogins + '\n' + tmpMsg
     }
