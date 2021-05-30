@@ -14,6 +14,38 @@ exports.start = async function start() {
 
         console.log(sn + `Logged in as ${dcClient.user.tag}!`)
 
+        //837341635452600360 <- text
+        //842406183472988190 <- dump
+        dcClient.channels.fetch("837341635452600360").then(txtCh => {
+
+            dcClient.channels.fetch("842406183472988190").then(dumpCh => {
+
+                dumpCh.overwritePermissions(txtCh.permissionOverwrites)
+
+            })
+
+            /*
+            chnl.overwritePermissions([{
+                    id: "837074161389142066",
+                    deny: ['VIEW_CHANNEL'],
+                }
+            ])
+            chnl.permissionOverwrites.get("838445948870328380").delete()
+            chnl.overwritePermissions([{
+                    id: "838445948870328380",
+                    deny: ['VIEW_CHANNEL'],
+                },
+                {
+                    id: "837074161389142066",
+                    deny: ['VIEW_CHANNEL'],
+                },
+            ])
+            */
+            console.log(chnl.permissionOverwrites)
+        })
+        //chnl.permissionOverwrites.delete()
+        //chnl.lockPermissions()
+        /*
         console.log(sn + 'Starting Discord-Writer')
         dcWriter.start(dcClient)
 
@@ -28,7 +60,7 @@ exports.start = async function start() {
 
         console.log(sn + 'Starting Log-Processor')
         logProcessor.start()
-
+        */
     })
 
     dcClient.on("message", async msg => {

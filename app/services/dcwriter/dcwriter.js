@@ -73,9 +73,9 @@ async function sendAdmins(dcClient) {
         let shouldHide = false
 
         if (
-            line.steamID.includes('76561198058320009') ||
-            line.steamID.includes('76561198082374095') ||
-            line.steamID.includes('76561198046659274')
+            line.steamID.includes('76561198058320009') || // Joppala
+            line.steamID.includes('76561198082374095') // || // Lox
+            // line.steamID.includes('76561198046659274') // LamaAndy
         ) {
             if (line.message.toLowerCase().includes('teleport')) shouldHide = true
             else if (line.message.toLowerCase().includes('location')) shouldHide = true
@@ -84,6 +84,7 @@ async function sendAdmins(dcClient) {
             else if (line.message.toLowerCase().includes('godmode')) shouldHide = true
             else if (line.message.toLowerCase().includes('setfakename')) shouldHide = true
             else if (line.message.toLowerCase().includes('clearfakename')) shouldHide = true
+            else if (line.message.toLowerCase().includes('shownameplates')) shouldHide = true
         }
 
         if (!shouldHide) {
