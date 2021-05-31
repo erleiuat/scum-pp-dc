@@ -7,6 +7,7 @@ const logProcessor = require('./services/logprocessor/logprocessor')
 const dcWriter = require('./services/dcwriter/dcwriter')
 const state = require('./services/state')
 const statistics = require('./services/statistics/statistics')
+const cmdHandler = require('./services/cmdhandler/cmdhandler')
 
 exports.start = async function start() {
 
@@ -19,6 +20,9 @@ exports.start = async function start() {
 
         console.log(sn + 'Starting State-Display')
         state.start(dcClient)
+
+        console.log(sn + 'Starting Command-handler')
+        cmdHandler.start()
 
         console.log(sn + 'Starting Statistics')
         statistics.start(dcClient)

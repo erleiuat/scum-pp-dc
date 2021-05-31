@@ -58,14 +58,14 @@ async function updateExisting(cache, updates) {
     try {
 
         await ftp.access({
-            host: process.env.RM_FTP_HOST,
-            port: process.env.RM_FTP_PORT,
-            user: process.env.RM_FTP_USER,
-            password: process.env.RM_FTP_PASSWORD,
+            host: process.env.RM_LOG_FTP_HOST,
+            port: process.env.RM_LOG_FTP_PORT,
+            user: process.env.RM_LOG_FTP_USER,
+            password: process.env.RM_LOG_FTP_PASSWORD,
             secure: true
         })
 
-        for (const key in cache) await ftp.uploadFrom('./app/storage/logs/' + key + '.json', process.env.RM_FTP_LOG_DIR + '/' + key + '.json')
+        for (const key in cache) await ftp.uploadFrom('./app/storage/logs/' + key + '.json', process.env.RM_LOG_FTP_DIR + key + '.json')
 
     } catch (error) {
         console.log(sn + error)
@@ -82,14 +82,14 @@ async function initFiles(logTypes) {
     try {
 
         await ftp.access({
-            host: process.env.RM_FTP_HOST,
-            port: process.env.RM_FTP_PORT,
-            user: process.env.RM_FTP_USER,
-            password: process.env.RM_FTP_PASSWORD,
+            host: process.env.RM_LOG_FTP_HOST,
+            port: process.env.RM_LOG_FTP_PORT,
+            user: process.env.RM_LOG_FTP_USER,
+            password: process.env.RM_LOG_FTP_PASSWORD,
             secure: true
         })
 
-        for (const key in logTypes) await ftp.downloadTo('./app/storage/logs/' + key + '.json', process.env.RM_FTP_LOG_DIR + '/' + key + '.json')
+        for (const key in logTypes) await ftp.downloadTo('./app/storage/logs/' + key + '.json', process.env.RM_LOG_FTP_DIR + key + '.json')
 
     } catch (error) {
         console.log(sn + error)

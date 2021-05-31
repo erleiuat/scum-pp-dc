@@ -60,8 +60,8 @@ async function chat(file) {
             time: t,
             user: user,
             steamID: steamID,
-            type: msgType,
-            message: msg
+            type: msgType.trim(),
+            message: msg.trim()
         }
 
     }
