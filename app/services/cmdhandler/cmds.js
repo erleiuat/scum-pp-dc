@@ -1,3 +1,54 @@
+const request = require('request')
+
+const options = {
+    method: 'GET',
+    url: 'https://jokeapi-v2.p.rapidapi.com/joke/Dark',
+    qs: {
+        type: 'single',
+        format: 'json',
+        blacklistFlags: 'racist'
+    },
+    headers: {
+        'x-rapidapi-key': 'b42727cf17msh61c4120c24e955ep1e7dc8jsnd847ba7d1dd3',
+        'x-rapidapi-host': 'jokeapi-v2.p.rapidapi.com',
+        useQueryString: true
+    }
+}
+
+
+exports.joke = async function joke(key, cmd) {
+    return new Promise(resolve => {
+
+        //if (cmd.type.toLowerCase() != 'global') return null
+
+        request(options, function (error, response, body) {
+            let tmpObj = {}
+            if (error) throw new Error(error)
+            try {
+                let resp = JSON.parse(body)
+                tmpObj[key] = {
+                    date: cmd.time.date,
+                    time: cmd.time.time,
+                    type: 'global',
+                    commands: [
+                        '#SetFakeName [SF-BOT][JOKE]',
+                        resp.joke,
+                        '#ClearFakeName'
+                    ]
+                }
+                console.log(resp.joke)
+                console.log(tmpObj)
+                resolve(tmpObj)
+            } catch (error) {
+                resolve(null)
+            }
+        })
+    })
+
+}
+
+
+
 exports.vote_weather_sun = async function vote_weather_sun(key, cmd) {
 
     if (cmd.type.toLowerCase() != 'global') return null
@@ -133,6 +184,8 @@ exports.help = async function help(key, cmd) {
 
     return tmpObj
 }
+
+
 
 exports.killFeed = async function killFeed(key, cmd) {
     /*
