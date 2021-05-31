@@ -9,5 +9,8 @@ exports.list = {
     '!online': 'online',
     '!players': 'online',
     '!playersonline': 'online',
-    '!onlineplayers': 'online'
+    '!onlineplayers': 'online',
+    '!whenrestart': 'restart_countdown',
+    '!restart': 'restart_countdown',
+    '!restartwhen': 'restart_countdown'
 }
