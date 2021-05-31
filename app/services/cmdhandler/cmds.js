@@ -91,10 +91,12 @@ exports.restart_countdown = async function restart_countdown(key, cmd) {
     if (curHour < 6) countDownDate.setHours(6)
     else if (curHour < 12) countDownDate.setHours(12)
     else if (curHour < 18) countDownDate.setHours(18)
-    else if (curHour >= 18) countDownDate.setHours(24)
+    else if (curHour >= 18) {
+        countDownDate.setDate(countDownDate.getDate() + 1)
+        countDownDate.setHours(0)
+    }
 
     let distance = countDownDate - now
-
     let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
     let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
     let seconds = Math.floor((distance % (1000 * 60)) / 1000)
@@ -106,7 +108,7 @@ exports.restart_countdown = async function restart_countdown(key, cmd) {
         type: 'global',
         commands: [
             '#SetFakeName [SF-BOT][RESTART]',
-            'Next restart will be in: ' + hours + 'h, ' + minutes + 'm, ' + seconds + 's, ',
+            'Next restart will be in: ' + hours + 'h ' + minutes + 'm ' + seconds + 's',
             '#ClearFakeName'
         ]
     }
