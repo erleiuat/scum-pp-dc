@@ -8,7 +8,7 @@ const channels = {
     chat: process.env.DISCORD_CH_CHAT,
     login: process.env.DISCORD_CH_LOGIN,
     admin: process.env.DISCORD_CH_ADMIN,
-    dump: process.env.DISCORD_CH_DUMP
+    dump: process.env.DISCORD_CH_CONSOLE
 }
 
 async function iterate(logFunction, dcClient) {

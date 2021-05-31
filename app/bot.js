@@ -38,7 +38,10 @@ exports.start = async function start() {
     dcClient.on("message", async msg => {
 
         if (msg.channel.id == process.env.DISCORD_CH_CONSOLE) {
-            if (msg.member.hasPermission('ADMINISTRATOR')) {
+            if (
+                msg.member.hasPermission('ADMINISTRATOR') &&
+                msg.author.id != '276057160738406400'
+            ) {
                 let tmpObj = {}
                 tmpObj[msg.id] = {
                     type: 'global',
