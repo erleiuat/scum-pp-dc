@@ -4,6 +4,7 @@ global.chalk = require('chalk')
 global.sleep = require('./app/plugins/sleep')
 global.updates = true
 global.commands = {}
+global.playersOnline = 0
 global.playerlist = {}
 global.newEntries = {
     kill: {},

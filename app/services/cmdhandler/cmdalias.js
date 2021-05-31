@@ -5,5 +5,9 @@ exports.list = {
     '!sunvote': 'vote_weather_sun',
     '!voteweather': 'vote_weather_sun',
     '!weathervote': 'vote_weather_sun',
-    '!ping': 'ping'
+    '!ping': 'ping',
+    '!online': 'online',
+    '!players': 'online',
+    '!playersonline': 'online',
+    '!onlineplayers': 'online'
 }

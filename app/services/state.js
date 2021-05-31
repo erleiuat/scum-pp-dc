@@ -32,7 +32,6 @@ async function checkTime() {
 
                         // Load from Battlemetrics
                         online = data.data.attributes.players
-
                         timeCache = data.data.attributes.details.time
                         serverTime = data.data.attributes.details.time
                         console.log(sn + 'Server-time updated')
@@ -85,6 +84,7 @@ exports.start = async function start(dcClient) {
         if (global.updates) continue
 
         if (online < 1) continue
+        global.playersOnline = online
         let msg = online + ' 👥'
         if (serverTime) msg += ' | ' + serverTime.slice(0, -3) + ' 🕒'
         if (msg == msgCache) continue

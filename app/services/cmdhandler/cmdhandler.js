@@ -31,9 +31,7 @@ exports.start = async function start() {
         }
 
         i++
-
         await sendCommands(i, newCmds)
-
     } while (true)
 
 }
