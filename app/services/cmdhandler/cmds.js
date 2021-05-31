@@ -9,7 +9,7 @@ exports.vote_weather_sun = async function vote_weather_sun(key, cmd) {
         time: cmd.time.time,
         type: 'global',
         commands: [
-            '#SetFakeName [BOT][VOTING]',
+            '#SetFakeName [SF-BOT][VOTING]',
             'Weather voting begins!',
             '#vote SetWeather 0',
             '#ClearFakeName'
@@ -31,7 +31,7 @@ exports.vote_day = async function vote_day(key, cmd) {
         time: cmd.time.time,
         type: 'global',
         commands: [
-            '#SetFakeName [BOT][VOTING]',
+            '#SetFakeName [SF-BOT][VOTING]',
             'Time of day voting begins!',
             '#vote SetTimeOfDay 7',
             '#ClearFakeName'
@@ -52,7 +52,7 @@ exports.ping = async function ping(key, cmd) {
         time: cmd.time.time,
         type: 'global',
         commands: [
-            '#SetFakeName [BOT][BADABONG]',
+            '#SetFakeName [SF-BOT][BADABONG]',
             'Pong right back at you @' + cmd.user + ' ;)',
             '#ClearFakeName'
         ]
@@ -71,7 +71,7 @@ exports.online = async function online(key, cmd) {
         time: cmd.time.time,
         type: 'global',
         commands: [
-            '#SetFakeName [BOT][PLAYERS]',
+            '#SetFakeName [SF-BOT][PLAYERS]',
             'There are currently ' + global.playersOnline + ' Players online.',
             '#ClearFakeName'
         ]
