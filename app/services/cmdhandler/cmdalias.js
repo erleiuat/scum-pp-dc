@@ -12,5 +12,6 @@ exports.list = {
     '!onlineplayers': 'online',
     '!whenrestart': 'restart_countdown',
     '!restart': 'restart_countdown',
-    '!restartwhen': 'restart_countdown'
+    '!restartwhen': 'restart_countdown',
+    '!help': 'help'
 }

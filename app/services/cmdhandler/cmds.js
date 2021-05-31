@@ -116,6 +116,41 @@ exports.restart_countdown = async function restart_countdown(key, cmd) {
 
 }
 
-exports.killFeed = async function killFeed(key, cmd) {
+exports.help = async function help(key, cmd) {
+    if (cmd.type.toLowerCase() != 'global') return null
+    let tmpObj = {}
 
+    tmpObj[key] = {
+        date: cmd.time.date,
+        time: cmd.time.time,
+        type: 'global',
+        commands: [
+            '#SetFakeName [SF-BOT][HELP]',
+            'Available commands (only global-chat): !voteday, !votesun, !online, !restart',
+            '#ClearFakeName'
+        ]
+    }
+
+    return tmpObj
+}
+
+exports.killFeed = async function killFeed(key, cmd) {
+    /*
+    if (cmd.type.toLowerCase() != 'global') return null
+    //let parts = cmd.message.split(' ').shift()
+
+    let tmpObj = {}
+    tmpObj[key] = {
+        date: cmd.time.date,
+        time: cmd.time.time,
+        type: 'global',
+        commands: [
+            '#SetFakeName [SF-BOT][PLAYERS]',
+            'There are currently ' + global.playersOnline + ' Players online.',
+            '#ClearFakeName'
+        ]
+    }
+
+    return tmpObj
+    */
 }

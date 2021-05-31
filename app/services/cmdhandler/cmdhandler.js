@@ -5,20 +5,16 @@ const cmdAlias = require('./cmdalias').list
 const cmds = require('./cmds')
 
 exports.start = async function start() {
-
     let i = 0
 
     do {
-
         await global.sleep.timer(0.01)
         if (Object.keys(global.commands).length < 1) continue
+        
         let newCmds = {}
-
         for (const e in global.commands) {
-
             let cmd = global.commands[e]
             let cmdStart = cmd.message.split(' ')[0]
-
             if (cmdAlias[cmdStart.toLowerCase()]) {
                 newCmds = {
                     ...newCmds,
@@ -27,7 +23,6 @@ exports.start = async function start() {
             }
 
             delete global.commands[e]
-
         }
 
         i++
