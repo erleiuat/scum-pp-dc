@@ -39,13 +39,14 @@ exports.vote_day = async function vote_day(key, cmd) {
 
 exports.ping = async function ping(key, cmd) {
 
+    if (cmd.type.toLowerCase() != 'global') return null
     let parts = cmd.message.split(' ').shift()
 
     let tmpObj = {}
     tmpObj[key] = {
         date: cmd.time.date,
         time: cmd.time.time,
-        type: cmd.type.toLowerCase(),
+        type: 'global',
         commands: [
             'Pong right back at you @' + cmd.user + ' ;)'
         ]
