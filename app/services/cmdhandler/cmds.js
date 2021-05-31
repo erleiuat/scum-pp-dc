@@ -37,6 +37,7 @@ exports.vote_day = async function vote_day(key, cmd) {
 
 exports.ping = async function ping(key, cmd) {
 
+    if (cmd.type.toLowerCase() != 'global') return null
     let parts = cmd.message.split(' ').shift()
 
     let tmpObj = {}
