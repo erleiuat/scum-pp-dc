@@ -7,6 +7,7 @@ exports.vote_weather_sun = async function vote_weather_sun(key, cmd) {
     tmpObj[key] = {
         date: cmd.time.date,
         time: cmd.time.time,
+        type: 'global',
         commands: [
             'Weather voting begins!',
             '#vote SetWeather 0'
@@ -26,6 +27,7 @@ exports.vote_day = async function vote_day(key, cmd) {
     tmpObj[key] = {
         date: cmd.time.date,
         time: cmd.time.time,
+        type: 'global',
         commands: [
             'Time of day voting begins!',
             '#vote SetTimeOfDay 7'
@@ -44,6 +46,7 @@ exports.ping = async function ping(key, cmd) {
     tmpObj[key] = {
         date: cmd.time.date,
         time: cmd.time.time,
+        type: cmd.type.toLowerCase(),
         commands: [
             'Pong right back at you @' + cmd.user + ' ;)'
         ]
