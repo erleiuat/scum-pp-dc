@@ -96,7 +96,7 @@ exports.restart_countdown = async function restart_countdown(key, cmd) {
         countDownDate.setHours(0)
     }
 
-    let distance = countDownDate - now
+    let distance = countDownDate.getTime() - now.getTime()
     let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
     let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
     let seconds = Math.floor((distance % (1000 * 60)) / 1000)
