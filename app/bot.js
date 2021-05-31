@@ -32,10 +32,26 @@ exports.start = async function start() {
 
         console.log(sn + 'Starting Log-Processor')
         logProcessor.start()
-        
+
     })
 
     dcClient.on("message", async msg => {
+
+        if (msg.channel.id == process.env.DISCORD_CH_CONSOLE) {
+            if (msg.member.hasPermission('ADMINISTRATOR')) {
+                let tmpObj = {}
+                tmpObj[msg.id] = {
+                    type: 'global',
+                    commands: [
+                        '#SetFakeName [SF-BOT][' + msg.author.username + ']',
+                        msg.content,
+                        '#ClearFakeName'
+                    ]
+                }
+                cmdHandler.sendCommands(msg.id, tmpObj)
+            }
+        }
+
         if (msg.member.hasPermission('ADMINISTRATOR')) {
             if (msg.content.toLowerCase().startsWith("!clearchat")) {
                 console.log(sn + '"!clearchat" detected! Clearing channel...')
@@ -49,6 +65,7 @@ exports.start = async function start() {
                 console.log(sn + 'Channel cleaned.')
             }
         }
+
     })
 
     console.log(sn + 'Login on Discord')

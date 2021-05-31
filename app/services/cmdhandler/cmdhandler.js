@@ -26,12 +26,12 @@ exports.start = async function start() {
         }
 
         i++
-        await sendCommands(i, newCmds)
+        await this.sendCommands(i, newCmds)
     } while (true)
 
 }
 
-async function sendCommands(key, cmdObj) {
+exports.sendCommands = async function sendCommands(key, cmdObj) {
 
     console.log(sn + 'Sending Commands per FTP')
 
