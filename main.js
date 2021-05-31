@@ -1,7 +1,6 @@
 require('dotenv').config()
 global.io = require('@pm2/io')
 global.chalk = require('chalk')
-global.args = require('minimist')(process.argv.slice(2))
 global.sleep = require('./app/plugins/sleep')
 global.updates = true
 global.playerlist = {}
