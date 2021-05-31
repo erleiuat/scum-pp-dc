@@ -99,7 +99,6 @@ exports.restart_countdown = async function restart_countdown(key, cmd) {
     let distance = countDownDate.getTime() - now.getTime()
     let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
     let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
-    let seconds = Math.floor((distance % (1000 * 60)) / 1000)
 
     let tmpObj = {}
     tmpObj[key] = {
@@ -108,7 +107,7 @@ exports.restart_countdown = async function restart_countdown(key, cmd) {
         type: 'global',
         commands: [
             '#SetFakeName [SF-BOT][RESTART]',
-            'Next restart will be in: ' + hours + 'h ' + minutes + 'm ' + seconds + 's',
+            'Next restart will be in: ' + hours + ' hours and ' + minutes + ' minutes.',
             '#ClearFakeName'
         ]
     }
