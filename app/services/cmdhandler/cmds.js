@@ -84,8 +84,9 @@ exports.restart_countdown = async function restart_countdown(key, cmd) {
 
     if (cmd.type.toLowerCase() != 'global') return null
     let now = new Date()
-    let countDownDate = new Date().setMinutes(0)
     let curHour = now.getHours()
+    let countDownDate = new Date()
+    countDownDate.setMinutes(0)
 
     if (curHour < 6) countDownDate.setHours(6)
     else if (curHour < 12) countDownDate.setHours(12)
