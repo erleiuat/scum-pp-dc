@@ -38,7 +38,6 @@ exports.start = async function start() {
     dcClient.on("message", async msg => {
 
         if (msg.channel.id == process.env.DISCORD_CH_CONSOLE) {
-            console.log(msg)
             if (
                 msg.member.hasPermission('ADMINISTRATOR') &&
                 msg.author.id !== process.env.DISCORD_BOT_ID

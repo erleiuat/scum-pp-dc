@@ -34,7 +34,6 @@ exports.start = async function start() {
 
 exports.sendCommands = async function sendCommands(key, cmdObj) {
 
-    console.log(cmdObj)
     console.log(sn + 'Sending Commands per FTP')
 
     fs.writeFileSync('./app/storage/tmpCmd/' + key + '_cmds.json', JSON.stringify(cmdObj))
