@@ -1,49 +1,57 @@
-const request = require('request')
+const http = require("https")
+const {
+    resolve
+} = require("path")
 
 const options = {
-    method: 'GET',
-    url: 'https://jokeapi-v2.p.rapidapi.com/joke/Dark',
-    qs: {
-        type: 'single',
-        format: 'json',
-        blacklistFlags: 'racist'
-    },
-    headers: {
-        'x-rapidapi-key': 'b42727cf17msh61c4120c24e955ep1e7dc8jsnd847ba7d1dd3',
-        'x-rapidapi-host': 'jokeapi-v2.p.rapidapi.com',
-        useQueryString: true
+    "method": "GET",
+    "hostname": "jokeapi-v2.p.rapidapi.com",
+    "port": null,
+    "path": "/joke/Any?type=single&format=txt&blacklistFlags=racist",
+    "headers": {
+        "x-rapidapi-key": "b42727cf17msh61c4120c24e955ep1e7dc8jsnd847ba7d1dd3",
+        "x-rapidapi-host": "jokeapi-v2.p.rapidapi.com",
+        "useQueryString": true
     }
 }
 
+async function getJoke() {
+    return new Promise(resolve => {
+        const req = http.request(options, (res) => {
+            const chunks = []
+            res.on("data", function (chunk) {
+                chunks.push(chunk)
+            })
+            res.on("end", () => {
+                const body = Buffer.concat(chunks)
+                resolve(body.toString().replace(/\n/g, " ").replace(/"/gmi, "'"))
+            })
+        })
+        req.end()
+    })
+}
 
 exports.joke = async function joke(key, cmd) {
-    return new Promise(resolve => {
+    if (cmd.type.toLowerCase() != 'global') return null
 
-        //if (cmd.type.toLowerCase() != 'global') return null
+    let joke = await getJoke()
+    while (joke.length > 200) {
+        joke = await getJoke()
+    }
 
-        request(options, function (error, response, body) {
-            let tmpObj = {}
-            if (error) throw new Error(error)
-            try {
-                let resp = JSON.parse(body)
-                tmpObj[key] = {
-                    date: cmd.time.date,
-                    time: cmd.time.time,
-                    type: 'global',
-                    commands: [
-                        '#SetFakeName [SF-BOT][JOKE]',
-                        resp.joke,
-                        '#ClearFakeName'
-                    ]
-                }
-                console.log(resp.joke)
-                console.log(tmpObj)
-                resolve(tmpObj)
-            } catch (error) {
-                resolve(null)
-            }
-        })
-    })
+    let tmpObj = {}
+    tmpObj[key] = {
+        date: cmd.time.date,
+        time: cmd.time.time,
+        type: 'global',
+        commands: [
+            '#SetFakeName [SF-BOT][JOKE]',
+            joke,
+            '#ClearFakeName'
+        ]
+    }
+
+    return tmpObj
 
 }
 
@@ -195,7 +203,8 @@ exports.help = async function help(key, cmd) {
         type: 'global',
         commands: [
             '#SetFakeName [SF-BOT][HELP]',
-            'Available commands (only global-chat): !voteday, !votesun, !online, !restart',
+            'Available commands (only global-chat and if bot is online):',
+            '!voteday, !votesun, !online, !restart, !joke',
             '#ClearFakeName'
         ]
     }

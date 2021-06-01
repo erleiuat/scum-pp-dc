@@ -14,5 +14,6 @@ exports.list = {
     '!restart': 'restart_countdown',
     '!restartwhen': 'restart_countdown',
     '!help': 'help',
+    '!joke': 'joke',
     '!what': 'what_is_going_on'
 }
