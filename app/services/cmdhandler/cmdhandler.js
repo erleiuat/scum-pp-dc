@@ -2,6 +2,7 @@ const fs = require('fs')
 const ftp = new(require('basic-ftp')).Client()
 const sn = global.chalk.magenta('[CMD-Handler] -> ')
 const cmdAlias = require('./cmdalias').list
+const messages = require('./messages').list
 const cmds = require('./cmds')
 
 exports.start = async function start() {
@@ -59,25 +60,6 @@ exports.sendCommands = async function sendCommands(key, cmdObj) {
 
 exports.announce = async function announce() {
 
-    let announced = {
-        '17:55': {
-            text: '#Announce Restart in 5 Minutes!',
-            done: false
-        },
-        '17:59': {
-            text: '#Announce Restart in 1 Minute!',
-            done: false
-        },
-        '23:55': {
-            text: '#Announce Restart in 5 Minutes!',
-            done: false
-        },
-        '23:59': {
-            text: '#Announce Restart in 1 Minute!',
-            done: false
-        }
-    }
-
     do {
 
         await global.sleep.timer(5)
@@ -85,24 +67,24 @@ exports.announce = async function announce() {
         let now = new Date()
         let time = now.getHours() + ':' + now.getMinutes()
 
-        if (announced[time]) {
-            if (announced[time].done) continue
+        if (messages[time]) {
+            if (messages[time].done) continue
             let key = 'announce_' + now.getHours() + '_' + now.getMinutes()
             let tmpObj = {}
             tmpObj[key] = {
                 type: 'global',
                 commands: [
                     '#SetFakeName [SF-BOT][RESTART]',
-                    announced[time].text,
+                    messages[time].text,
                     '#ClearFakeName'
                 ]
             }
-            announced[time].done = true
+            messages[time].done = true
             await this.sendCommands(key, tmpObj)
 
         } else {
-            for (const e in announced) {
-                announced[e].done = false
+            for (const e in messages) {
+                messages[e].done = false
             }
         }
 
