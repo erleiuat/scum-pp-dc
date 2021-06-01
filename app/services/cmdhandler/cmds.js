@@ -47,7 +47,25 @@ exports.joke = async function joke(key, cmd) {
 
 }
 
+exports.what_is_going_on = async function what_is_going_on(key, cmd) {
+    if (cmd.type.toLowerCase() != 'global') return null
+    //let parts = cmd.message.split(' ').shift()
 
+    let tmpObj = {}
+    tmpObj[key] = {
+        date: cmd.time.date,
+        time: cmd.time.time,
+        type: 'global',
+        commands: [
+            '#SetFakeName [SF-BOT][WOT]',
+            '...is going on here',
+            'BREKFEST',
+            '#ClearFakeName'
+        ]
+    }
+
+    return tmpObj
+}
 
 exports.vote_weather_sun = async function vote_weather_sun(key, cmd) {
 

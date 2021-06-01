@@ -13,5 +13,6 @@ exports.list = {
     '!whenrestart': 'restart_countdown',
     '!restart': 'restart_countdown',
     '!restartwhen': 'restart_countdown',
-    '!help': 'help'
+    '!help': 'help',
+    '!what': 'what_is_going_on'
 }
