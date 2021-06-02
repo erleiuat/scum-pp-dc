@@ -1,5 +1,7 @@
 const fs = require('fs')
-const sn = global.chalk.white('[STATISTICS] -> ')
+const sn = global.chalk.grey('[STATISTICS] -> ')
+
+let cache = []
 
 exports.get = async function get() {
 
@@ -30,6 +32,19 @@ exports.get = async function get() {
         stateArr.push(state[e])
     }
 
+    if (stateArr.length == cache.length + 1) {
+        console.log(sn + 'New Player detected!')
+        let newUser = stateArr[stateArr.length - 1]
+        let now = new Date().getTime()
+        if (newUser.joined.getTime() > now - (2 * 60 * 1000)) {
+            global.commands[newUser.user] = {
+                message: 'welcome_new',
+                ...newUser
+            }
+        }
+    }
+
+    cache = stateArr
     return await formMsg(stateArr)
 
 }

@@ -6,6 +6,7 @@ exports.list = {
     '!voteweather': 'vote_weather_sun',
     '!weathervote': 'vote_weather_sun',
     '!ping': 'ping',
+    '!pong': 'ping',
     '!online': 'online',
     '!players': 'online',
     '!playersonline': 'online',
@@ -14,6 +15,7 @@ exports.list = {
     '!restart': 'restart_countdown',
     '!restartwhen': 'restart_countdown',
     '!help': 'help',
+    '!commands': 'help',
     '!joke': 'joke',
     '!what': 'what_is_going_on'
 }

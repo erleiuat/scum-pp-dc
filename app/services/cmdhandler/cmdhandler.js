@@ -57,13 +57,15 @@ exports.start = async function start() {
         for (const e in global.commands) {
             let cmd = global.commands[e]
             let cmdStart = cmd.message.split(' ')[0]
+
             if (cmdAlias[cmdStart.toLowerCase()]) {
                 newCmds = {
                     ...newCmds,
                     ...await cmds[cmdAlias[cmdStart.toLowerCase()]](e, cmd)
                 }
+
             } else if (cmdStart.toLowerCase() == '!starterkit') {
-                console.log(hasStarterkit)
+                await loadKits()
                 if (cmd.type.toLowerCase() != 'global') continue
                 if (!hasStarterkit.includes(cmd.steamID)) {
                     newCmds = {
@@ -76,34 +78,14 @@ exports.start = async function start() {
                         ...await cmds['starterkitillegal'](e, cmd)
                     }
                 }
+
             } else if (cmdStart.toLowerCase() == '!ready') {
+                await loadKits()
                 if (!hasStarterkit.includes(cmd.steamID)) {
                     await receivesStarterkit(cmd.steamID)
-                    newCmds[e] = {
-                        date: cmd.time.date,
-                        time: cmd.time.time,
-                        type: 'global',
-                        commands: [
-                            '#SetFakeName [SF-BOT][STARTERKIT]',
-                            '@' + cmd.user + ' please stay where you are. Your starterkit will arrive in about 1 minute.',
-                            '#TeleportTo ' + cmd.steamID,
-                            '#SpawnItem Backpack_01_07',
-                            '#SpawnItem MRE_Stew 2',
-                            '#SpawnItem MRE_CheeseBurger 2',
-                            '#SpawnItem MRE_TunaSalad 2',
-                            '#SpawnItem Milk 2',
-                            '#SpawnItem Canteen 2',
-                            '#SpawnItem Emergency_Bandage_Big',
-                            '#SpawnItem Painkillers_03',
-                            '#SpawnItem Vitamins_03',
-                            '#SpawnItem BP_Compass_Advanced',
-                            '#SpawnItem 1H_Small_Axe',
-                            '#SpawnItem 2H_Baseball_Bat_With_Wire',
-                            '#SpawnItem Car_Repair_Kit',
-                            '#SpawnVehicle BP_Quad_01_A', 
-                            '#Teleport -728710 -891680 250',
-                            '#ClearFakeName'
-                        ]
+                    newCmds = {
+                        ...newCmds,
+                        ...await cmds['starterkitready'](e, cmd)
                     }
                 } else {
                     newCmds = {
@@ -111,6 +93,13 @@ exports.start = async function start() {
                         ...await cmds['starterkitillegal'](e, cmd)
                     }
                 }
+
+            } else if (cmdStart.toLowerCase() == 'welcome_new') {
+                newCmds = {
+                    ...newCmds,
+                    ...await cmds['welcome'](cmd)
+                }
+                
             }
 
             delete global.commands[e]

@@ -211,6 +211,40 @@ exports.starterkitlegal = async function starterkitlegal(key, cmd) {
     return tmpObj
 }
 
+exports.starterkitready = async function starterkitready(key, cmd) {
+    if (cmd.type.toLowerCase() != 'global') return null
+    let tmpObj = {}
+
+    tmpObj[key] = {
+        date: cmd.time.date,
+        time: cmd.time.time,
+        type: 'global',
+        commands: [
+            '#SetFakeName [SF-BOT][STARTERKIT]',
+            '@' + cmd.user + ' please stay where you are. Your starterkit will arrive in about 1 minute.',
+            '#TeleportTo ' + cmd.steamID,
+            '#SpawnItem Backpack_01_07',
+            '#SpawnItem MRE_Stew 2',
+            '#SpawnItem MRE_CheeseBurger 2',
+            '#SpawnItem MRE_TunaSalad 2',
+            '#SpawnItem Milk 2',
+            '#SpawnItem Canteen 2',
+            '#SpawnItem Emergency_Bandage_Big',
+            '#SpawnItem Painkillers_03',
+            '#SpawnItem Vitamins_03',
+            '#SpawnItem BP_Compass_Advanced',
+            '#SpawnItem 1H_Small_Axe',
+            '#SpawnItem 2H_Baseball_Bat_With_Wire',
+            '#SpawnItem Car_Repair_Kit',
+            '#SpawnVehicle BP_Quad_01_A',
+            '#Teleport -728710 -891680 250',
+            '#ClearFakeName'
+        ]
+    }
+
+    return tmpObj
+}
+
 exports.starterkitillegal = async function starterkitillegal(key, cmd) {
     if (cmd.type.toLowerCase() != 'global') return null
     let tmpObj = {}
@@ -248,6 +282,22 @@ exports.help = async function help(key, cmd) {
     return tmpObj
 }
 
+
+exports.welcome = async function welcome(newUser) {
+    let tmpObj = {}
+
+    let key = 'welcome_new_' + newUser.joined.getTime
+    tmpObj[key] = {
+        type: 'global',
+        commands: [
+            '#SetFakeName [SF-BOT][WELCOME]',
+            'Welcome to the Server @' + newUser.user + '! If you have any questions, please don\'t hesitate to contact us. You are also entitled to a starterkit! Get it with: !starterkit (in global-chat).',
+            '#ClearFakeName'
+        ]
+    }
+
+    return tmpObj
+}
 
 
 exports.killFeed = async function killFeed(key, cmd) {
