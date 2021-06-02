@@ -95,6 +95,12 @@ async function sendAdmins(dcClient) {
             else if (line.message.toLowerCase().includes('shownameplates')) shouldHide = true
         }
 
+        //Ingame-Bot (ScumFiction)
+        if(line.steamID.includes('76561198058320009')){
+            if (line.message.toLowerCase().includes('setfakename')) shouldHide = true
+            else if (line.message.toLowerCase().includes('clearfakename')) shouldHide = true
+        }
+
         if (!shouldHide) {
             await channel.send(new Discord.MessageEmbed(await format.admin(global.newEntries.admin[el])))
             console.log(sn + 'Admin sent: ' + el)

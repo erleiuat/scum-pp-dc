@@ -193,6 +193,41 @@ exports.restart_countdown = async function restart_countdown(key, cmd) {
 
 }
 
+exports.starterkitlegal = async function starterkitlegal(key, cmd) {
+    if (cmd.type.toLowerCase() != 'global') return null
+    let tmpObj = {}
+
+    tmpObj[key] = {
+        date: cmd.time.date,
+        time: cmd.time.time,
+        type: 'global',
+        commands: [
+            '#SetFakeName [SF-BOT][STARTERKIT]',
+            '@' + cmd.user + ' please go to an open area (e.g. a meadow) in order to avoid problems when receiving your starter kit. Write \'!ready\' when you are there :)',
+            '#ClearFakeName'
+        ]
+    }
+
+    return tmpObj
+}
+
+exports.starterkitillegal = async function starterkitillegal(key, cmd) {
+    if (cmd.type.toLowerCase() != 'global') return null
+    let tmpObj = {}
+
+    tmpObj[key] = {
+        date: cmd.time.date,
+        time: cmd.time.time,
+        type: 'global',
+        commands: [
+            '#SetFakeName [SF-BOT][STARTERKIT]',
+            '@' + cmd.user + ' you should have already received your starterkit ;) If not, please contact support.',
+            '#ClearFakeName'
+        ]
+    }
+
+    return tmpObj
+}
 
 exports.help = async function help(key, cmd) {
     if (cmd.type.toLowerCase() != 'global') return null
@@ -205,7 +240,7 @@ exports.help = async function help(key, cmd) {
         commands: [
             '#SetFakeName [SF-BOT][HELP]',
             'Available commands (only global-chat and if bot is online):',
-            '!voteday, !votesun, !online, !restart, !joke',
+            '!voteday, !votesun, !online, !restart, !joke, !starterkit',
             '#ClearFakeName'
         ]
     }
