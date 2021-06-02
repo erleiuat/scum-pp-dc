@@ -87,7 +87,6 @@ exports.start = async function start() {
                             '#SetFakeName [SF-BOT][STARTERKIT]',
                             '@' + cmd.user + ' please stay where you are. Your starterkit will arrive in about 1 minute.',
                             '#TeleportTo ' + cmd.steamID,
-                            '#SpawnItem Egg',
                             '#SpawnItem Backpack_01_07',
                             '#SpawnItem MRE_Stew 2',
                             '#SpawnItem MRE_CheeseBurger 2',
