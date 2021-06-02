@@ -4,9 +4,33 @@ const sn = global.chalk.magenta('[CMD-Handler] -> ')
 const cmdAlias = require('./cmdalias').list
 const messages = require('./messages').list
 const cmds = require('./cmds')
+const starterkits = {}
+
+async function loadKits() {
+    
+}
+
+async function starterkit(key, cmd) {
+
+}
+
+async function ftpCon() {
+    try {
+        await ftp.access({
+            host: process.env.RM_CMD_FTP_HOST,
+            port: process.env.RM_CMD_FTP_PORT,
+            user: process.env.RM_CMD_FTP_USER,
+            password: process.env.RM_CMD_FTP_PASSWORD,
+            secure: true
+        })
+    } catch (error) {
+        throw new Error(error)
+    }
+}
 
 exports.start = async function start() {
     let i = 0
+    await loadKits()
     this.announce()
 
     do {
@@ -22,6 +46,8 @@ exports.start = async function start() {
                     ...newCmds,
                     ...await cmds[cmdAlias[cmdStart.toLowerCase()]](e, cmd)
                 }
+            } else if (cmdStart.toLowerCase() == '!starterkit') {
+
             }
 
             delete global.commands[e]
@@ -40,16 +66,8 @@ exports.sendCommands = async function sendCommands(key, cmdObj) {
     fs.writeFileSync('./app/storage/tmpCmd/' + key + '_cmds.json', JSON.stringify(cmdObj))
 
     try {
-        await ftp.access({
-            host: process.env.RM_CMD_FTP_HOST,
-            port: process.env.RM_CMD_FTP_PORT,
-            user: process.env.RM_CMD_FTP_USER,
-            password: process.env.RM_CMD_FTP_PASSWORD,
-            secure: true
-        })
-
-        await ftp.uploadFrom('./app/storage/tmpCmd/' + key + '_cmds.json', process.env.RM_CMD_FTP_DIR + key + '_cmds.json')
-
+        await ftpCon()
+        await ftp.uploadFrom('./app/storage/tmpCmd/' + key + '_cmds.json', process.env.RM_CMD_FTP_DIR + 'cmds/' + key + '_cmds.json')
     } catch (error) {
         throw new Error(error)
     }
