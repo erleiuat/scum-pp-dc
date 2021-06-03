@@ -60,7 +60,7 @@ exports.help = async function help(cmd) {
             '#SetFakeName [SF-BOT][HELP]',
             'Available commands (if bot is online):',
             '!voteday, !votesun, !online, !restart, !joke, !starterkit',
-            '-> Will only work in GLOBAL Chat! (Press "TAB" to change chatroom)',
+            '> Will only work in GLOBAL Chat! (Press "TAB" to change chatroom)',
             '#ClearFakeName'
         ]
     }

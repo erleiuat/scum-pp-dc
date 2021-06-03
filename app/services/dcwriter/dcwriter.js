@@ -98,7 +98,7 @@ async function sendAdmins(dcClient) {
         }
 
         //Ingame-Bot (ScumFiction)
-        if (line.steamID.includes('76561198058320009')) {
+        if (line.steamID.includes('76561199166410611')) {
             if (line.message.toLowerCase().includes('setfakename')) shouldHide = true
             else if (line.message.toLowerCase().includes('clearfakename')) shouldHide = true
         }
