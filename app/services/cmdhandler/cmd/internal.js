@@ -47,6 +47,7 @@ exports.sk_ready = async function sk_ready(cmd) {
             '#SpawnItem 2H_Baseball_Bat_With_Wire',
             '#SpawnItem Car_Repair_Kit',
             '#SpawnVehicle BP_Quad_01_A',
+            '@' + cmd.user + ' your starterkit should now be there. If not, please contact an admin.',
             '#Teleport -728710 -891680 250',
             '#ClearFakeName'
         ]
