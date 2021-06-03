@@ -56,7 +56,7 @@ async function tReady(e, cmd) {
     if (!hasStarterkit.includes(cmd.steamID)) {
         await receivesStarterkit(cmd.steamID)
         return await cmdsInternal['sk_ready'](e, cmd)
-    } else return await cmds['sk_illegal'](e, cmd)
+    } else return await cmdsInternal['sk_illegal'](e, cmd)
 }
 
 async function sendCommands(key, cmdObj) {
