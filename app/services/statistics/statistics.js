@@ -106,11 +106,13 @@ async function dcSend(msgs, channel) {
 }
 
 async function clearChannel(channel) {
-    let fetched
-    do {
-        fetched = await channel.messages.fetch({
-            limit: 100
-        })
-        if (fetched.size > 0) channel.bulkDelete(fetched)
-    } while (fetched.size >= 2)
+    async function wipe() {
+        var msg_size = 100;
+        while (msg_size == 100) {
+            await msg.channel.bulkDelete(100, true)
+                .then(messages => msg_size = messages.size)
+                .catch(console.error);
+        }
+    }
+    await wipe()
 }
