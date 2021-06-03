@@ -8,6 +8,7 @@ const dcWriter = require('./services/dcwriter/dcwriter')
 const state = require('./services/state')
 const statistics = require('./services/statistics/statistics')
 const cmdHandler = require('./services/cmdhandler/cmdhandler')
+const dcBot = require('./services/dcbot')
 
 exports.start = async function start() {
 
@@ -21,8 +22,12 @@ exports.start = async function start() {
         console.log(sn + 'Starting State-Display')
         state.start(dcClient)
 
-        console.log(sn + 'Starting Command-handler')
-        cmdHandler.start()
+        if (global.ingameBotOnline) {
+            console.log(sn + 'Starting Command-handler')
+            cmdHandler.start()
+        } else {
+            console.log(sn + 'Ingame-Bot is offline. Skipping Command-Handler.')
+        }
 
         console.log(sn + 'Starting Statistics')
         statistics.start(dcClient)
@@ -33,41 +38,8 @@ exports.start = async function start() {
         console.log(sn + 'Starting Log-Processor')
         logProcessor.start()
 
-    })
-
-    dcClient.on("message", async msg => {
-
-        if (msg.channel.id == process.env.DISCORD_CH_CONSOLE) {
-            if (
-                msg.member.hasPermission('ADMINISTRATOR') &&
-                msg.author.id !== process.env.DISCORD_BOT_ID
-            ) {
-                let tmpObj = {}
-                tmpObj[msg.id] = {
-                    type: 'global',
-                    commands: [
-                        '#SetFakeName [SF-BOT][' + msg.author.username + ']',
-                        msg.content,
-                        '#ClearFakeName'
-                    ]
-                }
-                cmdHandler.sendCommands(msg.id, tmpObj)
-            }
-        }
-
-        if (msg.member.hasPermission('ADMINISTRATOR')) {
-            if (msg.content.toLowerCase().startsWith("!clearchat")) {
-                console.log(sn + '"!clearchat" detected! Clearing channel...')
-                let fetched
-                do {
-                    fetched = await msg.channel.messages.fetch({
-                        limit: 100
-                    })
-                    if (fetched.size > 0) msg.channel.bulkDelete(fetched)
-                } while (fetched.size >= 2)
-                console.log(sn + 'Channel cleaned.')
-            }
-        }
+        console.log(sn+'Starting Discord-Bot functionalities')
+        dcBot.start(dcClient)
 
     })
 

@@ -1,10 +1,24 @@
 const fs = require('fs')
 const ftp = new(require('basic-ftp')).Client()
 const sn = global.chalk.magenta('[CMD-Handler] -> ')
-const cmdAlias = require('./cmdalias').list
 const messages = require('./messages').list
-const cmds = require('./cmds')
+const cmdsPublic = require('./cmd/public')
+const cmdsInternal = require('./cmd/internal')
 let hasStarterkit = []
+
+async function ftpCon() {
+    try {
+        await ftp.access({
+            host: process.env.RM_CMD_FTP_HOST,
+            port: process.env.RM_CMD_FTP_PORT,
+            user: process.env.RM_CMD_FTP_USER,
+            password: process.env.RM_CMD_FTP_PASSWORD,
+            secure: true
+        })
+    } catch (error) {
+        throw new Error(error)
+    }
+}
 
 async function loadKits() {
     try {
@@ -30,24 +44,36 @@ async function receivesStarterkit(steamID) {
     }
 }
 
-async function ftpCon() {
+async function tStarterkit(e, cmd) {
+    await loadKits()
+    if (cmd.type.toLowerCase() != 'global') return null
+    if (!hasStarterkit.includes(cmd.steamID)) return await cmdsInternal['sk_legal'](e, cmd)
+    else return await cmdsInternal['sk_illegal'](e, cmd)
+}
+
+async function tReady(e, cmd) {
+    await loadKits()
+    if (!hasStarterkit.includes(cmd.steamID)) {
+        await receivesStarterkit(cmd.steamID)
+        return await cmdsInternal['sk_ready'](e, cmd)
+    } else return await cmds['sk_illegal'](e, cmd)
+}
+
+async function sendCommands(key, cmdObj) {
     try {
-        await ftp.access({
-            host: process.env.RM_CMD_FTP_HOST,
-            port: process.env.RM_CMD_FTP_PORT,
-            user: process.env.RM_CMD_FTP_USER,
-            password: process.env.RM_CMD_FTP_PASSWORD,
-            secure: true
-        })
+        console.log(sn + 'Sending Commands per FTP')
+        fs.writeFileSync('./app/storage/tmpCmd/' + key + '_cmds.json', JSON.stringify(cmdObj))
+        await ftpCon()
+        await ftp.uploadFrom('./app/storage/tmpCmd/' + key + '_cmds.json', process.env.RM_CMD_FTP_DIR + 'cmds/' + key + '_cmds.json')
+        ftp.close()
     } catch (error) {
         throw new Error(error)
     }
 }
 
 exports.start = async function start() {
+    announce()
     let i = 0
-    await loadKits()
-    this.announce()
 
     do {
         await global.sleep.timer(0.01)
@@ -56,87 +82,30 @@ exports.start = async function start() {
         let newCmds = {}
         for (const e in global.commands) {
             let cmd = global.commands[e]
-            let cmdStart = cmd.message.split(' ')[0]
+            let cmdStart = cmd.message.split(' ')[0].toLowerCase()
 
-            if (cmdAlias[cmdStart.toLowerCase()]) {
-                newCmds = {
-                    ...newCmds,
-                    ...await cmds[cmdAlias[cmdStart.toLowerCase()]](e, cmd)
-                }
-
-            } else if (cmdStart.toLowerCase() == '!starterkit') {
-                await loadKits()
-                if (cmd.type.toLowerCase() != 'global') continue
-                if (!hasStarterkit.includes(cmd.steamID)) {
-                    newCmds = {
-                        ...newCmds,
-                        ...await cmds['starterkitlegal'](e, cmd)
-                    }
-                } else {
-                    newCmds = {
-                        ...newCmds,
-                        ...await cmds['starterkitillegal'](e, cmd)
-                    }
-                }
-
-            } else if (cmdStart.toLowerCase() == '!ready') {
-                await loadKits()
-                if (!hasStarterkit.includes(cmd.steamID)) {
-                    await receivesStarterkit(cmd.steamID)
-                    newCmds = {
-                        ...newCmds,
-                        ...await cmds['starterkitready'](e, cmd)
-                    }
-                } else {
-                    newCmds = {
-                        ...newCmds,
-                        ...await cmds['starterkitillegal'](e, cmd)
-                    }
-                }
-
-            } else if (cmdStart.toLowerCase() == 'welcome_new') {
-                newCmds = {
-                    ...newCmds,
-                    ...await cmds['welcome'](cmd)
-                }
-                
-            }
+            if (cmdsPublic.list[cmdStart]) newCmds[e] = await cmdsPublic[cmdsPublic.list[cmdStart]](cmd)
+            else if (cmdStart == '!starterkit') newCmds[e] = await tStarterkit(e, cmd)
+            else if (cmdStart == '!ready') newCmds[e] = await tReady(e, cmd)
+            else if (cmdStart == 'welcome_new') newCmds['welcome_' + cmd.joined.getTime] = await cmdsInternal['welcome_new'](cmd)
+            else if (cmdStart == 'console_msg') newCmds['console_' + e] = await cmdsInternal['console_msg'](cmd)
+            else if (cmdStart == 'kill_feed') newCmds[e] = await cmdsInternal['kill_feed'](cmd)
 
             delete global.commands[e]
         }
 
         i++
-        await this.sendCommands(i, newCmds)
+        await sendCommands(i, newCmds)
     } while (true)
 
 }
 
-exports.sendCommands = async function sendCommands(key, cmdObj) {
-
-    console.log(sn + 'Sending Commands per FTP')
-
-    fs.writeFileSync('./app/storage/tmpCmd/' + key + '_cmds.json', JSON.stringify(cmdObj))
-
-    try {
-        await ftpCon()
-        await ftp.uploadFrom('./app/storage/tmpCmd/' + key + '_cmds.json', process.env.RM_CMD_FTP_DIR + 'cmds/' + key + '_cmds.json')
-    } catch (error) {
-        throw new Error(error)
-    }
-
-    ftp.close()
-
-}
-
-exports.announce = async function announce() {
-
+async function announce() {
     do {
-
         await global.sleep.timer(5)
 
         let now = new Date()
         let time = now.getHours() + ':' + now.getMinutes()
-
         if (messages[time]) {
             if (messages[time].done) continue
             let key = 'announce_' + now.getHours() + '_' + now.getMinutes()
@@ -150,14 +119,12 @@ exports.announce = async function announce() {
                 ]
             }
             messages[time].done = true
-            await this.sendCommands(key, tmpObj)
+            await sendCommands(key, tmpObj)
 
         } else {
             for (const e in messages) {
                 messages[e].done = false
             }
         }
-
     } while (true)
-
 }

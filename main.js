@@ -3,6 +3,7 @@ global.io = require('@pm2/io')
 global.chalk = require('chalk')
 global.sleep = require('./app/plugins/sleep')
 global.updates = true
+global.ingameBotOnline = true
 global.commands = {}
 global.playersOnline = 0
 global.playerlist = {}

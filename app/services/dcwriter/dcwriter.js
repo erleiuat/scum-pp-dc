@@ -34,10 +34,6 @@ async function sendKills(dcClient) {
     for (const el in global.newEntries.kill) {
         await channel.send(new Discord.MessageEmbed(await format.kill(global.newEntries.kill[el])))
         console.log(sn + 'Kill sent: ' + el)
-        if (!global.newEntries.kill[el].Victim.IsInGameEvent) {
-            console.log(sn + 'Kill detected! Sending to Command-Handler.')
-            console.log(global.newEntries.kill[el])
-        }
         dump[el] = {
             dump: 'kill',
             ...global.newEntries.kill[el]
@@ -96,7 +92,7 @@ async function sendAdmins(dcClient) {
         }
 
         //Ingame-Bot (ScumFiction)
-        if(line.steamID.includes('76561198058320009')){
+        if (line.steamID.includes('76561198058320009')) {
             if (line.message.toLowerCase().includes('setfakename')) shouldHide = true
             else if (line.message.toLowerCase().includes('clearfakename')) shouldHide = true
         }
