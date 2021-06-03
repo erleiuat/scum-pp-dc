@@ -9,7 +9,21 @@ exports.console_msg = async function console_msg(cmd) {
     }
 }
 
+exports.sk_notavailable = async function sk_notavailable(cmd) {
+    return {
+        date: cmd.time.date,
+        time: cmd.time.time,
+        type: 'global',
+        commands: [
+            '#SetFakeName [SF-BOT][STARTERKIT]',
+            '@' + cmd.user + ' the starterkit is not available at the moment. We are working on a solution, please be patient.',
+            '#ClearFakeName'
+        ]
+    }
+}
+
 exports.sk_legal = async function sk_legal(cmd) {
+    return this.sk_notavailable(cmd)
     if (cmd.type.toLowerCase() != 'global') return null
     return {
         date: cmd.time.date,
@@ -24,6 +38,7 @@ exports.sk_legal = async function sk_legal(cmd) {
 }
 
 exports.sk_ready = async function sk_ready(cmd) {
+    return this.sk_notavailable(cmd)
     if (cmd.type.toLowerCase() != 'global') return null
     return {
         date: cmd.time.date,
@@ -55,6 +70,7 @@ exports.sk_ready = async function sk_ready(cmd) {
 }
 
 exports.sk_illegal = async function sk_illegal(cmd) {
+    return this.sk_notavailable(cmd)
     if (cmd.type.toLowerCase() != 'global') return null
     return {
         date: cmd.time.date,
