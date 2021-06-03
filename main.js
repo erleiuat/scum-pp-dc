@@ -1,12 +1,12 @@
-require('dotenv').config()
-global.io = require('@pm2/io')
-global.chalk = require('chalk')
 global.sleep = require('./app/plugins/sleep')
-global.updates = true
+global.chalk = require('chalk')
+global.io = require('@pm2/io')
 global.ingameBotOnline = true
-global.commands = {}
+require('dotenv').config()
 global.playersOnline = 0
 global.playerlist = {}
+global.updates = true
+global.commands = {}
 global.newEntries = {
     kill: {},
     chat: {},
@@ -20,12 +20,12 @@ const sn = global.chalk.red('[MAIN] -> ')
 const bot = require('./app/bot')
 
 process.on('uncaughtException', err => {
-    console.error('There was an uncaught error', err)
+    console.error(sn + 'There was an uncaught error', err)
     process.exit(1)
 })
 
 process.on('unhandledRejection', err => {
-    console.log('Unhandled rejection', err)
+    console.log(sn + 'Unhandled rejection', err)
     process.exit(1)
 })
 
