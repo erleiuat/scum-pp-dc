@@ -31,14 +31,20 @@ async function sendKills(dcClient) {
     if (Object.keys(global.newEntries.kill).length <= 0) return
     let channel = dcClient.channels.cache.find(channel => channel.id === channels.kill)
 
-    for (const el in global.newEntries.kill) {
-        await channel.send(new Discord.MessageEmbed(await format.kill(global.newEntries.kill[el])))
-        console.log(sn + 'Kill sent: ' + el)
-        dump[el] = {
-            dump: 'kill',
-            ...global.newEntries.kill[el]
+    for (const e in global.newEntries.kill) {
+        await channel.send(new Discord.MessageEmbed(await format.kill(global.newEntries.kill[e])))
+        if (!global.newEntries.kill[e].Victim.IsInGameEvent) global.commands['kill_' + global.newEntries.kill[e].Victim.UserId] = {
+            message: 'kill_feed',
+            time: global.newEntries.kill[e].time,
+            killer: global.newEntries.kill[e].Killer.ProfileName,
+            victim: global.newEntries.kill[e].Victim.ProfileName
         }
-        delete global.newEntries.kill[el]
+        console.log(sn + 'Kill sent: ' + e)
+        dump[e] = {
+            dump: 'kill',
+            ...global.newEntries.kill[e]
+        }
+        delete global.newEntries.kill[e]
     }
 
 }

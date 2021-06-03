@@ -85,7 +85,7 @@ exports.kill_feed = async function kill_feed(cmd) {
         type: 'global',
         commands: [
             '#SetFakeName [SF-BOT][KILLFEED]',
-            cmd.time.time + ': [' + cmd.killer + '] killed [' + cmd.victim + '] from ' + cmd.distance,
+            cmd.time.time + ': [' + cmd.killer + '] killed [' + cmd.victim + ']',
             '#ClearFakeName'
         ]
     }

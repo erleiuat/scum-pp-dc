@@ -63,14 +63,6 @@ exports.kill = async function kill(entry) {
     if (entry.Victim.IsInGameEvent) {
         msg.title = 'Event-Kill'
         msg.color = '00ffff'
-    } else {
-        global.commands['kill_'+entry.Victim.UserId] = {
-            message: 'kill_feed',
-            time: entry.time,
-            killer: entry.Killer.ProfileName,
-            victim: entry.Victim.ProfileName,
-            distance: distance + ' meters'
-        }
     }
 
     return msg
