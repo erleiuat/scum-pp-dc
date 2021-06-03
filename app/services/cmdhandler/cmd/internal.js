@@ -9,7 +9,7 @@ exports.console_msg = async function console_msg(cmd) {
     }
 }
 
-exports.sk_legal = async function sk_legal(key, cmd) {
+exports.sk_legal = async function sk_legal(cmd) {
     if (cmd.type.toLowerCase() != 'global') return null
     return {
         date: cmd.time.date,
@@ -53,7 +53,7 @@ exports.sk_ready = async function sk_ready(cmd) {
     }
 }
 
-exports.sk_illegal = async function sk_illegal(key, cmd) {
+exports.sk_illegal = async function sk_illegal(cmd) {
     if (cmd.type.toLowerCase() != 'global') return null
     return {
         date: cmd.time.date,
