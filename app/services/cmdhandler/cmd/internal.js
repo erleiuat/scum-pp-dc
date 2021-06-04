@@ -9,21 +9,7 @@ exports.console_msg = async function console_msg(cmd) {
     }
 }
 
-exports.sk_notavailable = async function sk_notavailable(cmd) {
-    return {
-        date: cmd.time.date,
-        time: cmd.time.time,
-        type: 'global',
-        commands: [
-            '#SetFakeName [SF-BOT][STARTERKIT]',
-            '@' + cmd.user + ' the starterkit is not available at the moment. We are working on a solution, please be patient.',
-            '#ClearFakeName'
-        ]
-    }
-}
-
 exports.sk_legal = async function sk_legal(cmd) {
-    return this.sk_notavailable(cmd)
     if (cmd.type.toLowerCase() != 'global') return null
     return {
         date: cmd.time.date,
@@ -31,14 +17,14 @@ exports.sk_legal = async function sk_legal(cmd) {
         type: 'global',
         commands: [
             '#SetFakeName [SF-BOT][STARTERKIT]',
-            '@' + cmd.user + ' please go to an open area (e.g. a meadow) in order to avoid problems when receiving your starter kit. Write \'!ready\' when you are there :)',
+            '@' + cmd.user + ' you will be teleported to the trading-zone (green circle in B2) to receive your starterkit. Make sure you are ready and not driving a vehicle. You will get a quad to get out of here again.',
+            'If you are ready to be teleported type \'!ready\' ',
             '#ClearFakeName'
         ]
     }
 }
 
 exports.sk_ready = async function sk_ready(cmd) {
-    return this.sk_notavailable(cmd)
     if (cmd.type.toLowerCase() != 'global') return null
     return {
         date: cmd.time.date,
@@ -46,8 +32,8 @@ exports.sk_ready = async function sk_ready(cmd) {
         type: 'global',
         commands: [
             '#SetFakeName [SF-BOT][STARTERKIT]',
-            '@' + cmd.user + ' please stay where you are. Your starterkit will arrive in about 1 minute.',
-            '#TeleportTo ' + cmd.steamID,
+            '@' + cmd.user + ' you will now be transported to the trading zone.',
+            '#TeleportToMe ' + cmd.steamID,
             '#SpawnItem Backpack_01_07',
             '#SpawnItem MRE_Stew 2',
             '#SpawnItem MRE_CheeseBurger 2',
@@ -63,14 +49,12 @@ exports.sk_ready = async function sk_ready(cmd) {
             '#SpawnItem Car_Repair_Kit',
             '#SpawnVehicle BP_Quad_01_A',
             '@' + cmd.user + ' your starterkit should now be there. If not, please contact an admin.',
-            '#Teleport -728710 -891680 250',
             '#ClearFakeName'
         ]
     }
 }
 
 exports.sk_illegal = async function sk_illegal(cmd) {
-    return this.sk_notavailable(cmd)
     if (cmd.type.toLowerCase() != 'global') return null
     return {
         date: cmd.time.date,
