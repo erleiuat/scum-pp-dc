@@ -3,6 +3,7 @@ global.chalk = require('chalk')
 global.io = require('@pm2/io')
 global.ingameBotOnline = true
 require('dotenv').config()
+global.ingameTime = false
 global.playersOnline = 0
 global.playerlist = {}
 global.updates = true

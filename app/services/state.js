@@ -85,6 +85,7 @@ exports.start = async function start(dcClient) {
 
         if (online < 1) continue
         global.playersOnline = online
+        global.ingameTime = serverTime.slice(0, -3)
         let msg = online + ' 👥'
         if (serverTime) msg += ' | ' + serverTime.slice(0, -3) + ' 🕒'
         if (msg == msgCache) continue

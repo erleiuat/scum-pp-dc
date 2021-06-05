@@ -20,6 +20,7 @@ exports.list = {
     '!help': 'help',
     '!commands': 'help',
     '!joke': 'joke',
+    '!time' : 'time',
     '!what': 'what_is_going_on'
 }
 
@@ -166,6 +167,20 @@ exports.online = async function online(cmd) {
         commands: [
             '#SetFakeName [SF-BOT][PLAYERS]',
             'There are currently ' + global.playersOnline + ' Players online.',
+            '#ClearFakeName'
+        ]
+    }
+}
+
+exports.time = async function time(cmd) {
+    if (cmd.type.toLowerCase() != 'global') return null
+    return {
+        date: cmd.time.date,
+        time: cmd.time.time,
+        type: 'global',
+        commands: [
+            '#SetFakeName [SF-BOT][TIME]',
+            'It is currently about ' + global.ingameTime || '<unavailable>' + '. ',
             '#ClearFakeName'
         ]
     }
