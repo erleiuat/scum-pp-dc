@@ -17,8 +17,8 @@ exports.sk_legal = async function sk_legal(cmd) {
         type: 'global',
         commands: [
             '#SetFakeName [SF-BOT][STARTERKIT]',
-            '@' + cmd.user + ' you will be teleported to the trading-zone (green circle in B2) to receive your starterkit. Make sure you are ready and not driving a vehicle. You will get a quad to get out of here again.',
-            'If you are ready to be teleported type \'!ready\' ',
+            '@' + cmd.user + ' you will be teleported to the trading-zone (green circle in B2) to receive your starterkit. Make sure you are ready and not driving a vehicle.',
+            'You will get a quad to get out of the trading-zone again. If you are ready to be teleported type \'!ready\' ',
             '#ClearFakeName'
         ]
     }
