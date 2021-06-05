@@ -3,6 +3,7 @@ const http = require("https")
 exports.list = {
     '!voteday': 'vote_day',
     '!dayvote': 'vote_day',
+    '!votenight': 'vote_night',
     '!votesun': 'vote_weather_sun',
     '!sunvote': 'vote_weather_sun',
     '!voteweather': 'vote_weather_sun',
@@ -48,6 +49,21 @@ async function getJoke() {
         })
         req.end()
     })
+}
+
+exports.vote_night = async function vote_night(cmd) {
+    if (cmd.type.toLowerCase() != 'global') return null
+    return {
+        date: cmd.time.date,
+        time: cmd.time.time,
+        type: 'global',
+        commands: [
+            '#SetFakeName [SF-BOT][VOTING]',
+            'Nighttime-Voting begins! (10:00 PM)',
+            '#vote SetTimeOfDay 22',
+            '#ClearFakeName'
+        ]
+    }
 }
 
 exports.help = async function help(cmd) {
@@ -120,7 +136,7 @@ exports.vote_day = async function vote_day(cmd) {
         type: 'global',
         commands: [
             '#SetFakeName [SF-BOT][VOTING]',
-            'Time of day voting begins!',
+            'Daytime-Voting begins! (7:00 AM)',
             '#vote SetTimeOfDay 7',
             '#ClearFakeName'
         ]
