@@ -37,7 +37,7 @@ exports.start = async function start() {
 
         console.log(sn + 'Starting Log-Processor')
         logProcessor.start()
-        
+
         console.log(sn+'Starting Discord-Bot functionalities')
         dcBot.start(dcClient)
 

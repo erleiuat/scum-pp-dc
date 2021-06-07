@@ -1,8 +1,37 @@
-global.sleep = require('./app/plugins/sleep')
 global.chalk = require('chalk')
+const sn = global.chalk.red('[MAIN] -> ')
+
+console.log(sn + '\n----------------------------------------------------------')
+console.log(sn + '\nWelcome to SDP-Bot 1.0!')
+console.log(sn + '\n----------------------------------------------------------\n')
+
+console.log(sn + 'Starting directory: ' + process.cwd())
+try {
+  process.chdir(__dirname)
+  console.log(sn + 'New directory: ' + process.cwd())
+} catch (err) {
+  console.log(sn + 'chdir: ' + err)
+}
+
+process.on('uncaughtException', err => {
+  console.error(sn + 'There was an uncaught error', err)
+  process.exit(1)
+})
+
+process.on('unhandledRejection', err => {
+  console.log(sn + 'Unhandled rejection', err)
+  process.exit(1)
+})
+
+console.log(sn + '\n----------------------------------------------------------')
+console.log(sn + '\nBot initialized, starting processes')
+console.log(sn + '\n----------------------------------------------------------\n')
+
+
+require('dotenv').config()
+global.sleep = require('./app/plugins/sleep')
 global.io = require('@pm2/io')
 global.ingameBotOnline = true
-require('dotenv').config()
 global.ingameTime = false
 global.playersOnline = 0
 global.playerlist = {}
@@ -15,22 +44,5 @@ global.newEntries = {
     login: {}
 }
 
-console.log('\n----------------------------------------------------------\nWelcome to SDP-Bot 1.0!\n----------------------------------------------------------\n')
-
-const sn = global.chalk.red('[MAIN] -> ')
 const bot = require('./app/bot')
-
-process.on('uncaughtException', err => {
-    console.error(sn + 'There was an uncaught error', err)
-    process.exit(1)
-})
-
-process.on('unhandledRejection', err => {
-    console.log(sn + 'Unhandled rejection', err)
-    process.exit(1)
-})
-
-console.log('\n----------------------------------------------------------\nBot initialized, starting processes\n----------------------------------------------------------\n')
-
-
 bot.start()
