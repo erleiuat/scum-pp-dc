@@ -1,9 +1,9 @@
 global.chalk = require('chalk')
 const sn = global.chalk.red('[MAIN] -> ')
 
-console.log(sn + '\n----------------------------------------------------------')
-console.log(sn + '\nWelcome to SDP-Bot 1.0!')
-console.log(sn + '\n----------------------------------------------------------\n')
+console.log('\n\n' + sn + '----------------------------------------------------------')
+console.log(sn + 'Welcome to SDP-Bot 1.0!')
+console.log(sn + '----------------------------------------------------------\n\n')
 
 console.log(sn + 'Starting directory: ' + process.cwd())
 try {
@@ -23,9 +23,9 @@ process.on('unhandledRejection', err => {
   process.exit(1)
 })
 
-console.log(sn + '\n----------------------------------------------------------')
-console.log(sn + '\nBot initialized, starting processes')
-console.log(sn + '\n----------------------------------------------------------\n')
+console.log('\n\n' + sn + '----------------------------------------------------------')
+console.log(sn + 'Bot initialized, starting processes')
+console.log(sn + '----------------------------------------------------------\n\n')
 
 
 require('dotenv').config()
@@ -38,10 +38,10 @@ global.playerlist = {}
 global.updates = true
 global.commands = {}
 global.newEntries = {
-    kill: {},
-    chat: {},
-    admin: {},
-    login: {}
+  kill: {},
+  chat: {},
+  admin: {},
+  login: {}
 }
 
 const bot = require('./app/bot')
