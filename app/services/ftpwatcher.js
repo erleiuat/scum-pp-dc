@@ -31,6 +31,7 @@ exports.start = async function start() {
     do {
         await global.sleep.timer(0.01)
         if (global.updates) continue
+        if (global.ingameBot && !global.gameReady) continue
 
         i++
         console.log(sn + 'Checking for new updates (#' + i + ')')
