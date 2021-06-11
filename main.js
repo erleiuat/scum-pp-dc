@@ -31,12 +31,15 @@ console.log(sn + '----------------------------------------------------------\n\n
 require('dotenv').config()
 global.sleep = require('./app/plugins/sleep')
 global.io = require('@pm2/io')
-global.ingameBotOnline = true
+global.ingameBot = true
+global.gameReady = false
 global.ingameTime = false
 global.playersOnline = 0
+global.newCmds = false
 global.playerlist = {}
 global.updates = true
 global.commands = {}
+global.cmds = {}
 global.newEntries = {
   kill: {},
   chat: {},
