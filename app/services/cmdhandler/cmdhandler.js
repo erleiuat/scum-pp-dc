@@ -68,7 +68,7 @@ async function sendCommands(key, cmdObj) {
             ...cmdObj
         }))
         await ftpCon()
-        await ftp.uploadFrom('./app/storage/tmpCmd/' + key + '_cmds.json', process.env.RM_CMD_FTP_DIR + 'cmds/' + key + '_cmds.json')
+        await ftp.uploadFrom('./app/storage/tmpCmd/' + stamp + '_' + key + '_cmds.json', process.env.RM_CMD_FTP_DIR + 'cmds/' + stamp + '_' + key + '_cmds.json')
         ftp.close()
     } catch (error) {
         throw new Error(error)
