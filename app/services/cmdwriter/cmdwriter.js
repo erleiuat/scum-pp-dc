@@ -5,6 +5,7 @@ async function checkStatus() {
     do {
         await global.sleep.timer(60)
         if (global.newCmds) continue
+        if (global.updates) continue
         if (!await scum.isReady()) await scum.start()
     } while (true)
 }
