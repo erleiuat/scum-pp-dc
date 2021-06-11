@@ -26,9 +26,6 @@ exports.start = async function start() {
 
 exports.isReady = async function isReady() {
     return new Promise((resolve) => {
-        resolve(true)
-        return
-
         global.gameReady = false
         console.log(sn + 'Checking if Scum is ready.')
         const scumCmd = cp.exec('py ./app/cpscripts/is_running.py', (error, stdout, stderr) => {
