@@ -62,7 +62,10 @@ async function tReady(cmd) {
 async function sendCommands(key, cmdObj) {
     try {
         console.log(sn + 'Sending Commands per FTP')
-        fs.writeFileSync('./app/storage/tmpCmd/' + key + '_cmds.json', JSON.stringify(cmdObj))
+        fs.writeFileSync('./app/storage/tmpCmd/' + key + '_cmds.json', JSON.stringify({
+            stamp: new Date().getTime(),
+            ...cmdObj
+        }))
         await ftpCon()
         await ftp.uploadFrom('./app/storage/tmpCmd/' + key + '_cmds.json', process.env.RM_CMD_FTP_DIR + 'cmds/' + key + '_cmds.json')
         ftp.close()
