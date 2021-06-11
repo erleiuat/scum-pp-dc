@@ -15,7 +15,10 @@ exports.start = async function start() {
             console.log(sn + error.stack)
             console.log(sn + 'Error code: ' + error.code)
             console.log(sn + 'Signal received: ' + error.signal)
-            throw new Error('Could not start game')
+            console.log(sn + 'RETRYING IN 10s')
+            await global.sleep.timer(10)
+            await this.start()
+            resolve()
         })
 
         scumCmd.on('exit', code => {
