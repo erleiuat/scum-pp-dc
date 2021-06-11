@@ -14,6 +14,7 @@ const channels = {
 async function iterate(logFunction, dcClient) {
     do {
         await global.sleep.timer(0.01)
+        if (global.updates) continue
         await logFunction(dcClient)
     } while (true)
 }

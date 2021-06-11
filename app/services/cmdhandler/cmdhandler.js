@@ -75,6 +75,7 @@ exports.start = async function start() {
 
     do {
         await global.sleep.timer(0.01)
+        if (global.updates) continue
         if (Object.keys(global.commands).length < 1) continue
 
         let newCmds = {}

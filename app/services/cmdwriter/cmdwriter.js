@@ -16,6 +16,7 @@ exports.start = async function start() {
 
     do {
         await global.sleep.timer(0.05)
+        if (global.updates) continue
         if (!global.newCmds) continue
         console.log(sn + 'Processing new Commands')
 
