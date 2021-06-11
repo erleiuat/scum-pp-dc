@@ -3,10 +3,8 @@ import psutil
 import time
 import win32con
 import win32gui
-import sys
 import time
 import pyautogui
-import os
 
 path = './app/cpscripts/img/'
 
@@ -44,22 +42,8 @@ def inGame():
     time.sleep(0.1)
     sf_btn = pyautogui.locateOnScreen(
         path+'spiel_fortsetzen.png', grayscale=True, confidence=0.9)
-    time.sleep(0.1)
     if(not sf_btn):
         return False
-    pyautogui.press("esc")
-    time.sleep(0.1)
-    pyautogui.press("t")
-    time.sleep(0.1)
-    pyautogui.press("backspace")
-    time.sleep(0.1)
-    c_global = pyautogui.locateOnScreen(
-        path+'c_global.png', grayscale=False, confidence=0.9)
-    if(not c_global):
-        return False
-    pyautogui.press("esc")
-    time.sleep(0.1)
-    pyautogui.press("esc")
     return True
 
 
@@ -67,4 +51,4 @@ if (not processRunning('scum')):
     raise Exception('Scum not running')
 
 if(not inGame()):
-    raise Exception('Not ingame or in correct Chat')
+    raise Exception('Not ingame or on server')
