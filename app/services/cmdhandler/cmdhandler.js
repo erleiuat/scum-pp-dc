@@ -159,6 +159,7 @@ async function announce() {
                 ]
             }
             await sendCommands(tmpObj)
+            await global.sleep.timer(65)
         }
 
     } while (true)
