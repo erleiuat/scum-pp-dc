@@ -1,5 +1,5 @@
 const fs = require('fs')
-const sn = global.chalk.grey('[STATISTICS] -> ')
+const sn = global.chalk.green('[STATISTICS] -> ')
 
 let cache = []
 

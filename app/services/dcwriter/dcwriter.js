@@ -1,6 +1,6 @@
 const Discord = require('discord.js')
 const format = require('./format')
-const sn = global.chalk.blue('[DCWriter] -> ')
+const sn = global.chalk.cyan('[DCWriter] -> ')
 const dump = {}
 
 const channels = {
@@ -15,6 +15,7 @@ async function iterate(logFunction, dcClient) {
     do {
         await global.sleep.timer(0.01)
         if (global.updates) continue
+        if (global.updatingFTP) continue
         await logFunction(dcClient)
     } while (true)
 }

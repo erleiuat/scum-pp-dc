@@ -1,5 +1,5 @@
 const Discord = require('discord.js')
-const sn = global.chalk.white('[STATISTICS] -> ')
+const sn = global.chalk.green('[STATISTICS] -> ')
 const admins = [
     '76561198058320009',
     '76561198082374095',

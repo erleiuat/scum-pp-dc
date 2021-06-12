@@ -34,13 +34,14 @@ time.sleep(0.05)
 del sys.argv[0]
 count = 0
 for x in sys.argv:
-    time.sleep(0.05)
     keyboard.write(x)
-    time.sleep(0.05)
+    time.sleep(0.1)
     keyboard.send("enter")
     count = count + 1
     if(count >= 2):
         time.sleep(0.8)
+    else:
+        time.sleep(0.2)
 
 keyboard.send("esc")
 time.sleep(0.01)

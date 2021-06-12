@@ -1,4 +1,4 @@
-const sn = global.chalk.blue('[CMDWriter] -> [SCUM] -> ')
+const sn = global.chalk.magenta('[CMD-Handler] -> [SCUM] -> ')
 const cp = require('child_process')
 
 exports.start = async function start() {

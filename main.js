@@ -1,5 +1,5 @@
 global.chalk = require('chalk')
-const sn = global.chalk.red('[MAIN] -> ')
+const sn = global.chalk.inverse('[MAIN] -> ')
 
 console.log('\n\n' + sn + '----------------------------------------------------------')
 console.log(sn + 'Welcome to SDP-Bot 1.0!')
@@ -39,7 +39,6 @@ global.newCmds = false
 global.playerlist = {}
 global.updates = true
 global.commands = {}
-global.cmds = {}
 global.newEntries = {
   kill: {},
   chat: {},

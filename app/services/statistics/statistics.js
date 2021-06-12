@@ -1,5 +1,5 @@
 const Discord = require('discord.js')
-const sn = global.chalk.grey('[STATISTICS] -> ')
+const sn = global.chalk.green('[STATISTICS] -> ')
 const statList = require('./statlist')
 const playerstats = require('./playerstats')
 const newPlayers = require('./newplayers')
@@ -34,6 +34,7 @@ async function iterateLists(dcClient) {
 
         await global.sleep.timer(5)
         if (global.updates) continue
+        if (global.updatingFTP) continue
 
         var d = new Date()
         d.setDate(d.getDate() - 7)
@@ -63,6 +64,7 @@ async function iterateOnline(dcClient) {
     do {
         await global.sleep.timer(1)
         if (global.updates) continue
+        if (global.updatingFTP) continue
         let list = await playerstats.online(await statList.get())
         list.push('\n-----\n\n**Currently: ' + list.length + '**\n\n**Highscore: ' + await statList.highscore(list.length) + '**\n')
         if (JSON.stringify(list) != JSON.stringify(cache.list3)) {
@@ -81,6 +83,7 @@ async function iterateNewPlayers(dcClient) {
 
         await global.sleep.timer(10)
         if (global.updates) continue
+        if (global.updatingFTP) continue
         let list = await newPlayers.get()
         if (JSON.stringify(list) != JSON.stringify(cache.list4)) {
             await dcSend(list, chNew)

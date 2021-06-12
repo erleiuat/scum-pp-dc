@@ -1,4 +1,4 @@
-const sn = global.chalk.cyan('[BOT] -> ')
+const sn = global.chalk.bgRed('[BOT] -> ')
 
 const Discord = require('discord.js')
 const dcClient = new Discord.Client()
@@ -8,7 +8,6 @@ const dcWriter = require('./services/dcwriter/dcwriter')
 const state = require('./services/state')
 const statistics = require('./services/statistics/statistics')
 const cmdHandler = require('./services/cmdhandler/cmdhandler')
-const cmdWriter = require('./services/cmdwriter/cmdwriter')
 const dcBot = require('./services/dcbot')
 
 exports.start = async function start() {
@@ -19,22 +18,20 @@ exports.start = async function start() {
 
         console.log(sn + 'Starting Discord-Writer')
         dcWriter.start(dcClient)
-
+        
         console.log(sn + 'Starting State-Display')
         state.start(dcClient)
 
         if (global.ingameBot) {
             console.log(sn + 'Starting Command-handler')
             cmdHandler.start()
-            console.log(sn + 'Starting CMD-Writer')
-            cmdWriter.start()
         } else {
             console.log(sn + 'Ingame-Bot is offline. Skipping Command-Handler.')
         }
 
         console.log(sn + 'Starting Statistics')
         statistics.start(dcClient)
-
+        
         console.log(sn+'Starting Discord-Bot functionalities')
         dcBot.start(dcClient)
 

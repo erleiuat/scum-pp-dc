@@ -4,6 +4,7 @@ const sn = global.chalk.magenta('[CMD-Handler] -> ')
 const messages = require('./messages').list
 const cmdsPublic = require('./cmd/public')
 const cmdsInternal = require('./cmd/internal')
+const scum = require('./scum')
 let hasStarterkit = []
 
 async function ftpCon() {
@@ -59,23 +60,40 @@ async function tReady(cmd) {
     } else return await cmdsInternal['sk_illegal'](cmd)
 }
 
-async function sendCommands(key, cmdObj) {
+async function sendCommands(cmdObj) {
     try {
-        console.log(sn + 'Sending Commands')
-        global.cmds = {...global.cmds, ...cmdObj}
         global.newCmds = true
+        for (const e in cmdObj) {
+            let cmdStr = ''
+            for (const cmd of cmdObj[e].commands) cmdStr += ' "' + (cmd.replace(/"/gmi, "'")) + '" '
+            await scum.send(cmdStr)
+        }
+        global.newCmds = false
     } catch (error) {
         throw new Error(error)
     }
 }
 
+async function checkStatus() {
+    do {
+        await global.sleep.timer(60)
+        if (global.newCmds) continue
+        if (global.updates) continue
+        if (!await scum.isReady()) await scum.start()
+    } while (true)
+}
+
 exports.start = async function start() {
+    if (!await scum.isReady()) await scum.start()
+
+    checkStatus()
     announce()
     let i = 0
 
     do {
         await global.sleep.timer(0.01)
         if (global.updates) continue
+        if (global.updatingFTP) continue
         if (Object.keys(global.commands).length < 1) continue
 
         let newCmds = {}
@@ -94,7 +112,7 @@ exports.start = async function start() {
         }
 
         i++
-        await sendCommands(i, newCmds)
+        await sendCommands(newCmds)
     } while (true)
 
 }
@@ -117,8 +135,8 @@ async function announce() {
                     '#ClearFakeName'
                 ]
             }
-            messages[time].done = true
-            await sendCommands(key, tmpObj)
+            messages[time].done= true
+            await sendCommands(tmpObj)
 
         } else {
             for (const e in messages) {

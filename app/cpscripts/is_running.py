@@ -39,7 +39,7 @@ def focus(window_name):
 
 def inGame():
     focus("scum")
-    time.sleep(0.1)
+    time.sleep(0.05)
     sf_btn = pyautogui.locateOnScreen(
         path+'spiel_fortsetzen.png', grayscale=True, confidence=0.9)
     if(not sf_btn):

@@ -1,5 +1,5 @@
 const fs = require('fs')
-const sn = global.chalk.white('[STATISTICS] -> ')
+const sn = global.chalk.green('[STATISTICS] -> ')
 
 exports.highscore = async function highscore(current) {
 

@@ -1,5 +1,5 @@
 const request = require('request')
-const sn = global.chalk.grey('[State] -> ')
+const sn = global.chalk.green('[State] -> ')
 
 let online = 0
 let serverTime = false
@@ -82,6 +82,7 @@ exports.start = async function start(dcClient) {
     do {
         await global.sleep.timer(1)
         if (global.updates) continue
+        if (global.updatingFTP) continue
 
         if (online < 1) continue
         global.playersOnline = online

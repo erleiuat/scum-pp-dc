@@ -1,7 +1,7 @@
 const fs = require('fs')
 const iconv = require('iconv-lite')
 const regexname = /\(([^)]+)\).*/gm
-const sn = global.chalk.yellow('[LOGProcessor] -> ')
+const sn = global.chalk.magenta('[LOGProcessor] -> ')
 const playerlist = {}
 
 exports.getLines = async function getLines(type) {
@@ -27,12 +27,6 @@ exports.getLines = async function getLines(type) {
                 ...lines,
                 ...await login(file)
             }
-            /*
-            else if (type == 'violations') lines = {
-                ...lines,
-                ...await violations(file)
-            }
-            */
             else return false
         }
     }
@@ -45,11 +39,13 @@ async function chat(file) {
     let content = await getContent(file)
     let lines = await formLines(content)
     let formatted = {}
+    let i = 0
 
     for (const line of lines) {
+        i++
         let t = formTime(line)
         let steamID = line.substring(22, 39)
-        let key = formKey(t, steamID)
+        let key = formKey(t, steamID) + '.' + i
         let msg = line.substring(line.indexOf('\' \'') + 1).slice(2, -1)
         let msgType = msg.slice(0, msg.indexOf(':'))
         msg = msg.substring(msg.indexOf(':') + 1)
@@ -73,11 +69,13 @@ async function admin(file) {
     let content = await getContent(file)
     let lines = await formLines(content)
     let formatted = {}
+    let i = 0
 
     for (const line of lines) {
+        i++
         let t = formTime(line)
         let steamID = line.substring(22, 39)
-        let key = formKey(t, steamID)
+        let key = formKey(t, steamID) + '.' + i
         let msg = line.substring(line.indexOf('\' C')).slice(2, -1)
         let msgType = msg.slice(0, msg.indexOf(':'))
         msg = '#' + msg.substring(msg.indexOf(': \'') + 3)
@@ -101,9 +99,11 @@ async function login(file) {
     let content = await getContent(file)
     let lines = await formLines(content)
     let formatted = {}
+    let i = 0
 
     for (const line of lines) {
         let t = formTime(line)
+        i++
 
         if (line.includes('logged in')) {
 
@@ -112,7 +112,7 @@ async function login(file) {
             let userID = line.substring(line.indexOf(ip) + ip.length + 19).match(regexname)
             let user = line.substring(line.indexOf(ip) + ip.length + 19).replace(userID, '')
             userID = userID[0].slice(userID[0].indexOf('(') + 1, userID[0].indexOf(')'))
-            let key = formKey(t, userID)
+            let key = formKey(t, userID) + '.' + i
 
             formatted[key] = {
                 type: 'login',
@@ -129,7 +129,7 @@ async function login(file) {
         } else {
 
             let userID = line.slice(22, line.indexOf('\' logging out'))
-            let key = formKey(t, userID)
+            let key = formKey(t, userID) + '.' + i
             formatted[key] = {
                 type: 'logout',
                 steamID: global.playerlist[userID].steamID,
@@ -153,12 +153,14 @@ async function kill(file) {
     let content = await getContent(file)
     let lines = await formLines(content)
     let formatted = {}
+    let i = 0
 
     for (const line of lines) {
         if (!line.slice(21, 30).startsWith('{')) continue
+        i++
         let t = formTime(line)
         let content = JSON.parse(line.slice(21))
-        let key = formKey(t, content.Victim.UserId)
+        let key = formKey(t, content.Victim.UserId) + '.' + i
         content.time = t
         formatted[key] = content
     }

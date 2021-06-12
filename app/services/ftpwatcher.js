@@ -1,4 +1,5 @@
-const sn = global.chalk.green('[FTPWatcher] -> ')
+const fs = require('fs')
+const sn = global.chalk.blue('[FTPWatcher] -> ')
 const ftp = new(require('basic-ftp')).Client()
 const ioCheckSec = global.io.meter({
     name: 'FTP-Checks/Second',
@@ -25,45 +26,55 @@ exports.start = async function start() {
 
     console.log(sn + 'FTP-Connection established')
     let fileCache = {}
-    let listCache = ''
-    let i = 0
+    let listCache = fs.readdirSync('./app/storage/raw_logs/').filter(e => {
+        if (e == 'new') return false
+        return true
+    }).map(e => {
+        return {
+            name: e,
+            size: fs.statSync('./app/storage/raw_logs/' + e).size
+        }
+    })
 
+    if (listCache.length >= 1) {
+        for (const file of listCache) fileCache[file.name] = file
+        listCache = JSON.stringify(listCache)
+    }
+
+    let i = 1
     do {
         await global.sleep.timer(0.01)
         if (global.updates) continue
+        if (global.updatingFTP) continue
         if (global.ingameBot && !global.gameReady) continue
-
-        i++
         console.log(sn + 'Checking for new updates (#' + i + ')')
-        let files = await ftp.list(process.env.PP_FTP_LOG_DIR)
+        i++
+
+        let files = await (await ftp.list(process.env.PP_FTP_LOG_DIR)).filter(e => {
+            if (e['name'].startsWith('violations')) return false
+            return true
+        }).map(e => {
+            return {
+                name: e['name'],
+                size: e['size']
+            }
+        })
+
         ioTotalReq.inc()
         ioCheckSec.mark()
-
         if (JSON.stringify(files) == listCache) continue
-        listCache = JSON.stringify(files)
-
-        let newFiles = {}
-        for (const file of files) {
-            if (file.name.startsWith('violations')) continue
-            if (fileCache[file.name] && fileCache[file.name].size == file.size) continue
-            newFiles[file.name] = file
-        }
-
-        if (Object.keys(newFiles).length <= 0) continue
         console.log(sn + 'New Updates found! Downloading files...')
 
-        for (file in newFiles) {
-            await ftp.downloadTo('./app/storage/raw_logs/new/' + file, process.env.PP_FTP_LOG_DIR + '/' + file)
+        for (const file of files) {
+            if (fileCache[file.name] && fileCache[file.name].size == file.size) continue
+            await ftp.downloadTo('./app/storage/raw_logs/new/' + file.name, process.env.PP_FTP_LOG_DIR + '/' + file.name)
+            fileCache[file.name] = file
             ioTotalReq.inc()
         }
 
-        global.updates = true
+        listCache = JSON.stringify(files)
         console.log(sn + 'File-Download complete!')
-        fileCache = {
-            ...fileCache,
-            ...newFiles
-        }
-
+        global.updates = true
     } while (true)
 
 }

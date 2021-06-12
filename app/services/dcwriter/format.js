@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const sn = global.chalk.blue('[DCWriter] -> [Format] -> ')
+const sn = global.chalk.cyan('[DCWriter] -> [Format] -> ')
 let weaponImg = null
 
 function hasImg(weapon) {
