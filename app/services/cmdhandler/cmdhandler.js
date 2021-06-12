@@ -146,5 +146,20 @@ async function announce() {
                 messages[e].done = false
             }
         }
+
+        if (now.getMinutes() % 10 == 0) {
+            let key = 'announce_' + now.getHours() + '_' + now.getMinutes()
+            let tmpObj = {}
+            tmpObj[key] = {
+                type: 'global',
+                commands: [
+                    '#SetFakeName [SF-BOT][WIPE]',
+                    '#Announce Server-Wipe coming soon. Check the latest news on Discord for more information.',
+                    '#ClearFakeName'
+                ]
+            }
+            await sendCommands(tmpObj)
+        }
+
     } while (true)
 }
