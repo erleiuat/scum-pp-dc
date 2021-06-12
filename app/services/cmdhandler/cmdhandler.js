@@ -148,6 +148,7 @@ async function announce() {
             }
         }
 
+        /*
         if (now.getMinutes() % 5 == 0) {
             let key = 'announce_' + now.getHours() + '_' + now.getMinutes()
             let tmpObj = {}
@@ -162,6 +163,7 @@ async function announce() {
             await sendCommands(tmpObj)
             await global.sleep.timer(65)
         }
+        */
 
     } while (true)
 }
