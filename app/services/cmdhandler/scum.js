@@ -8,6 +8,7 @@ exports.start = async function start() {
         const scumCmd = cp.exec('py ./app/cpscripts/start_game.py', (error, stdout, stderr) => {
             console.log(sn + 'STDOUT: ' + stdout)
             if (!error) {
+                global.commands = {}
                 global.gameReady = true
                 resolve()
                 return
