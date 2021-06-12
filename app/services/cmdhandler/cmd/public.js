@@ -1,4 +1,4 @@
-const http = require("https")
+const request = require('request')
 
 exports.list = {
     '!voteday': 'vote_day',
@@ -20,35 +20,22 @@ exports.list = {
     '!help': 'help',
     '!commands': 'help',
     '!joke': 'joke',
-    '!time' : 'time',
+    '!time': 'time',
     '!what': 'what_is_going_on'
-}
-
-const options = {
-    "method": "GET",
-    "hostname": "jokeapi-v2.p.rapidapi.com",
-    "port": null,
-    "path": "/joke/Any?type=single&format=txt&blacklistFlags=racist",
-    "headers": {
-        "x-rapidapi-key": "b42727cf17msh61c4120c24e955ep1e7dc8jsnd847ba7d1dd3",
-        "x-rapidapi-host": "jokeapi-v2.p.rapidapi.com",
-        "useQueryString": true
-    }
 }
 
 async function getJoke() {
     return new Promise(resolve => {
-        const req = http.request(options, (res) => {
-            const chunks = []
-            res.on("data", function (chunk) {
-                chunks.push(chunk)
-            })
-            res.on("end", () => {
-                const body = Buffer.concat(chunks)
-                resolve(body.toString().replace(/\n/g, " ").replace(/"/gmi, "'"))
-            })
+        request.get({
+            url: 'https://api.api-ninjas.com/v1/jokes?limit=1',
+            headers: {
+                'X-Api-Key': '7wk74FwsQHrQj9A6JgE1FA==5uxpvXNNabi4lflP'
+            },
+        }, (error, response, body) => {
+            if (error) return console.error('Request failed:', error)
+            else if (response.statusCode != 200) return console.error('Error:', response.statusCode, body.toString('utf8'))
+            else resolve(body[0])
         })
-        req.end()
     })
 }
 
