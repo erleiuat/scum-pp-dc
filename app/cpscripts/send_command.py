@@ -24,25 +24,26 @@ def focus(window_name):
 
 
 focus("scum")
-time.sleep(0.06)
+time.sleep(0.05)
 keyboard.send("esc")
-time.sleep(0.06)
+time.sleep(0.05)
 keyboard.send("t")
-time.sleep(0.06)
+time.sleep(0.05)
 keyboard.send("backspace")
-time.sleep(0.06)
+time.sleep(0.05)
 del sys.argv[0]
 count = 0
 for x in sys.argv:
     keyboard.write(x)
-    time.sleep(0.4)
+    time.sleep(0.5)
     keyboard.send("enter")
+    time.sleep(0.1)
     count = count + 1
     if(count >= 2):
-        time.sleep(0.9)
+        time.sleep(0.7)
     else:
-        time.sleep(0.4)
+        time.sleep(0.1)
 
 keyboard.send("esc")
-time.sleep(0.06)
+time.sleep(0.05)
 keyboard.send("esc")
