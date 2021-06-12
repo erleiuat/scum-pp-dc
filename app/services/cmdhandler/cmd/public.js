@@ -34,7 +34,7 @@ async function getJoke() {
         }, (error, response, body) => {
             if (error) return console.error('Request failed:', error)
             else if (response.statusCode != 200) return console.error('Error:', response.statusCode, body.toString('utf8'))
-            else resolve(body[0])
+            else resolve(JSON.parse(body)[0]['joke'])
         })
     })
 }
