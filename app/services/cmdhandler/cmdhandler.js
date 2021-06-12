@@ -51,13 +51,13 @@ async function receivesStarterkit(steamID, name) {
 async function tStarterkit(cmd) {
     await loadKits()
     if (cmd.type.toLowerCase() != 'global') return null
-    if (!hasStarterkit.includes(cmd.steamID)) return await cmdsInternal['sk_legal'](cmd)
+    if (!hasStarterkit[cmd.steamID]) return await cmdsInternal['sk_legal'](cmd)
     else return await cmdsInternal['sk_illegal'](cmd)
 }
 
 async function tReady(cmd) {
     await loadKits()
-    if (!hasStarterkit.includes(cmd.steamID)) {
+    if (!hasStarterkit[cmd.steamID]) {
         await receivesStarterkit(cmd.steamID, cmd.user)
         return await cmdsInternal['sk_ready'](cmd)
     } else return await cmdsInternal['sk_illegal'](cmd)
