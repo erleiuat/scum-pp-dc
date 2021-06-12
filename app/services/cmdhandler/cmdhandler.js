@@ -98,7 +98,7 @@ exports.start = async function start() {
         if (global.updates) continue
         if (global.updatingFTP) continue
         if (Object.keys(global.commands).length < 1) continue
-        
+
         global.newCmds = true
         let newCmds = {}
         for (const e in global.commands) {
@@ -148,7 +148,7 @@ async function announce() {
             }
         }
 
-        if (now.getMinutes() % 10 == 0) {
+        if (now.getMinutes() % 5 == 0) {
             let key = 'announce_' + now.getHours() + '_' + now.getMinutes()
             let tmpObj = {}
             tmpObj[key] = {
