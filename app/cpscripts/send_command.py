@@ -39,7 +39,7 @@ for x in sys.argv:
     keyboard.send("enter")
     count = count + 1
     if(count >= 2):
-        time.sleep(0.8)
+        time.sleep(1)
     else:
         time.sleep(0.05)
 
