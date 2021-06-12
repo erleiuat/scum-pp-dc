@@ -65,7 +65,6 @@ async function tReady(cmd) {
 
 async function sendCommands(cmdObj) {
     try {
-        global.newCmds = true
         for (const e in cmdObj) {
             let cmdStr = ''
             for (const cmd of cmdObj[e].commands) cmdStr += ' "' + (cmd.replace(/"/gmi, "'")) + '" '
@@ -79,9 +78,10 @@ async function sendCommands(cmdObj) {
 
 async function checkStatus() {
     do {
-        await global.sleep.timer(60)
+        await global.sleep.timer(121)
         if (global.newCmds) continue
         if (global.updates) continue
+        if (global.updatingFTP) continue
         if (!await scum.isReady()) await scum.start()
     } while (true)
 }
@@ -98,7 +98,8 @@ exports.start = async function start() {
         if (global.updates) continue
         if (global.updatingFTP) continue
         if (Object.keys(global.commands).length < 1) continue
-
+        
+        global.newCmds = true
         let newCmds = {}
         for (const e in global.commands) {
             let cmd = global.commands[e]
