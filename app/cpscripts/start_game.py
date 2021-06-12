@@ -34,13 +34,16 @@ def focus(window_name):
 def ffahren():
     f_btn = pyautogui.locateOnScreen(
         path+'fortsetzen.png', grayscale=True, confidence=0.9)
+    if(not f_btn):
+        f_btn = pyautogui.locateOnScreen(
+            path+'fortsetzen_2.png', grayscale=True, confidence=0.9)
     if(f_btn):
         pyautogui.keyDown('ctrl')
-        time.sleep(0.5)
+        time.sleep(0.1)
         pyautogui.press('d')
-        time.sleep(0.5)
+        time.sleep(0.1)
         pyautogui.keyUp('ctrl')
-        time.sleep(1)
+        time.sleep(0.5)
         tClick = pyautogui.center(f_btn)
         pyautogui.click(tClick.x, tClick.y)
         return True
@@ -56,10 +59,9 @@ def igReady():
         path+'c_stumm.png', grayscale=False, confidence=0.9)
     if(not c_stumm):
         return False
-
     c_global = False
     while(not c_global):
-        time.sleep(2)
+        time.sleep(0.5)
         pyautogui.press('tab')
         time.sleep(0.5)
         c_global = pyautogui.locateOnScreen(
@@ -78,33 +80,32 @@ webbrowser.open('steam://rungameid/513710')
 
 count = 0
 while(not ffahren()):
-    if(count > 15):
+    if(count > 100):
         raise Exception('Could not start game (1)')
-    time.sleep(5)
+    time.sleep(1)
     focus('scum')
     count = count+1
 
 count = 0
 while(not igReady()):
-    if(count > 15):
+    if(count > 100):
         raise Exception('Could not start game (2)')
-    time.sleep(5)
+    time.sleep(1)
     focus('scum')
     count = count+1
 
-time.sleep(2)
+time.sleep(1)
 subprocess.call([path_bat+'\kill_steam.bat'])
 pyautogui.press("esc")
-time.sleep(0.1)
+time.sleep(0.05)
 pyautogui.press("t")
-time.sleep(0.1)
+time.sleep(0.05)
 pyautogui.press("backspace")
-time.sleep(0.1)
-pyautogui.write('BOT IS ONLINE!')
-time.sleep(0.1)
+time.sleep(0.05)
+pyautogui.write('[SF-BOT IS BACK ONLINE]')
+time.sleep(0.05)
 pyautogui.press("enter")
-time.sleep(0.1)
+time.sleep(0.05)
 pyautogui.press("esc")
-time.sleep(0.1)
+time.sleep(0.05)
 pyautogui.press("esc")
-time.sleep(0.1)
