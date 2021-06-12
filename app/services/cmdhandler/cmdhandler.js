@@ -33,10 +33,13 @@ async function loadKits() {
     ftp.close()
 }
 
-async function receivesStarterkit(steamID) {
+async function receivesStarterkit(steamID, name) {
     try {
         await loadKits()
-        hasStarterkit.push(steamID)
+        hasStarterkit[steamID] = {
+            name: name,
+            stamp: new Date().getTime()
+        }
         fs.writeFileSync('./app/storage/starterkits.json', JSON.stringify(hasStarterkit))
         await ftpCon()
         await ftp.uploadFrom('./app/storage/starterkits.json', process.env.RM_CMD_FTP_DIR + 'starterkits.json')
@@ -55,7 +58,7 @@ async function tStarterkit(cmd) {
 async function tReady(cmd) {
     await loadKits()
     if (!hasStarterkit.includes(cmd.steamID)) {
-        await receivesStarterkit(cmd.steamID)
+        await receivesStarterkit(cmd.steamID, cmd.user)
         return await cmdsInternal['sk_ready'](cmd)
     } else return await cmdsInternal['sk_illegal'](cmd)
 }
