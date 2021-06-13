@@ -1,8 +1,11 @@
 import time
 import win32con
+import pyautogui
 import keyboard
 import win32gui
 import sys
+
+path = './app/cpscripts/img/'
 
 
 def focus(window_name):
@@ -23,6 +26,17 @@ def focus(window_name):
     raise Exception('Window not found')
 
 
+def isLoading():
+    time.sleep(1)
+    loading = pyautogui.locateCenterOnScreen(
+        path + 'laden.png', grayscale=True, confidence=0.9)
+    while(loading):
+        time.sleep(0.5)
+        loading = pyautogui.locateCenterOnScreen(
+            path + 'laden.png', grayscale=True, confidence=0.9)
+    time.sleep(1)
+
+
 focus("scum")
 time.sleep(0.2)
 keyboard.send("esc")
@@ -37,6 +51,12 @@ for x in sys.argv:
     keyboard.write(x)
     time.sleep(0.02)
     keyboard.send("enter")
+    if('teleport' in x.lower()):
+        isLoading()
+        keyboard.send("t")
+        time.sleep(0.02)
+        keyboard.send("backspace")
+        time.sleep(0.02)
     count = count + 1
     if(count >= 2):
         time.sleep(1)

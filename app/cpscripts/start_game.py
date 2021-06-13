@@ -1,16 +1,30 @@
-import start_setupserver
+#import start_setupserver
 import webbrowser
 import subprocess
 import pyautogui
 import time
+import keyboard
 import win32con
 import win32gui
 import os
 import sys
 
+# start_setupserver.doSetup()
+# sys.exit()
 
 path_bat = os.path.dirname(os.path.realpath(__file__))
 path = './app/cpscripts/img/'
+
+
+def isLoading():
+    time.sleep(1)
+    loading = pyautogui.locateCenterOnScreen(
+        path + 'laden.png', grayscale=True, confidence=0.9)
+    while(loading):
+        time.sleep(0.5)
+        loading = pyautogui.locateCenterOnScreen(
+            path + 'laden.png', grayscale=True, confidence=0.9)
+    time.sleep(1)
 
 
 def focus(window_name):
@@ -41,11 +55,11 @@ def ffahren():
         f_btn = pyautogui.locateOnScreen(
             path+'fortsetzen_2.png', grayscale=True, confidence=0.9)
     if(f_btn):
-        pyautogui.keyDown('ctrl')
+        # pyautogui.keyDown('ctrl')
         time.sleep(0.1)
-        pyautogui.press('d')
+        # pyautogui.press('d')
         time.sleep(0.1)
-        pyautogui.keyUp('ctrl')
+        # pyautogui.keyUp('ctrl')
         time.sleep(0.5)
         tClick = pyautogui.center(f_btn)
         pyautogui.click(tClick.x, tClick.y)
@@ -107,7 +121,13 @@ pyautogui.press("t")
 time.sleep(0.05)
 pyautogui.press("backspace")
 time.sleep(0.05)
-pyautogui.write('[SF-BOT IS BACK ONLINE]')
+keyboard.write('#Teleport -117114.336 -66718.719 37064.668')
+time.sleep(0.05)
+pyautogui.press("enter")
+time.sleep(0.05)
+isLoading()
+time.sleep(0.05)
+keyboard.write('[SF-BOT IS BACK ONLINE]')
 time.sleep(0.05)
 pyautogui.press("enter")
 time.sleep(0.05)
