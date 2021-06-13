@@ -1,3 +1,4 @@
+import start_setupserver
 import webbrowser
 import subprocess
 import pyautogui
@@ -5,6 +6,8 @@ import time
 import win32con
 import win32gui
 import os
+import sys
+
 
 path_bat = os.path.dirname(os.path.realpath(__file__))
 path = './app/cpscripts/img/'
@@ -96,6 +99,8 @@ while(not igReady()):
 
 time.sleep(1)
 subprocess.call([path_bat+'\kill_steam.bat'])
+time.sleep(1)
+time.sleep(1)
 pyautogui.press("esc")
 time.sleep(0.05)
 pyautogui.press("t")
