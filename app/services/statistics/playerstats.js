@@ -62,7 +62,7 @@ function formWinner(user, place, color, img) {
         title: place + '. ' + user.user.toUpperCase(),
         color: color,
         thumbnail: {
-            url: process.env.IMG_URL + img
+            url: process.env.DATA_URL + img
         },
         footer: {
             text: user.totalLogins + ' Logins'

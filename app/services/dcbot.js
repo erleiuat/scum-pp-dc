@@ -1,4 +1,5 @@
 const sn = global.chalk.red('[DISCORD-BOT] -> ')
+const fetch = require('node-fetch')
 
 async function consoleMsg(msg) {
     if (
@@ -13,18 +14,55 @@ async function consoleMsg(msg) {
     }
 }
 
+async function doFetch(url) {
+    return await fetch(url, {
+        method: 'Get'
+    }).then(res => res.text()).then(body => {
+        return body
+    })
+}
+
+async function processContent(data, dcClient) {
+    let channel = dcClient.channels.cache.find(channel => channel.id === data.id)
+    await clearChannel(channel)
+
+    for (const e in data.content) {
+        let part = data.content[e]
+        if (part['type'] == 'image') {
+            await channel.send({
+                files: [part['data']]
+            })
+        } else if (part['type'] == 'text') {
+            let text = await doFetch(part['data'])
+            if (text.includes('{{SPLIT}}')) textChunks = text.split('{{SPLIT}}')
+            else textChunks = [text]
+            for (const chunk in textChunks) {
+                if (textChunks[chunk] && textChunks[chunk].length >= 1) channel.send(textChunks[chunk])
+            }
+        }
+    }
+}
+
+async function buildServer(dcClient) {
+    let data = await fetch(process.env.DATA_URL + 'dc_text/data.json', {
+        method: 'Get'
+    }).then(res => res.json()).then(json => {
+        return json
+    })
+    for (const i in data) await processContent(data[i], dcClient)
+}
+
+async function clearChannel(channel) {
+    var msg_size = 100;
+    while (msg_size == 100) await channel.bulkDelete(100, true)
+        .then(messages => msg_size = messages.size)
+        .catch(console.error)
+}
+
 async function clearchat(msg) {
     if (msg.member.hasPermission('ADMINISTRATOR')) {
         console.log(sn + '"!clearchat" detected! Clearing channel...')
-        async function wipe() {
-            var msg_size = 100;
-            while (msg_size == 100) {
-                await msg.channel.bulkDelete(100, true)
-                    .then(messages => msg_size = messages.size)
-                    .catch(console.error);
-            }
-        }
-        await wipe()
+        await clearChannel(msg.channel)
         console.log(sn + 'Channel cleaned.')
     }
 }
@@ -59,7 +97,6 @@ exports.start = async function start(dcClient) {
         if (msg.content.toLowerCase().startsWith('!clearchat')) clearchat(msg)
     })
 
-    dcClient.on('guildMemberAdd', member => {
+    buildServer(dcClient)
 
-    })
 }

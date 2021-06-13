@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const fetch = require('node-fetch')
 const sn = global.chalk.cyan('[DCWriter] -> [Format] -> ')
 let weaponImg = null
 
@@ -9,7 +9,7 @@ function hasImg(weapon) {
 }
 
 exports.loadWeapons = async function loadWeapons() {
-    let url = process.env.IMG_URL + 'weapon/_weaponlist.json'
+    let url = process.env.DATA_URL + 'weapon/_weaponlist.json'
     await fetch(url, {
         method: 'Get'
     }).then(res => res.json()).then((json) => {
