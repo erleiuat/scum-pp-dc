@@ -67,6 +67,7 @@ async function sendCommands(cmdObj) {
     try {
         for (const e in cmdObj) {
             let cmdStr = ''
+            if (!cmdObj[e].commands || cmdObj[e].commands.length < 1) continue
             for (const cmd of cmdObj[e].commands) cmdStr += ' "' + (cmd.replace(/"/gmi, "'")) + '" '
             await scum.send(cmdStr)
         }
@@ -104,7 +105,8 @@ exports.start = async function start() {
         global.newCmds = true
         let newCmds = {}
         for (const e in global.commands) {
-            let cmd = global.commands[e]
+            let cmd = {...global.commands[e]}
+            delete global.commands[e]
             let cmdStart = cmd.message.split(' ')[0].toLowerCase()
 
             if (cmdsPublic.list[cmdStart]) newCmds[e] = await cmdsPublic[cmdsPublic.list[cmdStart]](cmd)
@@ -114,7 +116,6 @@ exports.start = async function start() {
             else if (cmdStart == 'console_msg') newCmds['console_' + e] = await cmdsInternal['console_msg'](cmd)
             else if (cmdStart == 'kill_feed') newCmds[e] = await cmdsInternal['kill_feed'](cmd)
 
-            delete global.commands[e]
         }
 
         i++
@@ -141,7 +142,7 @@ async function announce() {
                     '#ClearFakeName'
                 ]
             }
-            messages[time].done= true
+            messages[time].done = true
             await sendCommands(tmpObj)
 
         } else {
