@@ -31,7 +31,6 @@ console.log(sn + '----------------------------------------------------------\n\n
 require('dotenv').config()
 global.sleep = require('./app/plugins/sleep')
 global.io = require('@pm2/io')
-global.ingameBot = true
 global.gameReady = false
 global.ingameTime = false
 global.playersOnline = 0

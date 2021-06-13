@@ -81,6 +81,7 @@ async function checkStatus() {
         await global.sleep.timer(121)
         if (global.newCmds) continue
         if (global.updates) continue
+        if (!global.gameReady) continue
         if (global.updatingFTP) continue
         if (!await scum.isReady()) await scum.start()
     } while (true)
@@ -97,6 +98,7 @@ exports.start = async function start() {
         await global.sleep.timer(0.01)
         if (global.updates) continue
         if (global.updatingFTP) continue
+        if (!global.gameReady) continue
         if (Object.keys(global.commands).length < 1) continue
 
         global.newCmds = true
@@ -147,23 +149,6 @@ async function announce() {
                 messages[e].done = false
             }
         }
-
-        /*
-        if (now.getMinutes() % 5 == 0) {
-            let key = 'announce_' + now.getHours() + '_' + now.getMinutes()
-            let tmpObj = {}
-            tmpObj[key] = {
-                type: 'global',
-                commands: [
-                    '#SetFakeName [SF-BOT][WIPE]',
-                    '#Announce Server-Wipe coming soon. Check the latest news on Discord for more information.',
-                    '#ClearFakeName'
-                ]
-            }
-            await sendCommands(tmpObj)
-            await global.sleep.timer(65)
-        }
-        */
 
     } while (true)
 }

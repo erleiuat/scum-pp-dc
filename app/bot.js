@@ -22,13 +22,9 @@ exports.start = async function start() {
         console.log(sn + 'Starting State-Display')
         state.start(dcClient)
 
-        if (global.ingameBot) {
-            console.log(sn + 'Starting Command-handler')
-            cmdHandler.start()
-        } else {
-            console.log(sn + 'Ingame-Bot is offline. Skipping Command-Handler.')
-        }
-
+        console.log(sn + 'Starting Command-handler')
+        cmdHandler.start()
+        
         console.log(sn + 'Starting Statistics')
         statistics.start(dcClient)
         
