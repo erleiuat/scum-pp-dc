@@ -51,7 +51,7 @@ for x in sys.argv:
     keyboard.write(x)
     time.sleep(0.02)
     keyboard.send("enter")
-    if('teleport' in x.lower()):
+    if('#teleport' in x.lower()):
         isLoading()
         keyboard.send("t")
         time.sleep(0.02)
