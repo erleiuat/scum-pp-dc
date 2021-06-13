@@ -55,11 +55,11 @@ def ffahren():
         f_btn = pyautogui.locateOnScreen(
             path+'fortsetzen_2.png', grayscale=True, confidence=0.9)
     if(f_btn):
-        # pyautogui.keyDown('ctrl')
-        # time.sleep(0.1)
-        # pyautogui.press('d')
-        # time.sleep(0.1)
-        # pyautogui.keyUp('ctrl')
+        pyautogui.keyDown('ctrl')
+        time.sleep(0.1)
+        pyautogui.press('d')
+        time.sleep(0.1)
+        pyautogui.keyUp('ctrl')
         time.sleep(1)
         tClick = pyautogui.center(f_btn)
         pyautogui.click(tClick.x, tClick.y)
