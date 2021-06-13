@@ -24,7 +24,7 @@ def isLoading():
         time.sleep(0.5)
         loading = pyautogui.locateCenterOnScreen(
             path + 'laden.png', grayscale=True, confidence=0.9)
-    time.sleep(1)
+    time.sleep(2)
 
 
 def focus(window_name):
@@ -126,6 +126,10 @@ time.sleep(0.05)
 pyautogui.press("enter")
 time.sleep(0.05)
 isLoading()
+time.sleep(0.05)
+pyautogui.press("t")
+time.sleep(0.05)
+pyautogui.press("backspace")
 time.sleep(0.05)
 keyboard.write('[SF-BOT IS BACK ONLINE]')
 time.sleep(0.05)

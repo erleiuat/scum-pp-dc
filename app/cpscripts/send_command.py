@@ -34,7 +34,7 @@ def isLoading():
         time.sleep(0.5)
         loading = pyautogui.locateCenterOnScreen(
             path + 'laden.png', grayscale=True, confidence=0.9)
-    time.sleep(1)
+    time.sleep(2)
 
 
 focus("scum")
