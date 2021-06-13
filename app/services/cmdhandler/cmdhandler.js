@@ -67,7 +67,7 @@ async function sendCommands(cmdObj) {
     try {
         for (const e in cmdObj) {
             let cmdStr = ''
-            if (!cmdObj[e].commands || cmdObj[e].commands.length < 1) continue
+            if (!cmdObj[e] || !cmdObj[e].commands || cmdObj[e].commands.length < 1) continue
             for (const cmd of cmdObj[e].commands) cmdStr += ' "' + (cmd.replace(/"/gmi, "'")) + '" '
             await scum.send(cmdStr)
         }
