@@ -19,7 +19,6 @@ exports.start = async function start() {
         console.log(sn+'Starting Discord-Bot functionalities')
         dcBot.start(dcClient)
 
-        /*
         console.log(sn + 'Starting Discord-Writer')
         dcWriter.start(dcClient)
         
@@ -37,7 +36,6 @@ exports.start = async function start() {
 
         console.log(sn + 'Starting Log-Processor')
         logProcessor.start()
-        */
 
     })
 
