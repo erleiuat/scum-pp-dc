@@ -1,6 +1,28 @@
 const sn = global.chalk.magenta('[CMD-Handler] -> [SCUM] -> ')
 const cp = require('child_process')
 
+exports.spam = async function spam(user) {
+    return new Promise((resolve) => {
+        global.gameReady = false
+        console.log(sn + 'Spaming DC.')
+        const scumCmd = cp.exec('py ./app/cpscripts/dc_spam.py "'+user+'"', (error, stdout, stderr) => {
+            console.log(sn + 'STDOUT: ' + stdout)
+            if (!error) {
+                resolve()
+                return
+            }
+            console.log(sn + error.stack)
+            console.log(sn + 'Error code: ' + error.code)
+            console.log(sn + 'Signal received: ' + error.signal)
+        })
+
+        scumCmd.on('exit', code => {
+            global.gameReady = true
+            console.log(sn + 'Exited with exit code ' + code)
+        })
+    })
+}
+
 exports.start = async function start() {
     return new Promise((resolve) => {
         global.gameReady = false

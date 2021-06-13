@@ -88,9 +88,28 @@ async function checkStatus() {
     } while (true)
 }
 
+async function dcSpam() {
+
+    let times = {
+        '0:20': 'dc1@scumfiction.com',
+        '6:20': 'dc2@scumfiction.com',
+        '12:20': 'dc1@scumfiction.com',
+        '18:20': 'dc2@scumfiction.com'
+    }
+
+    do {
+        await global.sleep.timer(45)
+        let now = new Date()
+        if (times[now.getHours() + ':' + now.getMinutes()]) 
+            await scum.spam(times[now.getHours() + ':' + now.getMinutes()])
+    } while (true)
+
+}
+
 exports.start = async function start() {
     if (!await scum.isReady()) await scum.start()
 
+    dcSpam()
     checkStatus()
     announce()
     let i = 0
@@ -105,7 +124,9 @@ exports.start = async function start() {
         global.newCmds = true
         let newCmds = {}
         for (const e in global.commands) {
-            let cmd = {...global.commands[e]}
+            let cmd = {
+                ...global.commands[e]
+            }
             delete global.commands[e]
             let cmdStart = cmd.message.split(' ')[0].toLowerCase()
 
