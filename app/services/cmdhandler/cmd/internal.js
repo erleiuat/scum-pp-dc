@@ -32,7 +32,8 @@ exports.sk_ready = async function sk_ready(cmd) {
         type: 'global',
         commands: [
             '#SetFakeName [SF-BOT][STARTERKIT]',
-            '@' + cmd.user + ' you will now be transported to the trading zone.',
+            '@' + cmd.user + ' you will be transported to the trading zone in a few seconds.',
+            '#Teleport -117114.336 -66718.719 37064.668',
             '#TeleportToMe ' + cmd.steamID,
             '#SpawnItem Backpack_01_07',
             '#SpawnItem MRE_Stew 2',
@@ -49,7 +50,7 @@ exports.sk_ready = async function sk_ready(cmd) {
             '#SpawnItem Car_Repair_Kit',
             '#Teleport -116453 -66401 37477',
             '#SpawnVehicle BP_Quad_01_A',
-            '@' + cmd.user + ' your starterkit should now be there. Your Quad should be waiting for you outside.',
+            '@' + cmd.user + ' your starterkit should now be there any your Quad should be waiting for you outside.',
             '#Teleport -117114.336 -66718.719 37064.668',
             '#ClearFakeName'
         ]
