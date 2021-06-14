@@ -74,10 +74,11 @@ def ready(chat='global', once=False, failsafe=True):
         pyautogui.press('t')
         sleep()
     if(not onScreen(imgChat, bw=False)):
+        sleep()
         if(onScreen('img/c_stumm.png')):
-            while(not onScreen(imgChat)):
+            while(not onScreen(imgChat, bw=False)):
                 pyautogui.press('tab')
-                sleep()
+                sleep(1)
         elif(onScreen('img/spiel_fortsetzen.png')):
             pyautogui.press('esc')
             sleep()
