@@ -8,11 +8,10 @@ import os
 
 fullBatPath = os.path.dirname(os.path.realpath(__file__))
 torches = [
-    '#Teleport -111116.359 -65466.762 37041.824',
-    '#Teleport -110238.148 -64258.730 37210.738',
-    '#Teleport -108762.930 -62645.059 37216.547',
-    '#Teleport -115601.555 -59773.836 37359.078',
-    '#Teleport -119449.445 -58504.863 37661.332',
+    '#Teleport -116830 -65759 37064',
+    '#Teleport -117327 -66464 37064',
+    '#Teleport -117317 -66969 37064',
+    '#Teleport -116318 -66427 37064',
 ]
 
 print('\n\n')
