@@ -9,8 +9,6 @@ import win32gui
 import os
 import sys
 
-# start_setupserver.doSetup()
-# sys.exit()
 
 path_bat = os.path.dirname(os.path.realpath(__file__))
 path = './app/cpscripts/img/'
@@ -155,4 +153,14 @@ time.sleep(0.5)
 keyboard.write('#ClearFakeName')
 time.sleep(0.5)
 pyautogui.press("enter")
+time.sleep(0.5)
+keyboard.write('#Teleport -117114.336 -66718.719 37064.668')
+time.sleep(0.5)
+pyautogui.press("enter")
 time.sleep(1)
+isLoading()
+time.sleep(1)
+pyautogui.press("esc")
+time.sleep(0.5)
+pyautogui.press("esc")
+time.sleep(0.5)

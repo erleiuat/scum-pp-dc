@@ -1,6 +1,5 @@
 import win32con
 import win32gui
-import make_break
 import keyboard
 import pyautogui
 import time
@@ -52,74 +51,13 @@ def doTeleport(to):
     isLoading()
 
 
-def lightUp(tp):
-    doTeleport(tp)
-    time.sleep(acDelay)
-    keyboard.send('t')
-    time.sleep(acDelay)
-    keyboard.write('#SpawnItem Wooden_Plank 2')
-    time.sleep(wrDelay)
-    keyboard.send('enter')
-    time.sleep(acDelay)
-    keyboard.send('esc')
-    time.sleep(acDelay)
-    pyautogui.keyDown('tab')
-    time.sleep(0.01)
-    pyautogui.keyUp('tab')
-    time.sleep(acDelay)
-
-    fackel = pyautogui.locateCenterOnScreen(
-        path + 'startup/fackel.png', grayscale=True, confidence=0.9)
-    pyautogui.moveTo(fackel)
-    pyautogui.click(button='right')
-    time.sleep(acDelay)
-    i = 0
-    canSch = pyautogui.locateCenterOnScreen(
-        path + 'startup/schueren.png', grayscale=True, confidence=0.9)
-
-    while(i < 2):
-        pyautogui.moveTo(canSch)
-        pyautogui.click()
-        time.sleep(3)
-        pyautogui.moveTo(fackel)
-        pyautogui.click(button='right')
-        time.sleep(acDelay)
-        i = i + 1
-
-    pyautogui.moveTo(fackel)
-    pyautogui.click(button='right')
-    time.sleep(acDelay)
-    canLight = pyautogui.locateCenterOnScreen(
-        path + 'startup/anzuenden.png', grayscale=True, confidence=0.9)
-    if(canLight):
-        pyautogui.moveTo(canLight)
-        pyautogui.click()
-        time.sleep(3)
-        keyboard.send('esc')
-        time.sleep(acDelay)
-    else:
-        keyboard.send('esc')
-        time.sleep(acDelay)
-        keyboard.send('esc')
-        time.sleep(acDelay)
-
-
-def doSetup():
+def doBreak():
     focus('scum')
     time.sleep(acDelay)
     keyboard.send('esc')
     time.sleep(acDelay)
 
     doTeleport('#Teleport -117351 -66117 37064')
-    """
-    time.sleep(acDelay)
-    keyboard.send('t')
-    time.sleep(acDelay)
-    keyboard.write('#SpawnItem Lighter')
-    time.sleep(wrDelay)
-    keyboard.send('enter')
-    time.sleep(acDelay)
-    keyboard.send('esc')
     time.sleep(acDelay)
     pyautogui.keyDown('tab')
     time.sleep(0.01)
@@ -128,25 +66,83 @@ def doSetup():
     keyboard.send('1')
     time.sleep(acDelay)
 
+    keyboard.send('t')
     time.sleep(acDelay)
-    pyautogui.doubleClick(pyautogui.locateCenterOnScreen(
-        path + 'startup/lighter.png', grayscale=True, confidence=0.9))
+    keyboard.write('#SpawnItem Milk 1')
+    time.sleep(wrDelay)
+    keyboard.send('enter')
+    time.sleep(acDelay)
+    keyboard.write('#SpawnItem Sugar')
+    time.sleep(wrDelay)
+    keyboard.send('enter')
+    time.sleep(acDelay)
+    keyboard.send('esc')
+    time.sleep(acDelay)
+
+    milk = pyautogui.locateCenterOnScreen(
+        path + 'startup/milk.png', grayscale=True, confidence=0.9)
+    while(milk):
+        time.sleep(acDelay)
+        pyautogui.moveTo(milk)
+        pyautogui.click(button='right')
+        time.sleep(acDelay)
+        drink = pyautogui.locateCenterOnScreen(
+            path + 'startup/trinken.png', grayscale=True, confidence=0.9)
+        time.sleep(acDelay)
+        pyautogui.moveTo(drink)
+        pyautogui.click()
+        time.sleep(52)
+        milk = pyautogui.locateCenterOnScreen(
+            path + 'startup/milk.png', grayscale=True, confidence=0.9)
+
+    sugar = pyautogui.locateCenterOnScreen(
+        path + 'startup/sugar.png', grayscale=True, confidence=0.9)
+    time.sleep(acDelay)
+    pyautogui.moveTo(sugar)
+    pyautogui.click(button='right')
+    time.sleep(acDelay)
+    eat = pyautogui.locateCenterOnScreen(
+        path + 'startup/essen.png', grayscale=True, confidence=0.9)
+    time.sleep(acDelay)
+    pyautogui.moveTo(eat)
+    pyautogui.click()
+    time.sleep(110)
 
     time.sleep(acDelay)
     keyboard.send('esc')
     time.sleep(acDelay)
-
-    lightUp('#Teleport -116830 -65759 37064')
-    lightUp('#Teleport -117327 -66464 37064')
-    lightUp('#Teleport -117317 -66969 37064')
-    lightUp('#Teleport -116318 -66427 37064')
-    """
-
+    doTeleport('#Teleport -117114.336 -66718.719 37064.668')
     time.sleep(acDelay)
     keyboard.send('esc')
     time.sleep(acDelay)
-    make_break.doBreak()
 
 
 if __name__ == '__main__':
-    doSetup()
+    focus('scum')
+    time.sleep(acDelay)
+    keyboard.send('esc')
+    time.sleep(acDelay)
+    keyboard.send('t')
+    time.sleep(acDelay)
+    keyboard.write('BOT WILL TAKE A SMALL BREAK (about 5 minutes)')
+    time.sleep(wrDelay)
+    keyboard.send('enter')
+    time.sleep(acDelay)
+    keyboard.send('esc')
+    time.sleep(acDelay)
+    keyboard.send('esc')
+    time.sleep(acDelay)
+    doBreak()
+    time.sleep(acDelay)
+    keyboard.send('esc')
+    time.sleep(acDelay)
+    keyboard.send('t')
+    time.sleep(acDelay)
+    keyboard.write('BOT IS BACK FROM BREAK')
+    time.sleep(wrDelay)
+    keyboard.send('enter')
+    time.sleep(acDelay)
+    keyboard.send('esc')
+    time.sleep(acDelay)
+    keyboard.send('esc')
+    time.sleep(acDelay)
