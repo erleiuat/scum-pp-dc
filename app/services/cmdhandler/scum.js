@@ -37,9 +37,10 @@ exports.firework = async function firework() {
 
         let now = new Date().getTime()
         if (latestFirework && latestFirework > (now - 60 * 60000)) {
-            await this.send(['#SetFakeName [SF-BOT][FIREWORK]', 'Sorry, I can only do one firework per hour.', '#ClearFakeName'])
-            global.gameReady = true
-            resolve(true)
+            this.send(['#SetFakeName [SF-BOT][FIREWORK]', 'Sorry, I can only do one firework per hour.', '#ClearFakeName']).then(()=>{
+                global.gameReady = true
+                resolve(true)
+            })
         } else {
             latestFirework = now
             let ls = cp.spawn('py', ['./app/cpscripts/do_firework.py '])
