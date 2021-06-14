@@ -84,7 +84,7 @@ exports.start = async function start() {
 exports.isReady = async function isReady() {
     return new Promise((resolve) => {
         if (checking) {
-            resolve()
+            resolve(true)
             return
         }
         checking = true
@@ -94,17 +94,18 @@ exports.isReady = async function isReady() {
             console.log(sn + 'STDOUT: ' + stdout)
             if (!error) {
                 global.gameReady = true
-                return
+                resolve(true)
+            } else {
+                console.log(sn + error.stack)
+                console.log(sn + 'Error code: ' + error.code)
+                console.log(sn + 'Signal received: ' + error.signal)
+                resolve(false)
             }
-            console.log(sn + error.stack)
-            console.log(sn + 'Error code: ' + error.code)
-            console.log(sn + 'Signal received: ' + error.signal)
         })
 
         scumCmd.on('exit', code => {
             console.log(sn + 'Exited with exit code ' + code)
             checking = false
-            resolve()
         })
     })
 }
