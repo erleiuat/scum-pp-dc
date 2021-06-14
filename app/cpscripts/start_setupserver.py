@@ -111,7 +111,7 @@ def doSetup():
     time.sleep(acDelay)
 
     doTeleport('#Teleport -117351 -66117 37064')
-    """
+
     time.sleep(acDelay)
     keyboard.send('t')
     time.sleep(acDelay)
@@ -140,7 +140,6 @@ def doSetup():
     lightUp('#Teleport -117327 -66464 37064')
     lightUp('#Teleport -117317 -66969 37064')
     lightUp('#Teleport -116318 -66427 37064')
-    """
 
     time.sleep(acDelay)
     keyboard.send('esc')
