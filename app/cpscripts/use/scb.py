@@ -70,12 +70,12 @@ def ready(chat='global', once=False, failsafe=True):
         return False
     focus('scum')
     sleep()
-    if(not onScreen(imgChat, bw=False, sure=0.8) and not onScreen('img/c_stumm.png')):
+    if(not onScreen(imgChat) and not onScreen('img/c_stumm.png')):
         pyautogui.press('t')
         sleep()
-    if(not onScreen(imgChat, bw=False, sure=0.8)):
+    if(not onScreen(imgChat)):
         if(onScreen('img/c_stumm.png')):
-            while(not onScreen(imgChat, bw=False, sure=0.8)):
+            while(not onScreen(imgChat)):
                 pyautogui.press('tab')
                 sleep()
         elif(onScreen('img/spiel_fortsetzen.png', sure=0.8)):
