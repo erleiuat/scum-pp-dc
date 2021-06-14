@@ -78,7 +78,7 @@ def ready(chat='global', once=False, failsafe=True):
             while(not onScreen(imgChat, sure=0.9)):
                 pyautogui.press('tab')
                 sleep()
-        elif(onScreen('img/spiel_fortsetzen.png') or onScreen('img/spiel_fortsetzen_alt.png')):
+        elif(onScreen('img/spiel_fortsetzen.png', sure=0.8) or onScreen('img/spiel_fortsetzen_alt.png')):
             pyautogui.press('esc')
             sleep()
             pyautogui.press('t')
