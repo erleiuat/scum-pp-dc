@@ -128,13 +128,13 @@ async function sendLogins(dcClient) {
         await channel.send(new Discord.MessageEmbed(await format.login(global.newEntries.login[el])))
         console.log(sn + 'Login sent: ' + el)
 
-        if(entry.type == 'login') global.commands['auth_' + global.newEntries.login[el].steamID] = {
+        if(global.newEntries.login[el].type == 'login') global.commands['auth_' + global.newEntries.login[el].steamID] = {
             message: 'auth_log',
             time: global.newEntries.login[el].time,
             user: global.newEntries.login[el].user,
             text: 'is joining'
         } 
-        else if(entry.type == 'logout') global.commands['auth_' + global.newEntries.login[el].steamID] = {
+        else if(global.newEntries.login[el].type == 'logout') global.commands['auth_' + global.newEntries.login[el].steamID] = {
             message: 'auth_log',
             time: global.newEntries.login[el].time,
             user: global.newEntries.login[el].user,
