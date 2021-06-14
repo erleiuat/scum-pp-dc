@@ -2,6 +2,7 @@ const sn = global.chalk.magenta('[CMD-Handler] -> [SCUM] -> ')
 const cp = require('child_process')
 let starting = false
 let checking = false
+let latestFirework = false
 
 exports.makeBreak = async function makeBreak() {
     return new Promise((resolve) => {
@@ -34,22 +35,29 @@ exports.firework = async function firework() {
         global.gameReady = false
         console.log(sn + 'Making firework.')
 
-        let ls = cp.spawn('py', ['./app/cpscripts/do_firework.py '])
-        ls.stdout.on('data', (data) => {
-            console.log(`${data}`)
-        })
-        ls.stderr.on('data', (data) => {
-            console.error(`${data}`)
-        })
-        ls.on('close', (code) => {
-            console.log(`Child process exited with code ${code}`)
-            if (code != 0) resolve(false)
-            else {
-                global.gameReady = true
-                resolve(true)
-            }
-        })
-
+        let now = new Date().getTime()
+        if (latestFirework && latestFirework > (now - 60 * 60000)) {
+            await this.send(['#SetFakeName [SF-BOT][FIREWORK]', 'Sorry, I can only do one firework per hour.', '#ClearFakeName'])
+            global.gameReady = true
+            resolve(true)
+        } else {
+            latestFirework = now
+            let ls = cp.spawn('py', ['./app/cpscripts/do_firework.py '])
+            ls.stdout.on('data', (data) => {
+                console.log(`${data}`)
+            })
+            ls.stderr.on('data', (data) => {
+                console.error(`${data}`)
+            })
+            ls.on('close', (code) => {
+                console.log(`Child process exited with code ${code}`)
+                if (code != 0) resolve(false)
+                else {
+                    global.gameReady = true
+                    resolve(true)
+                }
+            })
+        }
     })
 }
 
@@ -123,7 +131,7 @@ exports.isReady = async function isReady() {
 
 exports.send = async function send(commands) {
     return new Promise((resolve) => {
-        if(!commands.length) {
+        if (!commands.length) {
             resolve(true)
             return
         }

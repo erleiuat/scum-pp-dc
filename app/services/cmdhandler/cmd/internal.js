@@ -89,7 +89,7 @@ exports.auth_log = async function auth_log(cmd) {
         type: 'global',
         commands: [
             '#SetFakeName [SF-BOT][AUTH]',
-            cmd.user + ' ' + cmd.text,
+            ' >> ' + cmd.user + ' ' + cmd.text + ' << ',
             '#ClearFakeName'
         ]
     }
