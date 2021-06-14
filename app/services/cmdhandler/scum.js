@@ -28,7 +28,7 @@ exports.spam = async function spam(user) {
     return new Promise((resolve) => {
         global.gameReady = false
         console.log(sn + 'Spaming DC.')
-        const scumCmd = cp.exec('py ./app/cpscripts/dc_spam.py "'+user+'"', (error, stdout, stderr) => {
+        const scumCmd = cp.exec('py ./app/cpscripts/dc_spam.py "' + user + '"', (error, stdout, stderr) => {
             console.log(sn + 'STDOUT: ' + stdout)
             if (error) {
                 console.log(sn + error.stack)
@@ -47,8 +47,7 @@ exports.spam = async function spam(user) {
 
 exports.start = async function start() {
     return new Promise((resolve) => {
-        if(starting) {
-            await global.sleep.timer(1)
+        if (starting) {
             resolve()
             return
         }
