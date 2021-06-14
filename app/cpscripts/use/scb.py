@@ -113,14 +113,13 @@ def loading():
         time.sleep(0.5)
     print('LOADING -> Done, took ' + str(count/2) + ' seconds')
     time.sleep(0.05)
-    pyautogui.press('t')
-    time.sleep(0.05)
 
 
 def openTab(menu=1):
-    ready()
-    pyautogui.press('esc')
     if(not onScreen('img/startup/inventar.png')):
+        ready()
+        pyautogui.press('esc')
+        sleep()
         pyautogui.keyDown('tab')
         sleep(0.01)
         pyautogui.keyUp('tab')
