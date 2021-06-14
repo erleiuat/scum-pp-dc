@@ -48,7 +48,7 @@ while(not scb.ready(failsafe=False)):
 
 print(' -> Game ready! Took ' + str(count) + ' seconds')
 
-control.openTab()
+scb.openTab()
 control.enlargeInv()
 
 scb.sendChat('#SetFakeName [SF-BOT][BOOTING]', True, safe=True)
@@ -66,7 +66,7 @@ for torch in torches:
     control.teleport(torch)
     scb.sleepLong()
     scb.sendChat('#SpawnItem Wooden_Plank 1', True, safe=True)
-    control.openTab()
+    scb.openTab()
     for x in range(1):
         control.doOnThis('img/startup/fackel.png',
                          'img/startup/schueren.png', 3)

@@ -5,7 +5,7 @@ from use import control
 def doBreak():
     scb.focus('scum')
     scb.sendChat('#SpawnItem Ganoderma_Lucidum', True, safe=True)
-    control.openTab()
+    scb.openTab()
     control.doOnThis('img/startup/mushroom.png',
                      'img/startup/essen.png', 0.05)
 

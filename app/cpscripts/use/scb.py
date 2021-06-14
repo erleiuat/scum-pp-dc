@@ -112,6 +112,17 @@ def loading():
     time.sleep(0.05)
 
 
+def openTab(menu=1):
+    ready()
+    pyautogui.press('esc')
+    if(not onScreen('img/startup/inventar.png')):
+        pyautogui.keyDown('tab')
+        sleep(0.01)
+        pyautogui.keyUp('tab')
+        sleep()
+        pyautogui.press(str(menu))
+
+
 def sendChat(msg, wait=False, safe=False, chat='global'):
     if (safe and not ready(chat)):
         return False
@@ -126,4 +137,6 @@ def sendChat(msg, wait=False, safe=False, chat='global'):
     sleep()
     if(msg.lower().startswith('#teleport')):
         loading()
+        sleep()
+        openTab()
     return True

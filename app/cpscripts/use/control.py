@@ -8,19 +8,6 @@ def teleport(tpCommand):
     return True
 
 
-def openTab(menu=1):
-    scb.ready()
-    scb.sleep()
-    pyautogui.press('esc')
-    scb.sleep()
-    if(not scb.onScreen('img/startup/inventar.png')):
-        pyautogui.keyDown('tab')
-        scb.sleep(0.01)
-        pyautogui.keyUp('tab')
-        scb.sleep()
-        pyautogui.press(str(menu))
-
-
 def enlargeInv():
     invSize = scb.onScreen('img/startup/invSize.png')
     if(not invSize):
@@ -31,7 +18,7 @@ def enlargeInv():
         scb.sleep()
         pyautogui.mouseDown()
         scb.sleep()
-        pyautogui.moveTo(invSize.x, (invSize.y+700), duration=2)
+        pyautogui.moveTo(invSize.x, (invSize.y+800), duration=2)
         scb.sleep()
         pyautogui.mouseUp()
         scb.sleep()
