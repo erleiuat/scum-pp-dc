@@ -1,24 +1,45 @@
 const sn = global.chalk.magenta('[CMD-Handler] -> [SCUM] -> ')
 const cp = require('child_process')
 
+exports.makeBreak = async function makeBreak() {
+    return new Promise((resolve) => {
+        global.gameReady = false
+        console.log(sn + 'Taking a break.')
+        const scumCmd = cp.exec('py ./app/cpscripts/make_break.py', (error, stdout, stderr) => {
+            console.log(sn + 'STDOUT: ' + stdout)
+            if (error) {
+                console.log(sn + error.stack)
+                console.log(sn + 'Error code: ' + error.code)
+                console.log(sn + 'Signal received: ' + error.signal)
+            }
+        })
+
+        scumCmd.on('exit', code => {
+            global.gameReady = true
+            console.log(sn + 'Exited with exit code ' + code)
+            resolve()
+        })
+    })
+}
+
+
 exports.spam = async function spam(user) {
     return new Promise((resolve) => {
         global.gameReady = false
         console.log(sn + 'Spaming DC.')
         const scumCmd = cp.exec('py ./app/cpscripts/dc_spam.py "'+user+'"', (error, stdout, stderr) => {
             console.log(sn + 'STDOUT: ' + stdout)
-            if (!error) {
-                resolve()
-                return
+            if (error) {
+                console.log(sn + error.stack)
+                console.log(sn + 'Error code: ' + error.code)
+                console.log(sn + 'Signal received: ' + error.signal)
             }
-            console.log(sn + error.stack)
-            console.log(sn + 'Error code: ' + error.code)
-            console.log(sn + 'Signal received: ' + error.signal)
         })
 
         scumCmd.on('exit', code => {
             global.gameReady = true
             console.log(sn + 'Exited with exit code ' + code)
+            resolve()
         })
     })
 }
@@ -87,7 +108,7 @@ exports.send = async function send(command) {
             console.log(sn + error.stack)
             console.log(sn + 'Error code: ' + error.code)
             console.log(sn + 'Signal received: ' + error.signal)
-            throw new Error('Message could not be send.')
+            resolve(false)
         })
 
         scumCmd.on('exit', code => {

@@ -1,166 +1,87 @@
-import start_setupserver
+from pyautogui import failSafeCheck
+from use import scb
+from use import control
+import make_break
 import webbrowser
 import subprocess
-import pyautogui
-import time
-import keyboard
-import win32con
-import win32gui
 import os
-import sys
 
+fullBatPath = os.path.dirname(os.path.realpath(__file__))
+torches = [
+    '#Teleport -111116.359 -65466.762 37041.824',
+    '#Teleport -110238.148 -64258.730 37210.738',
+    '#Teleport -108762.930 -62645.059 37216.547',
+    '#Teleport -115601.555 -59773.836 37359.078',
+    '#Teleport -119449.445 -58504.863 37661.332',
+]
 
-path_bat = os.path.dirname(os.path.realpath(__file__))
-path = './app/cpscripts/img/'
+print('\n\n')
 
+print(' -> Killing running processes')
+subprocess.call([fullBatPath + '\kill_steam.bat'])
+subprocess.call([fullBatPath + '\kill_scum.bat'])
+scb.sleepLong()
 
-def isLoading():
-    time.sleep(1)
-    loading = pyautogui.locateCenterOnScreen(
-        path + 'laden.png', grayscale=True, confidence=0.9)
-    while(loading):
-        time.sleep(0.5)
-        loading = pyautogui.locateCenterOnScreen(
-            path + 'laden.png', grayscale=True, confidence=0.9)
-    time.sleep(2)
-
-
-def focus(window_name):
-    if(window_name.lower() in win32gui.GetWindowText(win32gui.GetForegroundWindow()).lower()):
-        return True
-
-    def window_dict_handler(hwnd, top_windows):
-        top_windows[hwnd] = win32gui.GetWindowText(hwnd)
-
-    try:
-        tw, expt = {}, True
-        win32gui.EnumWindows(window_dict_handler, tw)
-        for handle in tw:
-            if (window_name.lower() in tw[handle].lower()):
-                win32gui.ShowWindow(handle, win32con.SW_NORMAL)
-                win32gui.BringWindowToTop(handle)
-                win32gui.SetForegroundWindow(handle)
-                return True
-        return False
-    except:
-        return False
-
-
-def ffahren():
-    f_btn = pyautogui.locateOnScreen(
-        path+'fortsetzen.png', grayscale=True, confidence=0.9)
-    if(not f_btn):
-        f_btn = pyautogui.locateOnScreen(
-            path+'fortsetzen_2.png', grayscale=True, confidence=0.9)
-    if(f_btn):
-        # pyautogui.keyDown('ctrl')
-        # time.sleep(0.1)
-        # pyautogui.press('d')
-        # time.sleep(0.1)
-        # pyautogui.keyUp('ctrl')
-        time.sleep(1)
-        tClick = pyautogui.center(f_btn)
-        pyautogui.click(tClick.x, tClick.y)
-        return True
-    return False
-
-
-def igReady():
-    pyautogui.press("t")
-    time.sleep(0.5)
-    pyautogui.press("backspace")
-    time.sleep(0.5)
-    c_stumm = pyautogui.locateOnScreen(
-        path+'c_stumm.png', grayscale=False, confidence=0.9)
-    if(not c_stumm):
-        return False
-    c_global = False
-    while(not c_global):
-        time.sleep(1)
-        pyautogui.press('tab')
-        time.sleep(1)
-        c_global = pyautogui.locateOnScreen(
-            path+'c_global.png', grayscale=False, confidence=0.9)
-    time.sleep(1)
-    pyautogui.press("esc")
-    time.sleep(0.5)
-    pyautogui.press("esc")
-    time.sleep(0.5)
-    return True
-
-
-subprocess.call([path_bat+'\kill_steam.bat'])
-subprocess.call([path_bat+'\kill_scum.bat'])
+print(' -> Starting Scum')
 webbrowser.open('steam://rungameid/513710')
+scb.sleepLong()
+
 
 count = 0
-while(not ffahren()):
+print(' -> Waiting for Main-Menu')
+while(not scb.click('img/fortsetzen.png')):
+    count = count+1
+    scb.sleep(1)
+    scb.focus('scum')
     if(count > 100):
         raise Exception('Could not start game (1)')
-    time.sleep(1)
-    focus('scum')
-    count = count+1
+
+print(' -> Main-Menu loaded! Took ' + str(count) + ' seconds')
 
 count = 0
-while(not igReady()):
+print(' -> Waiting for ingame')
+while(not scb.ready(failsafe=False)):
+    count = count+1
+    scb.sleep(1)
+    scb.focus('scum')
     if(count > 100):
         raise Exception('Could not start game (2)')
-    time.sleep(1)
-    focus('scum')
-    count = count+1
 
-time.sleep(1)
-pyautogui.press("esc")
-time.sleep(0.5)
-pyautogui.press("t")
-time.sleep(0.5)
-pyautogui.press("backspace")
-time.sleep(0.5)
-keyboard.write('#Teleport -117114.336 -66718.719 37064.668')
-time.sleep(0.5)
-pyautogui.press("enter")
-time.sleep(0.5)
-isLoading()
-time.sleep(0.5)
-pyautogui.press("t")
-time.sleep(0.5)
-pyautogui.press("backspace")
-time.sleep(0.5)
-keyboard.write('#SetFakeName [SF-BOT][BOOTING]')
-time.sleep(0.5)
-pyautogui.press("enter")
-time.sleep(0.5)
-keyboard.write('BOT PREPARES ITSELF (ready in about 5 minutes)')
-time.sleep(0.5)
-pyautogui.press("enter")
-time.sleep(0.5)
-pyautogui.press("esc")
-time.sleep(0.5)
-pyautogui.press("esc")
-time.sleep(1)
-start_setupserver.doSetup()
-time.sleep(1)
-pyautogui.press("esc")
-time.sleep(0.5)
-pyautogui.press("t")
-time.sleep(0.5)
-pyautogui.press("backspace")
-time.sleep(0.5)
-keyboard.write('SF-BOT IS READY!')
-time.sleep(0.5)
-pyautogui.press("enter")
-time.sleep(0.5)
-keyboard.write('#ClearFakeName')
-time.sleep(0.5)
-pyautogui.press("enter")
-time.sleep(0.5)
-keyboard.write('#Teleport -117114.336 -66718.719 37064.668')
-time.sleep(0.5)
-pyautogui.press("enter")
-time.sleep(1)
-isLoading()
-time.sleep(1)
-pyautogui.press("esc")
-time.sleep(0.5)
-pyautogui.press("esc")
-time.sleep(0.5)
+print(' -> Game ready! Took ' + str(count) + ' seconds')
+
+scb.sendChat('#SetFakeName [SF-BOT][BOOTING]', True, safe=True)
+scb.sendChat('BOT PREPARES ITSELF (ready in about 5 minutes)', True, safe=True)
+
+# -------------------------------   SETUP
+control.teleport('#Teleport -117351 -66117 37064')
+scb.sendChat('#SpawnItem Lighter', True, safe=True)
+scb.sleepLong()
+
+control.openTab()
+control.enlargeInv()
+
+control.pickup('img/startup/lighter.png')
+
+for torch in torches:
+    scb.sleep()
+    control.teleport(torch)
+    scb.sleepLong()
+    scb.sendChat('#SpawnItem Wooden_Plank 1', True, safe=True)
+    control.openTab()
+    for x in range(1):
+        control.doOnThis('img/startup/fackel.png',
+                         'img/startup/schueren.png', 3)
+    control.doOnThis('img/startup/fackel.png',
+                     'img/startup/anzuenden.png', 3)
+    scb.sleepLong()
+
+# -------------------------------   SETUP DONE
+control.teleport('#Teleport -117114.336 -66718.719 37064.668')
+
+make_break.doBreak()
+scb.ready()
+scb.sendChat('SF-BOT IS READY!', True)
+scb.sendChat('#ClearFakeName', True)
+
+
+print('\n\n')

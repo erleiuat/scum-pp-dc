@@ -69,7 +69,9 @@ async function sendCommands(cmdObj) {
             let cmdStr = ''
             if (!cmdObj[e] || !cmdObj[e].commands || cmdObj[e].commands.length < 1) continue
             for (const cmd of cmdObj[e].commands) cmdStr += ' "' + (cmd.replace(/"/gmi, "'")) + '" '
-            await scum.send(cmdStr)
+            if (!await scum.send(cmdStr)) {
+                if (!await scum.isReady()) await scum.start()
+            }
         }
         global.newCmds = false
     } catch (error) {
@@ -100,16 +102,36 @@ async function dcSpam() {
     do {
         await global.sleep.timer(45)
         let now = new Date()
-        if (times[now.getHours() + ':' + now.getMinutes()]) 
+        if (times[now.getHours() + ':' + now.getMinutes()])
             await scum.spam(times[now.getHours() + ':' + now.getMinutes()])
     } while (true)
 
 }
 
+async function makeBreak() {
+    let bTimes = [10, 20, 30, 40, 50]
+    do {
+
+        global.sleep.timer(10)
+        if (global.newCmds) continue
+        if (global.updates) continue
+        if (!global.gameReady) continue
+        if (global.updatingFTP) continue
+
+        now = new Date()
+        if (!bTimes.includes(now.getMinutes())) continue
+        global.gameReady = false
+        scum.makeBreak()
+
+
+    } while (true)
+}
+
 exports.start = async function start() {
     if (!await scum.isReady()) await scum.start()
 
-    dcSpam()
+    makeBreak()
+    //dcSpam()
     checkStatus()
     announce()
     let i = 0
