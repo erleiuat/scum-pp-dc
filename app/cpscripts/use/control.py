@@ -47,7 +47,7 @@ def doOnThis(victim, action, duration=5):
     if(scb.onScreen('img/c_global.png')):
         pyautogui.press('esc')
     scb.sleep()
-    itemLoc = scb.onScreen(victim, bw=True)
+    itemLoc = scb.onScreen(victim, sure=0.8)
     if (itemLoc):
         pyautogui.moveTo(itemLoc)
         scb.sleep()
