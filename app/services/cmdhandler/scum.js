@@ -81,17 +81,16 @@ exports.isReady = async function isReady() {
             console.log(sn + 'STDOUT: ' + stdout)
             if (!error) {
                 global.gameReady = true
-                resolve(true)
                 return
             }
             console.log(sn + error.stack)
             console.log(sn + 'Error code: ' + error.code)
             console.log(sn + 'Signal received: ' + error.signal)
-            resolve(false)
         })
 
         scumCmd.on('exit', code => {
             console.log(sn + 'Exited with exit code ' + code)
+            resolve()
         })
     })
 }
