@@ -66,10 +66,10 @@ async function tReady(cmd) {
 async function sendCommands(cmdObj) {
     try {
         for (const e in cmdObj) {
-            let cmdStr = ''
+            let cmdArr = []
             if (!cmdObj[e] || !cmdObj[e].commands || cmdObj[e].commands.length < 1) continue
-            for (const cmd of cmdObj[e].commands) cmdStr += ' "' + (cmd.replace(/"/gmi, "'")) + '" '
-            if (!await scum.send(cmdStr)) {
+            for (const cmd of cmdObj[e].commands) cmdArr.push(cmd.replace(/"/gmi, "'"))
+            if (!await scum.send(cmdArr)) {
                 if (!await scum.isReady()) await scum.start()
             }
         }

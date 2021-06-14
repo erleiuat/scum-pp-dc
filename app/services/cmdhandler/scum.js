@@ -9,7 +9,7 @@ exports.makeBreak = async function makeBreak() {
         global.gameReady = false
         console.log(sn + 'Taking a break.')
 
-        let ls = cp.spawn('py', ['./app/cpscripts/make_break.py ' + command])
+        let ls = cp.spawn('py', ['./app/cpscripts/make_break.py '])
         ls.stdout.on('data', (data) => {
             console.log(`${data}`)
         })
@@ -96,13 +96,13 @@ exports.isReady = async function isReady() {
 
 }
 
-exports.send = async function send(command) {
+exports.send = async function send(commands) {
     return new Promise((resolve) => {
 
         global.gameReady = false
-        console.log(sn + 'Sending: ' + command)
+        console.log(sn + 'Sending: ' + commands.join)
 
-        let ls = cp.spawn('py', ['./app/cpscripts/send_command.py ' + command])
+        let ls = cp.spawn('py', ['./app/cpscripts/send_command.py', ...commands])
         ls.stdout.on('data', (data) => {
             console.log(`${data}`)
         })
