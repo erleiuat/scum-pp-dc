@@ -1,5 +1,6 @@
 const sn = global.chalk.magenta('[CMD-Handler] -> [SCUM] -> ')
 const cp = require('child_process')
+let starting = false
 
 exports.makeBreak = async function makeBreak() {
     return new Promise((resolve) => {
@@ -46,6 +47,12 @@ exports.spam = async function spam(user) {
 
 exports.start = async function start() {
     return new Promise((resolve) => {
+        if(starting) {
+            await global.sleep.timer(1)
+            resolve()
+            return
+        }
+        starting = true
         global.gameReady = false
         console.log(sn + 'Starting Scum.')
         const scumCmd = cp.exec('py ./app/cpscripts/start_game.py', (error, stdout, stderr) => {
@@ -54,21 +61,22 @@ exports.start = async function start() {
                 global.commands = {}
                 global.gameReady = true
                 resolve()
-                return
-            }
-            console.log(sn + error.stack)
-            console.log(sn + 'Error code: ' + error.code)
-            console.log(sn + 'Signal received: ' + error.signal)
-            console.log(sn + 'RETRYING IN 10s')
-            global.sleep.timer(10).then(() => {
-                this.start().then(() => {
-                    resolve()
+            } else {
+                console.log(sn + error.stack)
+                console.log(sn + 'Error code: ' + error.code)
+                console.log(sn + 'Signal received: ' + error.signal)
+                console.log(sn + 'RETRYING IN 10s')
+                global.sleep.timer(10).then(() => {
+                    this.start().then(() => {
+                        resolve()
+                    })
                 })
-            })
+            }
         })
 
         scumCmd.on('exit', code => {
             console.log(sn + 'Exited with exit code ' + code)
+            starting = false
         })
     })
 }
