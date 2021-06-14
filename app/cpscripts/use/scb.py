@@ -9,7 +9,7 @@ def path():
     return './app/cpscripts/'
 
 
-def sleep(seconds=0.01):
+def sleep(seconds=0.05):
     time.sleep(seconds)
 
 
@@ -70,15 +70,15 @@ def ready(chat='global', once=False, failsafe=True):
         return False
     focus('scum')
     sleep()
-    if(not onScreen(imgChat) and not onScreen('img/c_stumm.png')):
+    if(not onScreen(imgChat, bw=False) and not onScreen('img/c_stumm.png')):
         pyautogui.press('t')
         sleep()
-    if(not onScreen(imgChat)):
+    if(not onScreen(imgChat, bw=False)):
         if(onScreen('img/c_stumm.png')):
             while(not onScreen(imgChat)):
                 pyautogui.press('tab')
                 sleep()
-        elif(onScreen('img/spiel_fortsetzen.png', sure=0.8)):
+        elif(onScreen('img/spiel_fortsetzen.png')):
             pyautogui.press('esc')
             sleep()
             pyautogui.press('t')
@@ -93,8 +93,6 @@ def ready(chat='global', once=False, failsafe=True):
             else:
                 return False
 
-    # pyautogui.press('esc')
-    # pyautogui.press('t')
     pyautogui.hotkey('ctrl', 'a')
     pyautogui.press('del')
     print('READY -> Chat is ready')
