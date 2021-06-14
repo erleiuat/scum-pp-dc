@@ -1,3 +1,4 @@
+import sys
 import psutil
 from use import scb
 
@@ -23,3 +24,4 @@ if(not scb.ready()):
 
 
 print('\n\n')
+sys.exit()
