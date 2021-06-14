@@ -82,6 +82,19 @@ exports.welcome_new = async function welcome_new(newUser) {
     }
 }
 
+exports.auth_log = async function auth_log(cmd) {
+    return {
+        date: cmd.time.date,
+        time: cmd.time.time,
+        type: 'global',
+        commands: [
+            '#SetFakeName [SF-BOT][AUTH]',
+            cmd.user + ' ' + cmd.text,
+            '#ClearFakeName'
+        ]
+    }
+}
+
 exports.kill_feed = async function kill_feed(cmd) {
     return {
         date: cmd.time.date,
@@ -89,7 +102,7 @@ exports.kill_feed = async function kill_feed(cmd) {
         type: 'global',
         commands: [
             '#SetFakeName [SF-BOT][KILLFEED]',
-            cmd.time.time + ': [' + cmd.killer + '] killed [' + cmd.victim + ']',
+            cmd.killer + ' killed ' + cmd.victim,
             '#ClearFakeName'
         ]
     }

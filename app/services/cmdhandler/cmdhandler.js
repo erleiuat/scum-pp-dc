@@ -68,7 +68,7 @@ async function sendCommands(cmdObj) {
         for (const e in cmdObj) {
             let cmdArr = []
             if (!cmdObj[e] || !cmdObj[e].commands || cmdObj[e].commands.length < 1) continue
-            for (const cmd of cmdObj[e].commands) cmdArr.push(cmd.replace(/"/gmi, "'"))
+            for (const cmd of cmdObj[e].commands) cmdArr.push(cmd)
             if (!await scum.send(cmdArr)) {
                 if (!await scum.isReady()) await scum.start()
             }
@@ -160,6 +160,7 @@ exports.start = async function start() {
             else if (cmdStart == 'welcome_new') newCmds['welcome_' + cmd.joined.getTime] = await cmdsInternal['welcome_new'](cmd)
             else if (cmdStart == 'console_msg') newCmds['console_' + e] = await cmdsInternal['console_msg'](cmd)
             else if (cmdStart == 'kill_feed') newCmds[e] = await cmdsInternal['kill_feed'](cmd)
+            else if (cmdStart == 'auth_log') newCmds[e] = await cmdsInternal['auth_log'](cmd)
 
         }
 
