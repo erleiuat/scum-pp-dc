@@ -28,6 +28,31 @@ exports.makeBreak = async function makeBreak() {
     })
 }
 
+exports.firework = async function firework() {
+    return new Promise((resolve) => {
+
+        global.gameReady = false
+        console.log(sn + 'Making firework.')
+
+        let ls = cp.spawn('py', ['./app/cpscripts/do_firework.py '])
+        ls.stdout.on('data', (data) => {
+            console.log(`${data}`)
+        })
+        ls.stderr.on('data', (data) => {
+            console.error(`${data}`)
+        })
+        ls.on('close', (code) => {
+            console.log(`Child process exited with code ${code}`)
+            if (code != 0) resolve(false)
+            else {
+                global.gameReady = true
+                resolve(true)
+            }
+        })
+
+    })
+}
+
 exports.start = async function start() {
     return new Promise((resolve) => {
         if (starting) resolve(true)
@@ -98,9 +123,12 @@ exports.isReady = async function isReady() {
 
 exports.send = async function send(commands) {
     return new Promise((resolve) => {
-
+        if(!commands.length) {
+            resolve(true)
+            return
+        }
         global.gameReady = false
-        console.log(sn + 'Sending: ' + commands.join)
+        console.log(sn + 'Sending: ' + commands.join())
 
         let ls = cp.spawn('py', ['./app/cpscripts/send_command.py', ...commands])
         ls.stdout.on('data', (data) => {
