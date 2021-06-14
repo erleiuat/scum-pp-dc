@@ -4,10 +4,9 @@ import keyboard
 import pyautogui
 import time
 
-path = './app/cpscripts/img/startup/'
+path = './app/cpscripts/img/'
 acDelay = 0.1
 wrDelay = 1
-tpDelay = 5
 
 
 def focus(window_name):
@@ -31,6 +30,17 @@ def focus(window_name):
         return False
 
 
+def isLoading():
+    time.sleep(1)
+    loading = pyautogui.locateCenterOnScreen(
+        path + 'laden.png', grayscale=True, confidence=0.9)
+    while(loading):
+        time.sleep(0.5)
+        loading = pyautogui.locateCenterOnScreen(
+            path + 'laden.png', grayscale=True, confidence=0.9)
+    time.sleep(2)
+
+
 def doTeleport(to):
     time.sleep(acDelay)
     keyboard.send('t')
@@ -38,7 +48,7 @@ def doTeleport(to):
     keyboard.write(to)
     time.sleep(wrDelay)
     keyboard.send('enter')
-    time.sleep(tpDelay)
+    isLoading()
 
 
 def lightUp(tp):
@@ -58,13 +68,13 @@ def lightUp(tp):
     time.sleep(acDelay)
 
     fackel = pyautogui.locateCenterOnScreen(
-        path + 'fackel.png', grayscale=True, confidence=0.9)
+        path + 'startup/fackel.png', grayscale=True, confidence=0.9)
     pyautogui.moveTo(fackel)
     pyautogui.click(button='right')
     time.sleep(acDelay)
     i = 0
     canSch = pyautogui.locateCenterOnScreen(
-        path + 'schueren.png', grayscale=True, confidence=0.9)
+        path + 'startup/schueren.png', grayscale=True, confidence=0.9)
 
     while(i < 2):
         pyautogui.moveTo(canSch)
@@ -79,7 +89,7 @@ def lightUp(tp):
     pyautogui.click(button='right')
     time.sleep(acDelay)
     canLight = pyautogui.locateCenterOnScreen(
-        path + 'anzuenden.png', grayscale=True, confidence=0.9)
+        path + 'startup/anzuenden.png', grayscale=True, confidence=0.9)
     if(canLight):
         pyautogui.moveTo(canLight)
         pyautogui.click()
@@ -118,7 +128,7 @@ def doSetup():
 
     time.sleep(acDelay)
     pyautogui.doubleClick(pyautogui.locateCenterOnScreen(
-        path + 'lighter.png', grayscale=True, confidence=0.9))
+        path + 'startup/lighter.png', grayscale=True, confidence=0.9))
 
     time.sleep(acDelay)
     keyboard.send('esc')
@@ -132,5 +142,46 @@ def doSetup():
     doTeleport('#Teleport -117351 -66117 37064')
     time.sleep(acDelay)
 
+    keyboard.send('t')
+    time.sleep(acDelay)
+    keyboard.write('#SpawnItem Canteen')
+    time.sleep(wrDelay)
+    keyboard.send('enter')
+    time.sleep(acDelay)
+    keyboard.write('#SpawnItem Sugar')
+    time.sleep(wrDelay)
+    keyboard.send('enter')
+    time.sleep(acDelay)
+    keyboard.send('esc')
+    time.sleep(acDelay)
+    pyautogui.keyDown('tab')
+    time.sleep(0.01)
+    pyautogui.keyUp('tab')
+    time.sleep(acDelay)
+
+    canteen = pyautogui.locateCenterOnScreen(
+        path + 'startup/canteen.png', grayscale=True, confidence=0.9)
+    pyautogui.moveTo(canteen)
+    pyautogui.click(button='right')
+    time.sleep(acDelay)
+    drink = pyautogui.locateCenterOnScreen(
+        path + 'startup/trinken.png', grayscale=True, confidence=0.9)
+    pyautogui.moveTo(drink)
+    pyautogui.click()
+    time.sleep(30)
+
+    sugar = pyautogui.locateCenterOnScreen(
+        path + 'startup/sugar.png', grayscale=True, confidence=0.9)
+    pyautogui.moveTo(sugar)
+    pyautogui.click(button='right')
+    time.sleep(acDelay)
+    eat = pyautogui.locateCenterOnScreen(
+        path + 'startup/essen.png', grayscale=True, confidence=0.9)
+    pyautogui.moveTo(eat)
+    pyautogui.click()
+    time.sleep(110)
+    time.sleep(acDelay)
+    keyboard.send('esc')
+    time.sleep(acDelay)
     keyboard.send('esc')
     time.sleep(acDelay)
