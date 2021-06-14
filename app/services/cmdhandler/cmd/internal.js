@@ -32,8 +32,7 @@ exports.sk_ready = async function sk_ready(cmd) {
         type: 'global',
         commands: [
             '#SetFakeName [SF-BOT][STARTERKIT]',
-            '@' + cmd.user + ' you will be transported to the trading zone in a few seconds.',
-            '#Teleport -117114.336 -66718.719 37064.668',
+            '@' + cmd.user + ' you will be transported to the trading zone now.',
             '#TeleportToMe ' + cmd.steamID,
             '#SpawnItem Backpack_01_07',
             '#SpawnItem MRE_Stew 2',

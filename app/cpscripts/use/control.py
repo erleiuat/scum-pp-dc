@@ -3,7 +3,6 @@ import pyautogui
 
 
 def teleport(tpCommand):
-    scb.sleep()
     scb.sendChat(tpCommand, safe=True)
     return True
 
@@ -46,13 +45,13 @@ def pickup(itemImg):
 def doOnThis(victim, action, duration=5):
     if(scb.onScreen('img/c_global.png')):
         pyautogui.press('esc')
-    scb.sleep(0.5)
+    scb.sleep(0.1)
     itemLoc = scb.onScreen(victim, sure=0.8)
     if (itemLoc):
         pyautogui.moveTo(itemLoc)
         scb.sleep()
         pyautogui.click(itemLoc, button='right')
-        scb.sleep(0.5)
+        scb.sleep(0.1)
         actionLoc = scb.onScreen(action, sure=0.8)
         if (actionLoc):
             pyautogui.moveTo(actionLoc)

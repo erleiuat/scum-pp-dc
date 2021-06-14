@@ -77,17 +77,13 @@ control.doOnThis('img/startup/lighter.png',
                  'img/startup/aufnehmen.png', 2)
 
 for torch in torches:
-    scb.sleep()
     control.teleport(torch)
-    scb.sleepLong()
     scb.sendChat('#SpawnItem Wooden_Plank 2', True, safe=True)
-    scb.openTab()
     for x in range(2):
         control.doOnThis('img/startup/fackel.png',
                          'img/startup/schueren.png', 3)
     control.doOnThis('img/startup/fackel.png',
                      'img/startup/anzuenden.png', 3)
-    scb.sleepLong()
 
 # -------------------------------   SETUP DONE
 control.teleport('#Teleport -117114.336 -66718.719 37064.668')
