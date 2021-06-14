@@ -83,7 +83,12 @@ def ready(chat='global', once=False, failsafe=True):
             pyautogui.press('esc')
             sleep()
             pyautogui.press('t')
-            return ready(once=True, failsafe=failsafe)
+            if(not once):
+                return ready(once=True, failsafe=failsafe)
+            elif(failsafe):
+                raise Exception('Game not ready')
+            else:
+                return False
         else:
             sleep(5)
             if(not once):
