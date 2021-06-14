@@ -48,6 +48,9 @@ while(not scb.ready(failsafe=False)):
 
 print(' -> Game ready! Took ' + str(count) + ' seconds')
 
+control.openTab()
+control.enlargeInv()
+
 scb.sendChat('#SetFakeName [SF-BOT][BOOTING]', True, safe=True)
 scb.sendChat('BOT PREPARES ITSELF (ready in about 5 minutes)', True, safe=True)
 
@@ -55,9 +58,6 @@ scb.sendChat('BOT PREPARES ITSELF (ready in about 5 minutes)', True, safe=True)
 control.teleport('#Teleport -117351 -66117 37064')
 scb.sendChat('#SpawnItem Lighter', True, safe=True)
 scb.sleepLong()
-
-control.openTab()
-control.enlargeInv()
 
 control.pickup('img/startup/lighter.png')
 

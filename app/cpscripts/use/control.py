@@ -57,7 +57,7 @@ def pickup(itemImg):
 
 
 def doOnThis(victim, action, duration=5):
-    if(scb.onScreen('img/chat_global.png', sure=0.8)):
+    if(scb.onScreen('img/c_global.png', sure=0.8)):
         pyautogui.press('esc')
     scb.sleep()
     itemLoc = scb.onScreen(victim, bw=True, sure=0.8)

@@ -65,7 +65,7 @@ def click(img, button='left', bw=True, sure=0.9):
 
 def ready(chat='global', once=False, failsafe=True):
     print('READY -> Checking if chat is ready')
-    imgChat = 'img/chat_global.png'
+    imgChat = 'img/c_global.png'
     if(chat != 'global'):
         return False
     focus('scum')
@@ -78,7 +78,7 @@ def ready(chat='global', once=False, failsafe=True):
             while(not onScreen(imgChat, bw=False, sure=0.8)):
                 pyautogui.press('tab')
                 sleep()
-        elif(onScreen('img/spiel_fortsetzen.png', sure=0.8) or onScreen('img/spiel_fortsetzen_alt.png')):
+        elif(onScreen('img/spiel_fortsetzen.png', sure=0.8)):
             pyautogui.press('esc')
             sleep()
             pyautogui.press('t')
