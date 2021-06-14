@@ -84,8 +84,7 @@ def ready(chat='global', once=False, failsafe=True):
             pyautogui.press('t')
             return ready(once=True, failsafe=failsafe)
         else:
-            pyautogui.press('esc')
-            sleep()
+            sleep(5)
             if(not once):
                 return ready(once=True, failsafe=failsafe)
             elif(failsafe):

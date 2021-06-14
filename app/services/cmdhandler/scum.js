@@ -1,6 +1,7 @@
 const sn = global.chalk.magenta('[CMD-Handler] -> [SCUM] -> ')
 const cp = require('child_process')
 let starting = false
+let checking = false
 
 exports.makeBreak = async function makeBreak() {
     return new Promise((resolve) => {
@@ -82,6 +83,11 @@ exports.start = async function start() {
 
 exports.isReady = async function isReady() {
     return new Promise((resolve) => {
+        if (checking) {
+            resolve()
+            return
+        }
+        checking = true
         global.gameReady = false
         console.log(sn + 'Checking if Scum is ready.')
         const scumCmd = cp.exec('py ./app/cpscripts/is_running.py', (error, stdout, stderr) => {
@@ -97,6 +103,7 @@ exports.isReady = async function isReady() {
 
         scumCmd.on('exit', code => {
             console.log(sn + 'Exited with exit code ' + code)
+            checking = false
             resolve()
         })
     })
