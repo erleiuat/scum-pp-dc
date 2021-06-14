@@ -112,7 +112,7 @@ async function makeBreak() {
     let bTimes = [10, 20, 30, 40, 50]
     do {
 
-        global.sleep.timer(10)
+        await global.sleep.timer(10)
         if (global.newCmds) continue
         if (global.updates) continue
         if (!global.gameReady) continue
