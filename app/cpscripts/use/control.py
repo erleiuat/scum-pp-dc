@@ -46,19 +46,19 @@ def pickup(itemImg):
 def doOnThis(victim, action, duration=5):
     if(scb.onScreen('img/c_global.png')):
         pyautogui.press('esc')
-    scb.sleep()
+    scb.sleep(0.5)
     itemLoc = scb.onScreen(victim, sure=0.8)
     if (itemLoc):
         pyautogui.moveTo(itemLoc)
         scb.sleep()
         pyautogui.click(itemLoc, button='right')
-        scb.sleep()
+        scb.sleep(0.5)
         actionLoc = scb.onScreen(action, sure=0.8)
         if (actionLoc):
             pyautogui.moveTo(actionLoc)
             scb.sleep()
             pyautogui.click(actionLoc)
-            scb.sleep(duration+0.5)
+            scb.sleep(duration)
             return True
         else:
             pyautogui.press('esc')
