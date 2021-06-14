@@ -8,8 +8,8 @@ exports.makeBreak = async function makeBreak() {
         global.gameReady = false
         console.log(sn + 'Taking a break.')
         const scumCmd = cp.exec('py ./app/cpscripts/make_break.py', (error, stdout, stderr) => {
-            console.log(sn + 'STDOUT: ' + stdout)
             if (error) {
+                console.log(sn + 'STDOUT: ' + stdout)
                 console.log(sn + error.stack)
                 console.log(sn + 'Error code: ' + error.code)
                 console.log(sn + 'Signal received: ' + error.signal)
@@ -24,14 +24,14 @@ exports.makeBreak = async function makeBreak() {
     })
 }
 
-
+/*
 exports.spam = async function spam(user) {
     return new Promise((resolve) => {
         global.gameReady = false
         console.log(sn + 'Spaming DC.')
         const scumCmd = cp.exec('py ./app/cpscripts/dc_spam.py "' + user + '"', (error, stdout, stderr) => {
-            console.log(sn + 'STDOUT: ' + stdout)
             if (error) {
+                console.log(sn + 'STDOUT: ' + stdout)
                 console.log(sn + error.stack)
                 console.log(sn + 'Error code: ' + error.code)
                 console.log(sn + 'Signal received: ' + error.signal)
@@ -45,30 +45,31 @@ exports.spam = async function spam(user) {
         })
     })
 }
+*/
 
 exports.start = async function start() {
     return new Promise((resolve) => {
         if (starting) {
-            resolve()
+            resolve(true)
             return
         }
         starting = true
         global.gameReady = false
         console.log(sn + 'Starting Scum.')
         const scumCmd = cp.exec('py ./app/cpscripts/start_game.py', (error, stdout, stderr) => {
-            console.log(sn + 'STDOUT: ' + stdout)
             if (!error) {
                 global.commands = {}
                 global.gameReady = true
-                resolve()
+                resolve(true)
             } else {
+                console.log(sn + 'STDOUT: ' + stdout)
                 console.log(sn + error.stack)
                 console.log(sn + 'Error code: ' + error.code)
                 console.log(sn + 'Signal received: ' + error.signal)
                 console.log(sn + 'RETRYING IN 10s')
                 global.sleep.timer(10).then(() => {
                     this.start().then(() => {
-                        resolve()
+                        resolve(true)
                     })
                 })
             }
@@ -83,7 +84,7 @@ exports.start = async function start() {
 
 exports.isReady = async function isReady() {
     return new Promise((resolve) => {
-        if (checking) {
+        if (checking || starting) {
             resolve(true)
             return
         }
@@ -91,11 +92,11 @@ exports.isReady = async function isReady() {
         global.gameReady = false
         console.log(sn + 'Checking if Scum is ready.')
         const scumCmd = cp.exec('py ./app/cpscripts/is_running.py', (error, stdout, stderr) => {
-            console.log(sn + 'STDOUT: ' + stdout)
             if (!error) {
                 global.gameReady = true
                 resolve(true)
             } else {
+                console.log(sn + 'STDOUT: ' + stdout)
                 console.log(sn + error.stack)
                 console.log(sn + 'Error code: ' + error.code)
                 console.log(sn + 'Signal received: ' + error.signal)
