@@ -1,6 +1,5 @@
-import sys
-import psutil
 from use import scb
+import psutil
 
 
 def processRunning(processName):
@@ -24,4 +23,3 @@ if(not scb.ready()):
 
 
 print('\n\n')
-sys.exit()

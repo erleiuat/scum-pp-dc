@@ -2,6 +2,7 @@ const sn = global.chalk.red('[DISCORD-BOT] -> ')
 const fetch = require('node-fetch')
 
 async function consoleMsg(msg) {
+    console.log(sn + 'Console message detected!')
     if (
         msg.member.hasPermission('ADMINISTRATOR') &&
         msg.author.id !== process.env.DISCORD_BOT_ID
