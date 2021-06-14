@@ -130,10 +130,10 @@ async function makeBreak() {
 exports.start = async function start() {
     if (!await scum.isReady()) await scum.start()
 
-    //makeBreak()
+    makeBreak()
     //dcSpam()
-    //checkStatus()
-    //announce()
+    checkStatus()
+    announce()
     let i = 0
 
     do {
