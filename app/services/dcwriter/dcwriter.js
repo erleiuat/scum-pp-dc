@@ -129,8 +129,8 @@ async function sendLogins(dcClient) {
         console.log(sn + 'Login sent: ' + el)
 
         if (
-            line.steamID.includes('76561198058320009') || // Joppala
-            line.steamID.includes('76561198082374095') // || // Lox
+            global.newEntries.login[el].steamID('76561198058320009') || // Joppala
+            global.newEntries.login[el].steamID('76561198082374095') // || // Lox
             // line.steamID.includes('76561198046659274') // LamaAndy
         ) {
 
