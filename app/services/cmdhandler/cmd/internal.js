@@ -48,6 +48,7 @@ exports.sk_ready = async function sk_ready(cmd) {
             '#SpawnItem 1H_Small_Axe',
             '#SpawnItem 2H_Baseball_Bat_With_Wire',
             '#SpawnItem Car_Repair_Kit',
+            '#SpawnItem Lock_Item_Basic',
             '#Teleport -116453 -66401 37477',
             '#SpawnVehicle BP_Quad_01_A',
             '@' + cmd.user + ' your starterkit should now be there any your Quad should be waiting for you outside.',
