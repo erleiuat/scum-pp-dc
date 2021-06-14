@@ -122,6 +122,7 @@ async function makeBreak() {
         if (!bTimes.includes(now.getMinutes())) continue
         global.gameReady = false
         scum.makeBreak()
+        await global.sleep.timer(60)
 
 
     } while (true)
