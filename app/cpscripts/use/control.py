@@ -32,7 +32,7 @@ def pickupAll(itemImg):
 
 def pickup(itemImg):
     scb.sleep()
-    itemLoc = scb.onScreen(itemImg)
+    itemLoc = scb.onScreen(itemImg, sure=0.8)
     if (itemLoc):
         pyautogui.moveTo(itemLoc)
         scb.sleep()
