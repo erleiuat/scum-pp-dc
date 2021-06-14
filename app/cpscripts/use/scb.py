@@ -136,12 +136,10 @@ def sendChat(msg, wait=False, safe=False, chat='global'):
     pyautogui.hotkey('ctrl', 'a')
     pyautogui.press('del')
     keyboard.write(str(msg))
-    sleep()
     pyautogui.press('enter')
     print('CHAT -> Sent: ' + str(msg))
-    sleep()
     if(msg.lower().startswith('#teleport')):
         loading()
-        sleep()
         openTab()
+        ready()
     return True
