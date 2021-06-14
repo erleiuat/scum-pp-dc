@@ -41,13 +41,12 @@ exports.start = async function start() {
         listCache = JSON.stringify(listCache)
     }
 
-    console.log(sn + 'Checking for new updates')
     let i = 1
     do {
         await global.sleep.timer(0.01)
         if (global.updates) continue
         if (global.updatingFTP) continue
-        // console.log(sn + 'Checking for new updates (#' + i + ')')
+        if (i % 10 == 0) console.log(sn + 'Checking for new updates (#' + i + ')')
         i++
 
         let files = await (await ftp.list(process.env.PP_FTP_LOG_DIR)).filter(e => {
@@ -63,7 +62,7 @@ exports.start = async function start() {
         ioTotalReq.inc()
         ioCheckSec.mark()
         if (JSON.stringify(files) == listCache) continue
-        console.log(sn + 'New Updates found! Downloading files...')
+        console.log(sn + 'New Updates found! (#' + i + ') Downloading files...')
 
         for (const file of files) {
             if (fileCache[file.name] && fileCache[file.name].size == file.size) continue
