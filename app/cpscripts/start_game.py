@@ -45,8 +45,8 @@ while(not scb.ready(failsafe=False)):
 
 print(' -> Game ready! Took ' + str(count) + ' seconds')
 
-scb.sendChat('#SetFakeName [SF-BOT][BOOTING]', True, safe=True)
-scb.sendChat('BOT PREPARES ITSELF', True, safe=True)
+scb.sendChat('#SetFakeName [SF-BOT][BOOTING]', wait=True, safe=True)
+scb.sendChat('BOT PREPARES ITSELF', wait=True, safe=True)
 
 scb.openTab()
 scb.enlargeInv()
