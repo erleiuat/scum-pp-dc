@@ -123,7 +123,7 @@ async function sendLogins(dcClient) {
         console.log(sn + 'Login sent: ' + el)
         aList = await global.admins.list()
 
-        if (aList[line.steamID] && aList[line.steamID].hideLogin) {
+        if (aList[global.newEntries.login[el].steamID] && aList[global.newEntries.login[el].steamID].hideLogin) {
 
         } else if (global.newEntries.login[el].type == 'login') global.commands['auth_' + global.newEntries.login[el].steamID] = {
             message: 'auth_log',
