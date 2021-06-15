@@ -1,11 +1,5 @@
 const Discord = require('discord.js')
 const sn = global.chalk.green('[STATISTICS] -> ')
-const admins = [
-    '76561198058320009',
-    '76561198082374095',
-    '76561199166410611',
-    '76561198046659274'
-]
 
 exports.online = async function online(statesOrg) {
     let statesTmp = {}
@@ -36,9 +30,10 @@ exports.rankingKills = async function rankingKills(statesOrg) {
     let msgs = []
     let states = []
     let tmpMsg = ''
+    aList = await global.admins.list()
 
     for (const e in statesOrg) {
-        //if (admins.includes(e)) continue
+        if (aList[e] && aList[e].hideRankingKills) continue
         let tmpEl = {
             ...statesOrg[e],
             totalKills: statesOrg[e].kills.length,
@@ -48,14 +43,14 @@ exports.rankingKills = async function rankingKills(statesOrg) {
             farthestAll: 0
         }
 
-        if (tmpEl.totalKills > 0) 
+        if (tmpEl.totalKills > 0)
             tmpEl.farthestKill = statesOrg[e].kills.sort((a, b) => (a.distance > b.distance) ? 1 : -1).reverse()[0].distance
-            tmpEl.farthestAll = tmpEl.farthestKill
-        
-        if (tmpEl.totalEventKills > 0) 
+        tmpEl.farthestAll = tmpEl.farthestKill
+
+        if (tmpEl.totalEventKills > 0)
             tmpEl.farthestEventkill = statesOrg[e].eventKills.sort((a, b) => (a.distance > b.distance) ? 1 : -1).reverse()[0].distance
-            if(tmpEl.farthestEventkill > tmpEl.farthestAll) tmpEl.farthestAll = tmpEl.farthestEventkill
-        
+        if (tmpEl.farthestEventkill > tmpEl.farthestAll) tmpEl.farthestAll = tmpEl.farthestEventkill
+
         states.push(tmpEl)
     }
 
@@ -97,7 +92,7 @@ exports.rankingPlaytime = async function rankingPlaytime(statesOrg) {
     let tmpMsg = ''
 
     for (const e in statesOrg)
-        if (!admins.includes(e)) states.push(statesOrg[e])
+        if (!aList[e] || !aList[e].hideRankingPlaytime) states.push(statesOrg[e])
 
     tmpMsg = '-----\n\n\n**Best players in the last 7 days by playing time**\n_Beste Spieler der letzten 7 Tage nach Spielzeit_'
     tmpMsg += '\`\`\`diff\n+Rank  \tPlaytime\t\t Player\n- - - - - - - - - - - - - - - - - - - - - - - -\n\n'

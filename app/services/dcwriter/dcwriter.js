@@ -83,12 +83,9 @@ async function sendAdmins(dcClient) {
     for (const el in global.newEntries.admin) {
         let line = global.newEntries.admin[el]
         let shouldHide = false
+        aList = await global.admins.list()
 
-        if (
-            line.steamID.includes('76561198058320009') || // Joppala
-            line.steamID.includes('76561198082374095') // || // Lox
-            // line.steamID.includes('76561198046659274') // LamaAndy
-        ) {
+        if (aList[line.steamID] && aList[line.steamID].hideCommands) {
             if (line.message.toLowerCase().includes('teleport')) shouldHide = true
             else if (line.message.toLowerCase().includes('location')) shouldHide = true
             else if (line.message.toLowerCase().includes('spawn')) shouldHide = true
@@ -99,11 +96,8 @@ async function sendAdmins(dcClient) {
             else if (line.message.toLowerCase().includes('shownameplates')) shouldHide = true
         }
 
-        //Ingame-Bot (ScumFiction)
-        if (line.steamID.includes('76561199166410611')) {
-            if (line.message.toLowerCase().includes('setfakename')) shouldHide = true
-            else if (line.message.toLowerCase().includes('clearfakename')) shouldHide = true
-        }
+        if (line.message.toLowerCase().includes('setfakename')) shouldHide = true
+        else if (line.message.toLowerCase().includes('clearfakename')) shouldHide = true
 
         if (!shouldHide) {
             await channel.send(new Discord.MessageEmbed(await format.admin(global.newEntries.admin[el])))
@@ -127,12 +121,9 @@ async function sendLogins(dcClient) {
     for (const el in global.newEntries.login) {
         await channel.send(new Discord.MessageEmbed(await format.login(global.newEntries.login[el])))
         console.log(sn + 'Login sent: ' + el)
+        aList = await global.admins.list()
 
-        if (
-            global.newEntries.login[el].steamID.includes('76561198058320009') || // Joppala
-            global.newEntries.login[el].steamID.includes('76561198082374095') // || // Lox
-            // line.steamID.includes('76561198046659274') // LamaAndy
-        ) {
+        if (aList[line.steamID] && aList[line.steamID].hideLogin) {
 
         } else if (global.newEntries.login[el].type == 'login') global.commands['auth_' + global.newEntries.login[el].steamID] = {
             message: 'auth_log',
