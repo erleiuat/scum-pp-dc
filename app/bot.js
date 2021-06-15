@@ -16,29 +16,27 @@ exports.start = async function start() {
 
         console.log(sn + `Logged in as ${dcClient.user.tag}!`)
 
-        /* XXX
         console.log(sn + 'Starting Discord-Bot functionalities')
         dcBot.start(dcClient)
 
-        */
         console.log(sn + 'Starting Discord-Writer')
         dcWriter.start(dcClient)
-        /*
+        
         console.log(sn + 'Starting State-Display')
         state.start(dcClient)
 
         console.log(sn + 'Starting Statistics')
         statistics.start(dcClient)
-        */
+        
         console.log(sn + 'Starting FTP-Watcher')
         ftpWatcher.start()
 
         console.log(sn + 'Starting Log-Processor')
         logProcessor.start()
-        /*
+        
         console.log(sn + 'Starting Command-handler')
         cmdHandler.start()
-        */
+        
     })
 
     console.log(sn + 'Login on Discord')

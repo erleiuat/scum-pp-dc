@@ -9,12 +9,21 @@ function hasImg(weapon) {
     if (weaponImg[weapon]) return process.env.DATA_URL + 'weapon/' + weaponImg[weapon]
 }
 
+function formDate(dateStr) {
+    let dParts = dateStr.date.split('.')
+    return new Date(dParts[2] + '-' + dParts[1] + '-' + dParts[0] + 'T' + dateStr.time)
+}
+
 async function findMineOwner(steamID, date, time) {
-    await global.sleep.timer(1)
     let data = JSON.parse(fs.readFileSync('./app/storage/logs/mines.json'))
+    let trigger = formDate({date:date, time:time})
+    let from = new Date(trigger.getTime() - 1 * 60000).getTime()
+    let to = new Date(trigger.getTime() + 1 * 60000).getTime()
     for (const e in data) {
-        if (data[e].action == 'triggered' && data[e].steamID == steamID)
-            if (data[e].time.date == date && data[e].time.time == time) return data[e].owner
+        if (data[e].action == 'triggered' && data[e].steamID == steamID) {
+            let check = formDate({date:data[e].time.date, time:data[e].time.time}).getTime()
+            if (check > from && check < to) return data[e].owner
+        }
     }
     return false
 }
@@ -56,8 +65,6 @@ exports.mines = async function mines(entry) {
             'value': entry.owner.user + '(' + entry.owner.steamID + ')',
         })
     }
-    console.log(msg)
-
     return msg
 }
 

@@ -90,8 +90,7 @@ async function updateFTPCache() {
                 secure: true
             })
 
-            // XXX
-            //for (const key in logCache) await ftp.uploadFrom('./app/storage/logs/' + key + '.json', process.env.RM_LOG_FTP_DIR + key + '.json')
+            for (const key in logCache) await ftp.uploadFrom('./app/storage/logs/' + key + '.json', process.env.RM_LOG_FTP_DIR + key + '.json')
 
             lastCache = JSON.stringify(logCache)
 

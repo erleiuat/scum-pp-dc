@@ -231,11 +231,9 @@ async function kill(file) {
 
 async function getContent(file) {
     let content = fs.readFileSync('./app/storage/raw_logs/new/' + file)
-    /* XXX
     await fs.rename('./app/storage/raw_logs/new/' + file, './app/storage/raw_logs/' + file, (error) => {
         if (error) console.log(sn + 'Error: ' + error)
     })
-    */
     return iconv.decode(new Buffer.from(content), 'utf16le')
 }
 
