@@ -12,14 +12,17 @@ exports.console_msg = async function console_msg(cmd) {
 exports.spawn = async function spawn(cmd) {
     aList = await global.admins.list()
     if (!cmd.steamID || !aList[cmd.steamID] || !aList[cmd.steamID].canSpawn) return null
+    let message = cmd.message.toLowerCase().replace('!spawn', '').trim()
+    let command = message.split(' ')[0].toLowerCase()
+    if (!aList[cmd.steamID].commands[command] || !aList[cmd.steamID].commands['*']) return null
     return {
         date: cmd.time.date,
         time: cmd.time.time,
         type: 'global',
         commands: [
-            '#SetFakeName [SF-BOT][EXEC]',
+            '#SetFakeName [SF-BOT][' + cmd.user + '][EXEC]',
             '#Teleport -116077 -66395 37065',
-            cmd.message.toLowerCase().replace('!spawn', '').trim(),
+            message,
             '#Teleport -117129 -66713 37065',
             '#ClearFakeName'
         ]
@@ -29,13 +32,16 @@ exports.spawn = async function spawn(cmd) {
 exports.exec = async function exec(cmd) {
     aList = await global.admins.list()
     if (!cmd.steamID || !aList[cmd.steamID] || !aList[cmd.steamID].canExec) return null
+    let message = cmd.message.toLowerCase().replace('!exec', '').trim()
+    let command = message.split(' ')[0].toLowerCase()
+    if (!aList[cmd.steamID].commands[command] || !aList[cmd.steamID].commands['*']) return null
     return {
         date: cmd.time.date,
         time: cmd.time.time,
         type: 'global',
         commands: [
-            '#SetFakeName [SF-BOT][EXEC]',
-            cmd.message.toLowerCase().replace('!exec', '').trim(),
+            '#SetFakeName [SF-BOT][' + cmd.user + '][EXEC]',
+            message,
             '#ClearFakeName'
         ]
     }
