@@ -4,7 +4,7 @@ from use import control
 
 def doIt():
     torches = [
-        '#Teleport -116830 -65759 37064',
+        '#Teleport -116806 -65842 37065',
         '#Teleport -117327 -66464 37064',
         '#Teleport -117317 -66969 37064',
         '#Teleport -116304 -65755 37064',
