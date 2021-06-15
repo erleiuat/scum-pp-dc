@@ -44,7 +44,8 @@ def doIt():
 
 if __name__ == '__main__':
     scb.sendChat('#SetFakeName [SF-BOT][LIGHT]', wait=True, safe=True)
-    #scb.sendChat('I will now maintain the trading zone and be unavailable for about 5 minutes.', wait=True, safe=True)
+    scb.sendChat(
+        'I will now maintain the trading zone and be unavailable for about 5 minutes.', wait=True, safe=True)
     doIt()
     scb.sendChat('I am done and available again!', wait=True, safe=True)
     scb.sendChat('#ClearFakeName', wait=True, safe=True)
