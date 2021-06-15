@@ -27,11 +27,59 @@ exports.getLines = async function getLines(type) {
                 ...lines,
                 ...await login(file)
             }
+            else if (type == 'mines') lines = {
+                ...lines,
+                ...await mines(file)
+            }
             else return false
         }
     }
 
     return lines
+
+}
+
+async function mines(file) {
+    let content = await getContent(file)
+    let lines = await formLines(content)
+    let formatted = {}
+    let i = 0
+
+    for (const line of lines) {
+        i++
+        let t = formTime(line)
+        let steamID = line.substring(22, 39)
+        let key = formKey(t, steamID) + '.' + i
+        let userID = line.slice(40).match(regexname)
+        let user = line.slice(40).replace(userID, '')
+
+        let owner = null
+        let actionType = 'unknown'
+        if (line.includes(')\' armed trap on location(')) actionType = 'armed'
+        else if (line.includes(')\' disarmed trap on location(')) actionType = 'disarmed'
+        else if (line.includes(')\' triggered trap on location(')) {
+            actionType = 'triggered'
+            let ownInfo = line.split(') from ')[1]
+            let ownSteamID = ownInfo.split(':')[0]
+            let ownUserID = ownInfo.split(':')[1].match(regexname)
+            let ownUser = ownInfo.split(':')[1].replace(ownUserID, '')
+            owner = {
+                steamID: ownSteamID,
+                user: ownUser
+            }
+        }
+
+        formatted[key] = {
+            time: t,
+            user: user,
+            steamID: steamID,
+            action: actionType,
+            owner: owner
+        }
+
+    }
+
+    return formatted
 
 }
 
@@ -172,7 +220,10 @@ async function kill(file) {
             distance = Math.round(dist / 100)
         }
         content.time = t
-        formatted[key] = {...content, distance: distance}
+        formatted[key] = {
+            ...content,
+            distance: distance
+        }
     }
 
     return formatted
@@ -180,9 +231,11 @@ async function kill(file) {
 
 async function getContent(file) {
     let content = fs.readFileSync('./app/storage/raw_logs/new/' + file)
+    /* XXX
     await fs.rename('./app/storage/raw_logs/new/' + file, './app/storage/raw_logs/' + file, (error) => {
         if (error) console.log(sn + 'Error: ' + error)
     })
+    */
     return iconv.decode(new Buffer.from(content), 'utf16le')
 }
 

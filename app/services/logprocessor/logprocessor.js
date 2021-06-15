@@ -13,7 +13,8 @@ exports.start = async function start() {
         kill: {},
         chat: {},
         admin: {},
-        login: {}
+        login: {},
+        mines: {}
     })
 
     updateFTPCache()
@@ -24,10 +25,11 @@ exports.start = async function start() {
         if (global.updatingFTP) continue
 
         let logs = {
-            kill: {},
+            mines: {},
             chat: {},
             admin: {},
-            login: {}
+            login: {},
+            kill: {}
         }
 
         console.log(sn + 'Processing new Data')
@@ -47,6 +49,8 @@ exports.start = async function start() {
                 ...logCache[logtype],
                 ...logs[logtype]
             }
+
+            fs.writeFileSync('./app/storage/logs/' + logtype + '.json', JSON.stringify(logCache[logtype]))
 
         }
 
@@ -77,7 +81,6 @@ async function updateFTPCache() {
         }
 
         try {
-            for (const key in logCache) fs.writeFileSync('./app/storage/logs/' + key + '.json', JSON.stringify(logCache[key]))
 
             await ftp.access({
                 host: process.env.RM_LOG_FTP_HOST,
@@ -87,7 +90,8 @@ async function updateFTPCache() {
                 secure: true
             })
 
-            for (const key in logCache) await ftp.uploadFrom('./app/storage/logs/' + key + '.json', process.env.RM_LOG_FTP_DIR + key + '.json')
+            // XXX
+            //for (const key in logCache) await ftp.uploadFrom('./app/storage/logs/' + key + '.json', process.env.RM_LOG_FTP_DIR + key + '.json')
 
             lastCache = JSON.stringify(logCache)
 

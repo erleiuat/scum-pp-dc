@@ -23,10 +23,23 @@ async function iterate(logFunction, dcClient) {
 exports.start = async function start(dcClient) {
     await format.loadWeapons()
     iterate(sendKills, dcClient)
+    iterate(sendMines, dcClient)
+    /* XXX
     iterate(sendChats, dcClient)
     iterate(sendAdmins, dcClient)
     iterate(sendLogins, dcClient)
+    */
     iterate(sendDump, dcClient)
+}
+
+async function sendMines(dcClient) {
+    if (Object.keys(global.newEntries.mines).length <= 0) return
+    for (const e in global.newEntries.mines) {
+        dump[e] = {
+            dump: 'mines',
+            ...global.newEntries.mines[e]
+        }
+    }
 }
 
 async function sendKills(dcClient) {
@@ -34,7 +47,9 @@ async function sendKills(dcClient) {
     let channel = dcClient.channels.cache.find(channel => channel.id === channels.kill)
 
     for (const e in global.newEntries.kill) {
-        await channel.send(new Discord.MessageEmbed(await format.kill(global.newEntries.kill[e])))
+        await format.kill(global.newEntries.kill[e])
+        // XXX
+        //await channel.send(new Discord.MessageEmbed(await format.kill(global.newEntries.kill[e])))
         if (!global.newEntries.kill[e].Victim.IsInGameEvent) global.commands['kill_' + global.newEntries.kill[e].Victim.UserId] = {
             message: 'kill_feed',
             time: global.newEntries.kill[e].time,
@@ -58,9 +73,11 @@ async function sendChats(dcClient) {
     for (const el in global.newEntries.chat) {
         if (global.newEntries.chat[el].type == 'Global') {
             let msg = await format.chat(global.newEntries.chat[el])
+            /* XXX
             if (msg.fields[0].value.match(/(?:admin|support)/gmi))
                 await channel.send(' <@&' + process.env.DISCORD_ROLE_SUPPORT + '> ')
             await channel.send(new Discord.MessageEmbed(msg))
+            */
             console.log(sn + 'Chat sent: ' + el)
         }
         if (global.newEntries.chat[el].message.trim().substring(0, 1) == '!') {
@@ -100,7 +117,8 @@ async function sendAdmins(dcClient) {
         else if (line.message.toLowerCase().includes('clearfakename')) shouldHide = true
 
         if (!shouldHide) {
-            await channel.send(new Discord.MessageEmbed(await format.admin(global.newEntries.admin[el])))
+            // XXX
+            // await channel.send(new Discord.MessageEmbed(await format.admin(global.newEntries.admin[el])))
             console.log(sn + 'Admin sent: ' + el)
         }
 
@@ -119,7 +137,8 @@ async function sendLogins(dcClient) {
     let channel = dcClient.channels.cache.find(channel => channel.id === channels.login)
 
     for (const el in global.newEntries.login) {
-        await channel.send(new Discord.MessageEmbed(await format.login(global.newEntries.login[el])))
+        // XXX
+        // await channel.send(new Discord.MessageEmbed(await format.login(global.newEntries.login[el])))
         console.log(sn + 'Login sent: ' + el)
         aList = await global.admins.list()
 
@@ -164,8 +183,10 @@ async function sendDump(dcClient) {
                 color: '0000ff',
                 description: dump[el].type.toUpperCase() + '-CHAT'
             }
+            /* XXX
             if (msg.fields[0].value.match(/(?:admin|support|abuse|abuze)/gmi))
                 await channel.send(' <@&' + process.env.DISCORD_ROLE_SUPPORT + '> ')
+                */
         } else if (dump[el].dump == 'admin') msg = {
             ...await format.admin(dump[el]),
             color: '00ff00'
@@ -174,8 +195,13 @@ async function sendDump(dcClient) {
             ...await format.login(dump[el]),
             color: '242424'
         }
+        else if (dump[el].dump == 'mines') msg = {
+            ...await format.mines(dump[el]),
+            color: 'F3EA5F'
+        }
 
-        if (msg) await channel.send(new Discord.MessageEmbed(msg))
+        // XXX
+        // if (msg) await channel.send(new Discord.MessageEmbed(msg))
         console.log(sn + 'DUMP sent: ' + el)
         delete dump[el]
 

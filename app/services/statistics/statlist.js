@@ -1,7 +1,4 @@
 const fs = require('fs')
-const {
-    kill
-} = require('../dcwriter/format')
 const sn = global.chalk.green('[STATISTICS] -> ')
 
 exports.highscore = async function highscore(current) {

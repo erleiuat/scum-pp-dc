@@ -1,4 +1,5 @@
 const fetch = require('node-fetch')
+const fs = require('fs')
 const sn = global.chalk.cyan('[DCWriter] -> [Format] -> ')
 let weaponImg = null
 
@@ -6,6 +7,16 @@ function hasImg(weapon) {
     if (!weapon) return false
     if (weapon.includes('_C')) weapon = weapon.split('_C')[0].replace(/\s/g, '')
     if (weaponImg[weapon]) return process.env.DATA_URL + 'weapon/' + weaponImg[weapon]
+}
+
+async function findMineOwner(steamID, date, time) {
+    await global.sleep.timer(1)
+    let data = JSON.parse(fs.readFileSync('./app/storage/logs/mines.json'))
+    for (const e in data) {
+        if (data[e].action == 'triggered' && data[e].steamID == steamID)
+            if (data[e].time.date == date && data[e].time.time == time) return data[e].owner
+    }
+    return false
 }
 
 exports.loadWeapons = async function loadWeapons() {
@@ -17,7 +28,48 @@ exports.loadWeapons = async function loadWeapons() {
     })
 }
 
+exports.mines = async function mines(entry) {
+    let msg = {
+        'title': 'MINE-ACTION',
+        'color': 'F3EA5F',
+        'fields': [{
+            'name': 'From',
+            'value': entry.user,
+            'inline': true
+        }, {
+            'name': 'SteamID',
+            'value': entry.steamID,
+            'inline': true
+        }, {
+            'name': 'Action',
+            'value': entry.action,
+            'inline': true
+        }],
+        'footer': {
+            'text': entry.time.date + ` - ` + entry.time.time
+        }
+    }
+
+    if (entry.action == 'triggered') {
+        msg.fields.push({
+            'name': 'Owner',
+            'value': entry.owner.user + '(' + entry.owner.steamID + ')',
+        })
+    }
+    console.log(msg)
+
+    return msg
+}
+
 exports.kill = async function kill(entry) {
+
+    if (entry.Killer.ProfileName.toLowerCase() == 'unknown') {
+        let mineOwner = await findMineOwner(entry.Victim.UserId, entry.time.date, entry.time.time)
+        if (mineOwner) {
+            entry.Killer.ProfileName = mineOwner.user
+            entry.Killer.UserId = mineOwner.steamID
+        }
+    }
 
     let msg = {
         'color': 'ff0000',
@@ -56,6 +108,7 @@ exports.kill = async function kill(entry) {
         msg.color = '00ffff'
     }
 
+    console.log(msg)
     return msg
 
 }

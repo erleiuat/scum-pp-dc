@@ -41,10 +41,11 @@ global.updatingFTP = false
 global.updates = true
 global.commands = {}
 global.newEntries = {
-  kill: {},
+  mines: {},
   chat: {},
   admin: {},
-  login: {}
+  login: {},
+  kill: {}
 }
 
 const bot = require('./app/bot')
