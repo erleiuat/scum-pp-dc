@@ -9,18 +9,18 @@ def lightUp():
         '#Teleport -117317 -66969 37064',
         '#Teleport -116304 -65755 37064',
         '#Teleport -116298 -67044 37064',
+        '#Teleport -117523 -67142 36874',
+        '#Teleport -117568 -65574 37064',
         '#Teleport -113569 -66546 36994',
         '#Teleport -113786 -67711 36987',
-        '#Teleport -111930 -68958 36971',
-        '#Teleport -111593 -66708 36995',
+        '#Teleport -111791 -68827 36999',
+        '#Teleport -111650 -67672 36998',
+        '#Teleport -111521 -66752 36999',
         '#Teleport -110207 -66393 37023',
         '#Teleport -111963 -63041 37290',
         '#Teleport -110792 -63462 37263',
         '#Teleport -112653 -72299 36621',
-        '#Teleport -111485 -72208 36588',
-        '#Teleport -111650 -67672 36998',
-        '#Teleport -117523 -67142 36874',
-        '#Teleport -117568 -65574 37064'
+        '#Teleport -111485 -72208 36588'
     ]
 
     control.teleport('#Teleport -117351 -66117 37064')
@@ -45,7 +45,7 @@ def lightUp():
 if __name__ == '__main__':
     scb.sendChat('#SetFakeName [SF-BOT][LIGHT]', wait=True, safe=True)
     scb.sendChat(
-        'I will now light the torches and not be available for about 5 minutes.', True, safe=True)
+        'I will now maintain the trading zone and not be available for about 5 minutes.', True, safe=True)
     lightUp()
     scb.sendChat('I am done now and available again!', wait=True, safe=True)
     scb.sendChat('#ClearFakeName', wait=True, safe=True)
