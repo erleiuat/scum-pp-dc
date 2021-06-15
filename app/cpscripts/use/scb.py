@@ -117,9 +117,9 @@ def loading():
 
 def openTab(menu=1):
     if(not onScreen('img/startup/inventar.png')):
-        ready()
-        pyautogui.press('esc')
-        sleep()
+        if(onScreen('img/c_global.png') or onScreen('img/spiel_fortsetzen.png')):
+            pyautogui.press('esc')
+            sleep()
         pyautogui.keyDown('tab')
         sleep(0.01)
         pyautogui.keyUp('tab')
