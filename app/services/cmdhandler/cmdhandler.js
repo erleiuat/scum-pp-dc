@@ -159,6 +159,8 @@ exports.start = async function start() {
             else if (cmdStart == '!firework') await scum.firework(cmd)
             else if (cmdStart == '!lightup') await scum.lightup(cmd)
             else if (cmdStart == '!business') await scum.business(cmd)
+            else if (cmdStart == '!exec') newCmds['exec_' + cmd.steamID] = await cmdsInternal['exec'](cmd)
+            else if (cmdStart == '!spawnitem') newCmds['spawnitem_' + cmd.steamID] = await cmdsInternal['spawnitem'](cmd)
             else if (cmdStart == 'welcome_new') newCmds['welcome_' + cmd.joined.getTime] = await cmdsInternal['welcome_new'](cmd)
             else if (cmdStart == 'console_msg') newCmds['console_' + e] = await cmdsInternal['console_msg'](cmd)
             else if (cmdStart == 'kill_feed') newCmds[e] = await cmdsInternal['kill_feed'](cmd)

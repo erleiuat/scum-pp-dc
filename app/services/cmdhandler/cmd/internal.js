@@ -9,6 +9,44 @@ exports.console_msg = async function console_msg(cmd) {
     }
 }
 
+let admins = [
+    '76561198058320009',
+    '76561198082374095',
+    '76561198046659274'
+]
+
+exports.spawnitem = async function spawnitem(cmd) {
+    if (!cmd.steamID) return null
+    if (!admins.includes(cmd.steamID)) return null
+    return {
+        date: cmd.time.date,
+        time: cmd.time.time,
+        type: 'global',
+        commands: [
+            '#SetFakeName [SF-BOT][EXEC]',
+            '#Teleport -116077 -66395 37065',
+            cmd.message,
+            '#Teleport -117129 -66713 37065',
+            '#ClearFakeName'
+        ]
+    }
+}
+
+exports.exec = async function exec(cmd) {
+    if (!cmd.steamID) return null
+    if (!admins.includes(cmd.steamID)) return null
+    return {
+        date: cmd.time.date,
+        time: cmd.time.time,
+        type: 'global',
+        commands: [
+            '#SetFakeName [SF-BOT][EXEC]',
+            cmd.message,
+            '#ClearFakeName'
+        ]
+    }
+}
+
 exports.sk_legal = async function sk_legal(cmd) {
     if (cmd.type.toLowerCase() != 'global') return null
     return {
