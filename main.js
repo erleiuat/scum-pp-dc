@@ -29,6 +29,7 @@ console.log(sn + '----------------------------------------------------------\n\n
 
 
 require('dotenv').config()
+global.admins = require('./app/plugins/admins')
 global.sleep = require('./app/plugins/sleep')
 global.io = require('@pm2/io')
 global.gameReady = false
