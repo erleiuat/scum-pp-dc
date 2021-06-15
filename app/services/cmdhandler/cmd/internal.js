@@ -14,8 +14,7 @@ exports.spawn = async function spawn(cmd) {
     if (!cmd.steamID || !aList[cmd.steamID] || !aList[cmd.steamID].canSpawn) return null
     let message = cmd.message.toLowerCase().replace('!spawn', '').trim()
     let command = message.split(' ')[0].toLowerCase().trim()
-    if (!aList[cmd.steamID].commands[command] && !aList[cmd.steamID].commands['*']) return null
-    return {
+    if (aList[cmd.steamID].commands[command] || aList[cmd.steamID].commands['#*']) return {
         date: cmd.time.date,
         time: cmd.time.time,
         type: 'global',
@@ -27,6 +26,8 @@ exports.spawn = async function spawn(cmd) {
             '#ClearFakeName'
         ]
     }
+    console.log(sn + cmd.user + ' has no permissions to execute "' + message + '"')
+    return null
 }
 
 exports.exec = async function exec(cmd) {
@@ -34,8 +35,7 @@ exports.exec = async function exec(cmd) {
     if (!cmd.steamID || !aList[cmd.steamID] || !aList[cmd.steamID].canExec) return null
     let message = cmd.message.toLowerCase().replace('!exec', '').trim()
     let command = message.split(' ')[0].toLowerCase().trim()
-    if (!aList[cmd.steamID].commands[command] && !aList[cmd.steamID].commands['*']) return null
-    return {
+    if (aList[cmd.steamID].commands[command] || aList[cmd.steamID].commands['#*']) return {
         date: cmd.time.date,
         time: cmd.time.time,
         type: 'global',
@@ -45,6 +45,8 @@ exports.exec = async function exec(cmd) {
             '#ClearFakeName'
         ]
     }
+    console.log(sn + cmd.user + ' has no permissions to execute "' + message + '"')
+    return null
 }
 
 exports.sk_legal = async function sk_legal(cmd) {
