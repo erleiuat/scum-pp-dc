@@ -155,14 +155,24 @@ async function kill(file) {
     let formatted = {}
     let i = 0
 
+
+
     for (const line of lines) {
         if (!line.slice(21, 30).startsWith('{')) continue
         i++
         let t = formTime(line)
         let content = JSON.parse(line.slice(21))
         let key = formKey(t, content.Victim.UserId) + '.' + i
+        let distance = 0
+        if (content.Killer && content.Killer.ServerLocation.X && content.Victim.ServerLocation.X) {
+            var dx = content.Killer.ServerLocation.X - content.Victim.ServerLocation.X
+            var dy = content.Killer.ServerLocation.Y - content.Victim.ServerLocation.Y
+            var dz = content.Killer.ServerLocation.Z - content.Victim.ServerLocation.Z
+            var dist = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2) + Math.pow(dz, 2))
+            distance = Math.round(dist / 100)
+        }
         content.time = t
-        formatted[key] = content
+        formatted[key] = {...content, distance: distance}
     }
 
     return formatted

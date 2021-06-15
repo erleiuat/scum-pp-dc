@@ -5,7 +5,7 @@ let weaponImg = null
 function hasImg(weapon) {
     if (!weapon) return false
     if (weapon.includes('_C')) weapon = weapon.split('_C')[0].replace(/\s/g, '')
-    if (weaponImg[weapon]) return process.env.IMG_URL + 'weapon/' + weaponImg[weapon]
+    if (weaponImg[weapon]) return process.env.DATA_URL + 'weapon/' + weaponImg[weapon]
 }
 
 exports.loadWeapons = async function loadWeapons() {
@@ -18,15 +18,6 @@ exports.loadWeapons = async function loadWeapons() {
 }
 
 exports.kill = async function kill(entry) {
-
-    let distance = 0
-    if (entry.Killer && entry.Killer.ServerLocation.X) {
-        var dx = entry.Killer.ServerLocation.X - entry.Victim.ServerLocation.X
-        var dy = entry.Killer.ServerLocation.Y - entry.Victim.ServerLocation.Y
-        var dz = entry.Killer.ServerLocation.Z - entry.Victim.ServerLocation.Z
-        var dist = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2) + Math.pow(dz, 2))
-        distance = Math.round(dist / 100)
-    }
 
     let msg = {
         'color': 'ff0000',
@@ -55,9 +46,9 @@ exports.kill = async function kill(entry) {
         url: img
     }
 
-    if (distance > 0) msg.fields.push({
+    if (entry.distance > 0) msg.fields.push({
         'name': 'Distance',
-        'value': distance + ' Meters'
+        'value': entry.distance + ' Meters'
     })
 
     if (entry.Victim.IsInGameEvent) {

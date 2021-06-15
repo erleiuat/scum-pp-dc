@@ -27,15 +27,15 @@ exports.start = async function start() {
         
         console.log(sn + 'Starting Statistics')
         statistics.start(dcClient)
-        
+
         console.log(sn + 'Starting FTP-Watcher')
         ftpWatcher.start()
-        
+
         console.log(sn + 'Starting Log-Processor')
         logProcessor.start()
-        
-        console.log(sn + 'Starting Command-handler')
-        cmdHandler.start()
+         
+         console.log(sn + 'Starting Command-handler')
+         cmdHandler.start()
 
     })
 

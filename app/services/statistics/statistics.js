@@ -5,8 +5,10 @@ const playerstats = require('./playerstats')
 const newPlayers = require('./newplayers')
 
 const cache = {
-    list1: {},
-    list2: {},
+    rankingMsgs: [],
+    rankingPlaytime: {},
+    rankingKills: {},
+    admPlayerstats: {},
     list3: {},
     list4: {}
 }
@@ -38,20 +40,47 @@ async function iterateLists(dcClient) {
 
         var d = new Date()
         d.setDate(d.getDate() - 7)
-        let list1 = await playerstats.ranking(await statList.get(d.getTime()))
-        if (JSON.stringify(list1) != JSON.stringify(cache.list1)) {
-            await dcSend(list1, chRanking)
-            console.log(sn + 'Updated ranking')
-            cache.list1 = list1
+        let logins = await statList.getLogin(d.getTime())
+        let logins2 = await statList.getLogin()
+        let kills = await statList.getKill()
+
+        let rankingMsgs = []
+        if (logins) {
+            let rankingPlaytime = await playerstats.rankingPlaytime(logins)
+            if (JSON.stringify(rankingPlaytime) != JSON.stringify(cache.rankingPlaytime)) {
+                rankingMsgs = rankingMsgs.concat(rankingPlaytime)
+                console.log(sn + 'Updated playtime ranking')
+                cache.rankingPlaytime = rankingPlaytime
+            } else {
+                rankingMsgs = rankingMsgs.concat(cache.rankingPlaytime)
+            }
         }
 
-        let list2 = await playerstats.list(await statList.get())
-        if (JSON.stringify(list2) != JSON.stringify(cache.list2)) {
-            let msgs = formMsgs(list2)
-            msgs.push('\n-----\n\n**TOTAL: ' + list2.length + '**')
-            await dcSend(msgs, chStats)
-            console.log(sn + 'Updated player-stats')
-            cache.list2 = list2
+        if (Object.keys(kills).length > 0) {
+            let rankingKills = await playerstats.rankingKills(kills)
+            if (JSON.stringify(rankingKills) != JSON.stringify(cache.rankingKills)) {
+                rankingMsgs = rankingMsgs.concat(rankingKills)
+                console.log(sn + 'Updated kills ranking')
+                cache.rankingKills = rankingKills
+            } else {
+                rankingMsgs = rankingMsgs.concat(cache.rankingKills)
+            }
+        }
+
+        if(JSON.stringify(rankingMsgs) != JSON.stringify(cache.rankingMsgs)){
+            await dcSend(rankingMsgs, chRanking)
+            cache.rankingMsgs = rankingMsgs
+        }
+
+        if (logins2) {
+            let admPlayerstats = await playerstats.list(logins2)
+            if (JSON.stringify(admPlayerstats) != JSON.stringify(cache.admPlayerstats)) {
+                let msgs = formMsgs(admPlayerstats)
+                msgs.push('\n-----\n\n**TOTAL: ' + admPlayerstats.length + '**')
+                await dcSend(msgs, chStats)
+                console.log(sn + 'Updated player-stats')
+                cache.admPlayerstats = admPlayerstats
+            }
         }
 
         iteration++
@@ -65,7 +94,7 @@ async function iterateOnline(dcClient) {
         await global.sleep.timer(1)
         if (global.updates) continue
         if (global.updatingFTP) continue
-        let list = await playerstats.online(await statList.get())
+        let list = await playerstats.online(await statList.getLogin())
         list.push('\n-----\n\n**Currently: ' + list.length + '**\n\n**Highscore: ' + await statList.highscore(list.length) + '**\n')
         if (JSON.stringify(list) != JSON.stringify(cache.list3)) {
             await dcSend(formMsgs(list), chOnline)
@@ -104,7 +133,7 @@ exports.start = async function start(dcClient) {
 async function dcSend(msgs, channel) {
     await clearChannel(channel)
     for (const msg of msgs) {
-        if (msg) await channel.send(msg)
+        if (msg.length > 0) await channel.send(msg)
     }
 }
 

@@ -36,6 +36,7 @@ global.ingameTime = false
 global.playersOnline = 0
 global.newCmds = false
 global.playerlist = {}
+global.updatingFTP = false
 global.updates = true
 global.commands = {}
 global.newEntries = {

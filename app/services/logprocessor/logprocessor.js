@@ -50,6 +50,8 @@ exports.start = async function start() {
 
         }
 
+        console.log(sn + 'Processing done')
+
         global.updates = false
     } while (true)
 
@@ -67,9 +69,9 @@ async function updateFTPCache() {
         global.updatingFTP = true
         updateCounter = 0
 
-        console.log(sn + 'Updating FTP-Log-Cache.')
+        console.log(sn + 'Updating FTP-Log-Cache')
         if (JSON.stringify(logCache) == lastCache) {
-            console.log(sn + 'Nothing to update.')
+            console.log(sn + 'Nothing to update')
             global.updatingFTP = false
             continue
         }
@@ -95,7 +97,7 @@ async function updateFTPCache() {
 
         ftp.close()
 
-        console.log(sn + 'FTP-Log-Cache update complete.')
+        console.log(sn + 'FTP-Log-Cache update complete')
         global.updatingFTP = false
     } while (true)
 
@@ -124,9 +126,9 @@ async function getCurrentCache(logTypes) {
     }
 
     ftp.close()
-
     let cacheContent = {}
     for (const key in logTypes) cacheContent[key] = JSON.parse(fs.readFileSync('./app/storage/logs/' + key + '.json'))
+    console.log(sn + 'Log-Cache loaded')
     return cacheContent
 
 }
