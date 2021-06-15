@@ -137,7 +137,7 @@ def enlargeInv():
         sleep()
         pyautogui.mouseDown()
         sleep()
-        pyautogui.moveTo(invSize.x, (invSize.y+800), duration=2)
+        pyautogui.moveTo(invSize.x, (invSize.y+800), duration=1)
         sleep()
         pyautogui.mouseUp()
         sleep()
