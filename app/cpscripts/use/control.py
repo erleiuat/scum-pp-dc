@@ -76,13 +76,13 @@ def takeA(action):
     scb.sleep(0.1)
     pyautogui.keyDown('tab')
     scb.sleep(0.8)
-    toilet = scb.onScreen('img/startup/toilet.png', sure=0.8)
+    toilet = scb.onScreen('img/startup/toilet.png', sure=0.9)
     if(toilet):
         pyautogui.moveTo(toilet)
         pyautogui.click(toilet)
 
         if(action == 'shit'):
-            shit = scb.onScreen('img/startup/t_shit.png', sure=0.8)
+            shit = scb.onScreen('img/startup/t_shit.png', sure=0.9)
             if(shit):
                 pyautogui.moveTo(shit)
                 pyautogui.click(shit)
@@ -90,12 +90,12 @@ def takeA(action):
                 scb.sleep(35)
                 return True
         else:
-            piss = scb.onScreen('img/startup/t_piss.png', sure=0.8)
+            piss = scb.onScreen('img/startup/t_piss.png', sure=0.9)
             if(piss):
                 pyautogui.moveTo(piss)
                 pyautogui.click(piss)
                 pyautogui.keyUp('tab')
                 scb.sleep(15)
                 return True
-
+    pyautogui.keyUp('tab')
     return False

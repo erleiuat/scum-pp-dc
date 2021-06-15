@@ -9,8 +9,6 @@ def doIt():
         '#Teleport -117317 -66969 37064',
         '#Teleport -116304 -65755 37064',
         '#Teleport -116298 -67044 37064',
-        '#Teleport -117523 -67142 36874',
-        '#Teleport -117568 -65574 37064',
         '#Teleport -113569 -66546 36994',
         '#Teleport -113786 -67711 36987',
         '#Teleport -111791 -68827 36999',
@@ -32,8 +30,8 @@ def doIt():
 
     for torch in torches:
         control.teleport(torch)
-        scb.sendChat('#SpawnItem Wooden_Plank 1', wait=True, safe=True)
-        for x in range(1):
+        scb.sendChat('#SpawnItem Wooden_Plank 2', wait=True, safe=True)
+        for x in range(2):
             control.doOnThis('img/startup/fackel.png',
                              'img/startup/schueren.png', 3)
         control.doOnThis('img/startup/fackel.png',
@@ -45,7 +43,7 @@ def doIt():
 if __name__ == '__main__':
     scb.sendChat('#SetFakeName [SF-BOT][LIGHT]', wait=True, safe=True)
     scb.sendChat(
-        'I will now maintain the trading zone and will be unavailable for about 5 minutes.', True, safe=True)
+        'I will now maintain the trading zone and be unavailable for about 5 minutes.', True, safe=True)
     doIt()
     scb.sendChat('I am done and available again!', wait=True, safe=True)
     scb.sendChat('#ClearFakeName', wait=True, safe=True)
