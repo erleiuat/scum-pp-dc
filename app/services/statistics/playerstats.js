@@ -90,7 +90,8 @@ exports.rankingPlaytime = async function rankingPlaytime(statesOrg) {
     let msgs = []
     let states = []
     let tmpMsg = ''
-
+    aList = await global.admins.list()
+    
     for (const e in statesOrg)
         if (!aList[e] || !aList[e].hideRankingPlaytime) states.push(statesOrg[e])
 
