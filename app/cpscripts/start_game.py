@@ -56,7 +56,7 @@ control.teleport('#Teleport -117114.336 -66718.719 37064.668')
 # -------------------------------   SETUP
 
 # light_up.lightUp()
-big_business.doIt(4)
+# big_business.doIt(4)
 make_break.doBreak()
 
 # -------------------------------   SETUP DONE
