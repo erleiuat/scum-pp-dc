@@ -11,8 +11,8 @@ exports.console_msg = async function console_msg(cmd) {
 
 exports.spawn = async function spawn(cmd) {
     if (!cmd.steamID) return null
-    if (!global.admins.list()[cmd.steamID]) return null
-    if (!global.admins.list()[cmd.steamID].canSpawn) return null
+    if (!await global.admins.list()[cmd.steamID]) return null
+    if (!await global.admins.list()[cmd.steamID].canSpawn) return null
     return {
         date: cmd.time.date,
         time: cmd.time.time,
@@ -29,8 +29,8 @@ exports.spawn = async function spawn(cmd) {
 
 exports.exec = async function exec(cmd) {
     if (!cmd.steamID) return null
-    if (!global.admins.list()[cmd.steamID]) return null
-    if (!global.admins.list()[cmd.steamID].canExec) return null
+    if (!await global.admins.list()[cmd.steamID]) return null
+    if (!await global.admins.list()[cmd.steamID].canExec) return null
     return {
         date: cmd.time.date,
         time: cmd.time.time,
