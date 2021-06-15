@@ -29,10 +29,9 @@ def pickup(itemImg):
 def doOnThis(victim, action, duration=5):
     if(scb.onScreen('img/c_global.png')):
         pyautogui.press('esc')
-    scb.sleep(0.1)
+    scb.sleep(0.5)
     itemLoc = scb.onScreen(victim, sure=0.8)
     if (itemLoc):
-        pyautogui.moveTo(itemLoc)
         pyautogui.click(itemLoc, button='right')
         scb.sleep(0.1)
         actionLoc = scb.onScreen(action, sure=0.8)
@@ -60,13 +59,13 @@ def takeA(action):
     scb.sleep(0.1)
     pyautogui.keyDown('tab')
     scb.sleep(0.8)
-    toilet = scb.onScreen('img/startup/toilet.png', sure=0.9)
+    toilet = scb.onScreen('img/startup/toilet.png', sure=0.8)
     if(toilet):
         pyautogui.moveTo(toilet)
         pyautogui.click(toilet)
 
         if(action == 'shit'):
-            shit = scb.onScreen('img/startup/t_shit.png', sure=0.9)
+            shit = scb.onScreen('img/startup/t_shit.png', sure=0.8)
             if(shit):
                 pyautogui.moveTo(shit)
                 pyautogui.click(shit)
@@ -74,7 +73,7 @@ def takeA(action):
                 scb.sleep(35)
                 return True
         else:
-            piss = scb.onScreen('img/startup/t_piss.png', sure=0.9)
+            piss = scb.onScreen('img/startup/t_piss.png', sure=0.8)
             if(piss):
                 pyautogui.moveTo(piss)
                 pyautogui.click(piss)
