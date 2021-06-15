@@ -26,7 +26,7 @@ exports.spawn = async function spawn(cmd) {
             '#ClearFakeName'
         ]
     }
-    console.log(sn + cmd.user + ' has no permissions to execute "' + message + '"')
+    console.log('[PERMISSIONS] -> WARNING: ' + cmd.user + ' has no permissions to execute "' + message + '"')
     return null
 }
 
@@ -45,7 +45,7 @@ exports.exec = async function exec(cmd) {
             '#ClearFakeName'
         ]
     }
-    console.log(sn + cmd.user + ' has no permissions to execute "' + message + '"')
+    console.log('[PERMISSIONS] -> WARNING: ' + cmd.user + ' has no permissions to execute "' + message + '"')
     return null
 }
 
