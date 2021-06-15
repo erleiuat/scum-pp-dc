@@ -3,6 +3,7 @@ const cp = require('child_process')
 let starting = false
 let checking = false
 let latestFirework = false
+let latestBusiness = false
 let latestLight = false
 
 exports.makeBreak = async function makeBreak() {
@@ -63,6 +64,37 @@ exports.firework = async function firework() {
     })
 }
 
+exports.business = async function business() {
+    return new Promise((resolve) => {
+
+        global.gameReady = false
+        console.log(sn + 'Doing my business.')
+
+        let now = new Date().getTime()
+        if (latestBusiness && latestBusiness > (now - 60 * 60000)) {
+            global.gameReady = true
+            resolve(true)
+        } else {
+            latestBusiness = now
+            let ls = cp.spawn('py', ['./app/cpscripts/big_business.py '])
+            ls.stdout.on('data', (data) => {
+                console.log(`${data}`)
+            })
+            ls.stderr.on('data', (data) => {
+                console.error(`${data}`)
+            })
+            ls.on('close', (code) => {
+                console.log(`Child process exited with code ${code}`)
+                if (code != 0) resolve(false)
+                else {
+                    global.gameReady = true
+                    resolve(true)
+                }
+            })
+        }
+    })
+}
+
 exports.lightup = async function lightup() {
     return new Promise((resolve) => {
 
@@ -70,8 +102,8 @@ exports.lightup = async function lightup() {
         console.log(sn + 'Lighting everything up.')
 
         let now = new Date().getTime()
-        if (latestLight && latestLight > (now - 60 * 60000)) {
-            this.send(['#SetFakeName [SF-BOT][LIGHTS]', 'Sorry, I can only light up the torches once per hour.', '#ClearFakeName']).then(()=>{
+        if (latestLight && latestLight > (now - 30 * 60000)) {
+            this.send(['#SetFakeName [SF-BOT][LIGHTS]', 'Sorry, I can only light up the torches once every 30 minutes.', '#ClearFakeName']).then(()=>{
                 global.gameReady = true
                 resolve(true)
             })

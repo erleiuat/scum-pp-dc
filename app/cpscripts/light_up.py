@@ -2,7 +2,7 @@ from use import scb
 from use import control
 
 
-def lightUp():
+def doIt():
     torches = [
         '#Teleport -116830 -65759 37064',
         '#Teleport -117327 -66464 37064',
@@ -32,8 +32,8 @@ def lightUp():
 
     for torch in torches:
         control.teleport(torch)
-        scb.sendChat('#SpawnItem Wooden_Plank 2', wait=True, safe=True)
-        for x in range(2):
+        scb.sendChat('#SpawnItem Wooden_Plank 1', wait=True, safe=True)
+        for x in range(1):
             control.doOnThis('img/startup/fackel.png',
                              'img/startup/schueren.png', 3)
         control.doOnThis('img/startup/fackel.png',
@@ -45,7 +45,7 @@ def lightUp():
 if __name__ == '__main__':
     scb.sendChat('#SetFakeName [SF-BOT][LIGHT]', wait=True, safe=True)
     scb.sendChat(
-        'I will now maintain the trading zone and not be available for about 5 minutes.', True, safe=True)
-    lightUp()
-    scb.sendChat('I am done now and available again!', wait=True, safe=True)
+        'I will now maintain the trading zone and will be unavailable for about 5 minutes.', True, safe=True)
+    doIt()
+    scb.sendChat('I am done and available again!', wait=True, safe=True)
     scb.sendChat('#ClearFakeName', wait=True, safe=True)

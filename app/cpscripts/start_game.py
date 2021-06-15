@@ -3,6 +3,7 @@ from use import scb
 from use import control
 import light_up
 import make_break
+import big_business
 import webbrowser
 import subprocess
 import os
@@ -45,18 +46,21 @@ while(not scb.ready(failsafe=False)):
 print(' -> Game ready! Took ' + str(count) + ' seconds')
 
 scb.sendChat('#SetFakeName [SF-BOT][BOOTING]', True, safe=True)
-scb.sendChat('BOT PREPARES ITSELF (ready in about 5 minutes)', True, safe=True)
+scb.sendChat('BOT PREPARES ITSELF', True, safe=True)
 
 scb.openTab()
 control.enlargeInv()
 
+control.teleport('#Teleport -117114.336 -66718.719 37064.668')
+
 # -------------------------------   SETUP
 
-light_up.lightUp()
+# light_up.lightUp()
+big_business.doIt(4)
+make_break.doBreak()
 
 # -------------------------------   SETUP DONE
 
-make_break.doBreak()
 scb.ready()
 scb.sendChat('SF-BOT IS READY!', True)
 scb.sendChat('#ClearFakeName', True)

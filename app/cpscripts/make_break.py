@@ -2,7 +2,7 @@ from use import scb
 from use import control
 
 
-def doBreak():
+def doIt():
     scb.focus('scum')
     scb.sendChat('#SpawnItem Ganoderma_Lucidum', True, safe=True)
     scb.openTab()
@@ -11,4 +11,4 @@ def doBreak():
 
 
 if __name__ == '__main__':
-    doBreak()
+    doIt()
