@@ -7,22 +7,6 @@ def teleport(tpCommand):
     return True
 
 
-def enlargeInv():
-    invSize = scb.onScreen('img/startup/invSize.png')
-    if(not invSize):
-        invSize = scb.onScreen('img/startup/invSize_alt.png')
-    if(invSize):
-        print(invSize)
-        pyautogui.moveTo(invSize)
-        scb.sleep()
-        pyautogui.mouseDown()
-        scb.sleep()
-        pyautogui.moveTo(invSize.x, (invSize.y+800), duration=2)
-        scb.sleep()
-        pyautogui.mouseUp()
-        scb.sleep()
-
-
 def pickupAll(itemImg):
     while (pickup(itemImg)):
         scb.sleep()

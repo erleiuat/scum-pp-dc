@@ -127,6 +127,22 @@ def openTab(menu=1):
         pyautogui.press(str(menu))
 
 
+def enlargeInv():
+    invSize = onScreen('img/startup/invSize.png')
+    if(not invSize):
+        invSize = onScreen('img/startup/invSize_alt.png')
+    if(invSize):
+        print(invSize)
+        pyautogui.moveTo(invSize)
+        sleep()
+        pyautogui.mouseDown()
+        sleep()
+        pyautogui.moveTo(invSize.x, (invSize.y+800), duration=2)
+        sleep()
+        pyautogui.mouseUp()
+        sleep()
+
+
 def sendChat(msg, wait=False, safe=False, chat='global'):
     if (safe and not ready(chat)):
         return False
