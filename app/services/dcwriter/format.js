@@ -115,9 +115,7 @@ exports.kill = async function kill(entry) {
         msg.color = '00ffff'
     }
 
-    console.log(msg)
     return msg
-
 }
 
 exports.chat = async function chat(entry) {
