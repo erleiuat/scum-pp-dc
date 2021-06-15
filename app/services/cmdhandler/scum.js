@@ -120,6 +120,7 @@ exports.lightup = async function lightup() {
                 console.log(`Child process exited with code ${code}`)
                 if (code != 0) resolve(false)
                 else {
+                    global.commands = {}
                     global.gameReady = true
                     resolve(true)
                 }

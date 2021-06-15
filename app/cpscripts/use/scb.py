@@ -144,8 +144,9 @@ def enlargeInv():
 
 
 def sendChat(msg, wait=False, safe=False, chat='global'):
-    if (safe and not ready(chat)):
-        return False
+    if (safe and not onScreen('img/c_global.png')):
+        if(not ready(chat)):
+            return False
     if(wait):
         sleepLong()
     pyautogui.hotkey('ctrl', 'a')

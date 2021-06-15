@@ -51,7 +51,7 @@ scb.sendChat('BOT PREPARES ITSELF', True, safe=True)
 scb.openTab()
 scb.enlargeInv()
 
-control.teleport('#Teleport -117114.336 -66718.719 37064.668')
+control.teleport('#Teleport -117129 -66713 37065')
 
 # -------------------------------   SETUP
 

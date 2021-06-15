@@ -4,14 +4,14 @@ from use import control
 
 def doIt(repeats=1):
     scb.focus('scum')
-    control.teleport('#Teleport -117155 -66054 37064')
+    control.teleport('#Teleport -117331 -66059 37065')
 
     control.takeA('piss')
     for x in range(repeats):
         control.takeA('shit')
 
     scb.openTab()
-    control.teleport('#Teleport -117114.336 -66718.719 37064.668')
+    control.teleport('#Teleport -117129 -66713 37065')
 
 
 if __name__ == '__main__':

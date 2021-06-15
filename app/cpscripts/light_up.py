@@ -21,7 +21,7 @@ def doIt():
         '#Teleport -111485 -72208 36588'
     ]
 
-    control.teleport('#Teleport -117351 -66117 37064')
+    control.teleport('#Teleport -117331 -66059 37065')
     scb.sendChat('#SpawnItem Lighter', wait=True, safe=True)
     scb.sleepLong()
 
@@ -37,7 +37,9 @@ def doIt():
         control.doOnThis('img/startup/fackel.png',
                          'img/startup/anzuenden.png', 3)
 
-    control.teleport('#Teleport -117114.336 -66718.719 37064.668')
+    control.teleport('#Teleport -117129 -66713 37065')
+    # Teleport -117129 -66713 37065      <- Theke
+    # Teleport -117331 -66059 37065      <- Hinterzimmer
 
 
 if __name__ == '__main__':
