@@ -13,8 +13,8 @@ exports.spawn = async function spawn(cmd) {
     aList = await global.admins.list()
     if (!cmd.steamID || !aList[cmd.steamID] || !aList[cmd.steamID].canSpawn) return null
     let message = cmd.message.toLowerCase().replace('!spawn', '').trim()
-    let command = message.split(' ')[0].toLowerCase()
-    if (!aList[cmd.steamID].commands[command] || !aList[cmd.steamID].commands['*']) return null
+    let command = message.split(' ')[0].toLowerCase().trim()
+    if (!aList[cmd.steamID].commands[command] && !aList[cmd.steamID].commands['*']) return null
     return {
         date: cmd.time.date,
         time: cmd.time.time,
@@ -33,8 +33,8 @@ exports.exec = async function exec(cmd) {
     aList = await global.admins.list()
     if (!cmd.steamID || !aList[cmd.steamID] || !aList[cmd.steamID].canExec) return null
     let message = cmd.message.toLowerCase().replace('!exec', '').trim()
-    let command = message.split(' ')[0].toLowerCase()
-    if (!aList[cmd.steamID].commands[command] || !aList[cmd.steamID].commands['*']) return null
+    let command = message.split(' ')[0].toLowerCase().trim()
+    if (!aList[cmd.steamID].commands[command] && !aList[cmd.steamID].commands['*']) return null
     return {
         date: cmd.time.date,
         time: cmd.time.time,
