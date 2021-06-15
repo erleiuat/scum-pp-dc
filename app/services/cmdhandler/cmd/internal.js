@@ -15,7 +15,7 @@ let admins = [
     '76561198046659274'
 ]
 
-exports.spawnitem = async function spawnitem(cmd) {
+exports.spawn = async function spawn(cmd) {
     if (!cmd.steamID) return null
     if (!admins.includes(cmd.steamID)) return null
     return {
