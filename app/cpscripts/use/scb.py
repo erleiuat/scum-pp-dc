@@ -70,6 +70,7 @@ def ready(chat='global', once=False, failsafe=True):
         return False
     focus('scum')
     sleep()
+    openTab()
     if(not onScreen(imgChat, bw=False) and not onScreen('img/c_stumm.png')):
         pyautogui.press('t')
         sleep()
