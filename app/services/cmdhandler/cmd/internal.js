@@ -28,6 +28,7 @@ exports.spawn = async function spawn(cmd) {
 }
 
 exports.exec = async function exec(cmd) {
+    console.log(await global.admins.list())
     if (!cmd.steamID) return null
     if (!await global.admins.list()[cmd.steamID]) return null
     if (!await global.admins.list()[cmd.steamID].canExec) return null
