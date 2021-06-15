@@ -74,6 +74,8 @@ def ready(chat='global', once=False, failsafe=True):
     if(not onScreen(imgChat, bw=False) and not onScreen('img/c_stumm.png')):
         pyautogui.press('t')
         sleep()
+        pyautogui.hotkey('ctrl', 'a')
+        pyautogui.press('del')
     if(not onScreen(imgChat, bw=False)):
         sleep()
         if(onScreen('img/c_stumm.png')):
@@ -84,6 +86,8 @@ def ready(chat='global', once=False, failsafe=True):
             pyautogui.press('esc')
             sleep()
             pyautogui.press('t')
+            pyautogui.hotkey('ctrl', 'a')
+            pyautogui.press('del')
             if(not once):
                 return ready(once=True, failsafe=failsafe)
             elif(failsafe):
