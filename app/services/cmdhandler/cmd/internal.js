@@ -25,7 +25,7 @@ exports.spawn = async function spawn(cmd) {
         commands: [
             '#SetFakeName [SF-BOT][EXEC]',
             '#Teleport -116077 -66395 37065',
-            cmd.message,
+            cmd.message.toLowerCase().replace('!spawn', '').trim(),
             '#Teleport -117129 -66713 37065',
             '#ClearFakeName'
         ]
@@ -41,7 +41,7 @@ exports.exec = async function exec(cmd) {
         type: 'global',
         commands: [
             '#SetFakeName [SF-BOT][EXEC]',
-            cmd.message,
+            cmd.message.toLowerCase().replace('!exec', '').trim(),
             '#ClearFakeName'
         ]
     }
