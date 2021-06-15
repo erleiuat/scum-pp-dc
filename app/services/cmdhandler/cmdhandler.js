@@ -157,6 +157,7 @@ exports.start = async function start() {
             else if (cmdStart == '!starterkit') newCmds[e] = await tStarterkit(cmd)
             else if (cmdStart == '!ready') newCmds[e] = await tReady(cmd)
             else if (cmdStart == '!firework') await scum.firework(cmd)
+            else if (cmdStart == '!lightup') await scum.lightup(cmd)
             else if (cmdStart == 'welcome_new') newCmds['welcome_' + cmd.joined.getTime] = await cmdsInternal['welcome_new'](cmd)
             else if (cmdStart == 'console_msg') newCmds['console_' + e] = await cmdsInternal['console_msg'](cmd)
             else if (cmdStart == 'kill_feed') newCmds[e] = await cmdsInternal['kill_feed'](cmd)

@@ -3,6 +3,7 @@ const cp = require('child_process')
 let starting = false
 let checking = false
 let latestFirework = false
+let latestLight = false
 
 exports.makeBreak = async function makeBreak() {
     return new Promise((resolve) => {
@@ -44,6 +45,39 @@ exports.firework = async function firework() {
         } else {
             latestFirework = now
             let ls = cp.spawn('py', ['./app/cpscripts/do_firework.py '])
+            ls.stdout.on('data', (data) => {
+                console.log(`${data}`)
+            })
+            ls.stderr.on('data', (data) => {
+                console.error(`${data}`)
+            })
+            ls.on('close', (code) => {
+                console.log(`Child process exited with code ${code}`)
+                if (code != 0) resolve(false)
+                else {
+                    global.gameReady = true
+                    resolve(true)
+                }
+            })
+        }
+    })
+}
+
+exports.lightup = async function lightup() {
+    return new Promise((resolve) => {
+
+        global.gameReady = false
+        console.log(sn + 'Lighting everything up.')
+
+        let now = new Date().getTime()
+        if (latestLight && latestLight > (now - 60 * 60000)) {
+            this.send(['#SetFakeName [SF-BOT][LIGHTS]', 'Sorry, I can only light up the torches once per hour.', '#ClearFakeName']).then(()=>{
+                global.gameReady = true
+                resolve(true)
+            })
+        } else {
+            latestLight = now
+            let ls = cp.spawn('py', ['./app/cpscripts/light_up.py '])
             ls.stdout.on('data', (data) => {
                 console.log(`${data}`)
             })
