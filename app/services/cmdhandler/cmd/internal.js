@@ -10,9 +10,10 @@ exports.console_msg = async function console_msg(cmd) {
 }
 
 exports.spawn = async function spawn(cmd) {
+    aList = await global.admins.list()
     if (!cmd.steamID) return null
-    if (!await global.admins.list()[cmd.steamID]) return null
-    if (!await global.admins.list()[cmd.steamID].canSpawn) return null
+    if (!aList[cmd.steamID]) return null
+    if (!aList[cmd.steamID].canSpawn) return null
     return {
         date: cmd.time.date,
         time: cmd.time.time,
@@ -28,10 +29,11 @@ exports.spawn = async function spawn(cmd) {
 }
 
 exports.exec = async function exec(cmd) {
-    console.log(await global.admins.list())
+    aList = await global.admins.list()
+    console.log(aList[cmd.steamID])
     if (!cmd.steamID) return null
-    if (!await global.admins.list()[cmd.steamID]) return null
-    if (!await global.admins.list()[cmd.steamID].canExec) return null
+    if (!aList[cmd.steamID]) return null
+    if (!aList[cmd.steamID].canExec) return null
     return {
         date: cmd.time.date,
         time: cmd.time.time,
