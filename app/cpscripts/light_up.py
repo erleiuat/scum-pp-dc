@@ -22,7 +22,7 @@ def doIt():
         '#Teleport -111485 -72208 36588'
     ]
 
-    control.teleport('#Teleport -117331 -66059 37065')
+    scb.sendChat('#Teleport -117331 -66059 37065')
     scb.sendChat('#SpawnItem Lighter')
     scb.sleepLong()
 
