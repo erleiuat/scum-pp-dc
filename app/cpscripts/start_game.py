@@ -53,7 +53,7 @@ scb.sleepLong()
 
 # -------------------------------   SETUP
 
-big_business.doIt(4)
+big_business.doIt(2)
 make_break.doIt()
 
 # -------------------------------   SETUP DONE
