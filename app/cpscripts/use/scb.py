@@ -132,7 +132,7 @@ def openTab():
 
 
 def sendChat(msg):
-    if (not onScreen('img/c_global.png')):
+    if (not onScreen('img/c_global.png', bw=False)):
         ready()
     pyautogui.hotkey('ctrl', 'a')
     pyautogui.press('del')
