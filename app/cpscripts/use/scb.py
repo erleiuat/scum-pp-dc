@@ -160,5 +160,5 @@ def sendChat(msg, chatOnly=False, noCheck=False):
     print('CHAT -> Sent: ' + str(msg))
     if(msg.lower().startswith('#teleport')):
         loading()
-        ready()
+        ready(chatOnly=chatOnly)
     return True
