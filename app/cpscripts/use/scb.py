@@ -41,16 +41,20 @@ def focus(window_name):
 
 
 def idlePos():
-    print('IDLE -> Going to idle position')
-    sendChat('#Teleport -116369 -65906 37144', chatOnly=True)
-    if (onScreen('img/c_global.png', bw=False)):
-        pyautogui.press('esc')
+    if (not onScreen('img/c_global.png', bw=False)):
+        ready(chatOnly=True)
+    # sendChat('#Teleport -116369 -65906 37144', chatOnly=True)
+    pyautogui.hotkey('ctrl', 'a')
+    pyautogui.press('del')
+    keyboard.write('#Teleport -116369 -65906 37144')
+    pyautogui.press('enter')
+    loading()
     pyautogui.keyDown('tab')
     sleep(0.8)
     pyautogui.moveTo(630, 500, duration=0.2)
     pyautogui.click()
-    pyautogui.moveTo(810, 500, duration=0.1)
-    pyautogui.moveTo(810, 300, duration=0.1)
+    pyautogui.moveTo(810, 500, duration=0.2)
+    pyautogui.moveTo(810, 300, duration=0.2)
     pyautogui.click()
     sleepLong()
     pyautogui.keyUp('tab')
