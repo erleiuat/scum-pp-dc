@@ -15,7 +15,7 @@ def doOnThis(victim, action, duration=5):
             scb.sleep(duration)
             return True
         else:
-            pyautogui.press('esc')
+            scb.centerMouse(click=True)
             return False
     else:
         return False

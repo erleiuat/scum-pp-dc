@@ -42,7 +42,6 @@ def focus(window_name):
 
 def idlePos():
     ready(chatOnly=True)
-    # sendChat('#Teleport -116369 -65906 37144', chatOnly=True)
     keyboard.write('#Teleport -116369 -65906 37144')
     pyautogui.press('enter')
     loading()
@@ -78,9 +77,11 @@ def click(img, button='left', bw=True, sure=0.9, duration=0.1):
         return False
 
 
-def centerMouse():
+def centerMouse(click=False):
     x, y = pyautogui.size()
     pyautogui.moveTo((x/2), (y/2), duration=0.05)
+    if(click):
+        pyautogui.click()
 
 
 def ready(chatOnly=False):
