@@ -33,7 +33,7 @@ exports.exec = async function exec(cmd) {
     let command = message.split(' ')[0].toLowerCase().trim()
     if (aList[cmd.steamID].commands[command] || aList[cmd.steamID].commands['#*']) {
         let cmdArr = ['#SetFakeName [SF-BOT][' + cmd.user + '][EXEC]']
-        cmdArr = cmdArr.concat(cmd.content.split(';').map(s => s.trim()))
+        cmdArr = cmdArr.concat(cmd.message.split(';').map(s => s.trim()))
         cmdArr.push('#ClearFakeName')
         return {
             date: cmd.time.date,
