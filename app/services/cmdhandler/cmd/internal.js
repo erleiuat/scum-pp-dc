@@ -9,23 +9,8 @@ exports.console_msg = async function console_msg(cmd) {
 }
 
 exports.spawn = async function spawn(cmd) {
-    aList = await global.admins.list()
-    if (!cmd.steamID || !aList[cmd.steamID] || !aList[cmd.steamID].canSpawn) return null
-    let message = cmd.message.toLowerCase().replace('!spawn', '').trim()
-    let command = message.split(' ')[0].toLowerCase().trim()
-    if (aList[cmd.steamID].commands[command] || aList[cmd.steamID].commands['#*']) return {
-        date: cmd.time.date,
-        time: cmd.time.time,
-        type: 'global',
-        commands: [
-            '#SetFakeName [SF-BOT][' + cmd.user + '][EXEC]',
-            '#Teleport -116077 -66395 37065',
-            message,
-            '#ClearFakeName'
-        ]
-    }
-    console.log('[PERMISSIONS] -> WARNING: ' + cmd.user + ' has no permissions to execute "' + message + '"')
-    return null
+    cmd.message = '#Teleport -116077 -66395 37065; ' + cmd.message
+    return await this.exec(cmd)
 }
 
 exports.mine_armed = async function mine_armed(cmd) {
@@ -46,15 +31,16 @@ exports.exec = async function exec(cmd) {
     if (!cmd.steamID || !aList[cmd.steamID] || !aList[cmd.steamID].canExec) return null
     let message = cmd.message.toLowerCase().replace('!exec', '').trim()
     let command = message.split(' ')[0].toLowerCase().trim()
-    if (aList[cmd.steamID].commands[command] || aList[cmd.steamID].commands['#*']) return {
-        date: cmd.time.date,
-        time: cmd.time.time,
-        type: 'global',
-        commands: [
-            '#SetFakeName [SF-BOT][' + cmd.user + '][EXEC]',
-            message,
-            '#ClearFakeName'
-        ]
+    if (aList[cmd.steamID].commands[command] || aList[cmd.steamID].commands['#*']) {
+        let cmdArr = ['#SetFakeName [SF-BOT][' + cmd.user + '][EXEC]']
+        cmdArr = cmdArr.concat(cmd.content.split(';').map(s => s.trim()))
+        cmdArr.push('#ClearFakeName')
+        return {
+            date: cmd.time.date,
+            time: cmd.time.time,
+            type: 'global',
+            commands: cmdArr
+        }
     }
     console.log('[PERMISSIONS] -> WARNING: ' + cmd.user + ' has no permissions to execute "' + message + '"')
     return null
