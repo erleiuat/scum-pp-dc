@@ -30,20 +30,25 @@ exports.exec = async function exec(cmd) {
     aList = await global.admins.list()
     if (!cmd.steamID || !aList[cmd.steamID] || !aList[cmd.steamID].canExec) return null
     let message = cmd.message.toLowerCase().replace('!exec', '').trim()
-    let command = message.split(' ')[0].toLowerCase().trim()
-    if (aList[cmd.steamID].commands[command] || aList[cmd.steamID].commands['#*']) {
-        let cmdArr = ['#SetFakeName [SF-BOT][' + cmd.user + '][EXEC]']
-        cmdArr = cmdArr.concat(cmd.message.split(';').map(s => s.trim()))
-        cmdArr.push('#ClearFakeName')
-        return {
-            date: cmd.time.date,
-            time: cmd.time.time,
-            type: 'global',
-            commands: cmdArr
+    let cmdArr = ['#SetFakeName [SF-BOT][' + cmd.user + '][EXEC]']
+    let msgCmds = cmd.message.split(';').map(s => s.trim())
+    if(aList[cmd.steamID].commands['#*']) {
+        cmdArr = cmdArr.concat(msgCmds)
+    } else {
+        for (const e of msgCmds) {
+            let command = msgCmds[e].split(' ')[0].toLowerCase().trim()
+            if (aList[cmd.steamID].commands[command]) {
+                cmdArr.push(msgCmds[e])
+            }
         }
     }
-    console.log('[PERMISSIONS] -> WARNING: ' + cmd.user + ' has no permissions to execute "' + message + '"')
-    return null
+    cmdArr.push('#ClearFakeName')
+    return {
+        date: cmd.time.date,
+        time: cmd.time.time,
+        type: 'global',
+        commands: cmdArr
+    }
 }
 
 exports.sk_legal = async function sk_legal(cmd) {
