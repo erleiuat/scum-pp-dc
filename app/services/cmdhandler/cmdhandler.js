@@ -21,21 +21,21 @@ async function ftpCon() {
     }
 }
 
-async function loadKits() {
+async function loadStatus(file) {
     try {
         await ftpCon()
-        await ftp.downloadTo('./app/storage/starterkits.json', process.env.RM_CMD_FTP_DIR + 'starterkits.json')
-        hasStarterkit = JSON.parse(fs.readFileSync('./app/storage/starterkits.json'))
+        await ftp.downloadTo('./app/storage/' + file, process.env.RM_CMD_FTP_DIR + file)
+        ftp.close()
+        return JSON.parse(fs.readFileSync('./app/storage/' + file))
     } catch (error) {
         throw new Error(error)
     }
 
-    ftp.close()
 }
 
 async function receivesStarterkit(steamID, name) {
     try {
-        await loadKits()
+        hasStarterkit = await loadStatus('starterkits.json')
         hasStarterkit[steamID] = {
             name: name,
             stamp: new Date().getTime()
@@ -48,15 +48,21 @@ async function receivesStarterkit(steamID, name) {
     }
 }
 
+/*
+async function tStorageBox(cmd) {
+
+}
+*/
+
 async function tStarterkit(cmd) {
-    await loadKits()
+    hasStarterkit = await loadStatus('starterkits.json')
     if (cmd.type.toLowerCase() != 'global') return null
     if (!hasStarterkit[cmd.steamID]) return await cmdsInternal['sk_legal'](cmd)
     else return await cmdsInternal['sk_illegal'](cmd)
 }
 
 async function tReady(cmd) {
-    await loadKits()
+    hasStarterkit = await loadStatus('starterkits.json')
     if (!hasStarterkit[cmd.steamID]) {
         await receivesStarterkit(cmd.steamID, cmd.user)
         return await cmdsInternal['sk_ready'](cmd)
@@ -156,6 +162,7 @@ exports.start = async function start() {
             if (cmdsPublic.list[cmdStart]) newCmds[e] = await cmdsPublic[cmdsPublic.list[cmdStart]](cmd)
             else if (cmdStart == '!starterkit') newCmds[e] = await tStarterkit(cmd)
             else if (cmdStart == '!ready') newCmds[e] = await tReady(cmd)
+            //else if (cmdStart == '!storagebox') newCmds[e] = await tStorageBox(cmd)
             else if (cmdStart == '!firework') await scum.firework(cmd)
             else if (cmdStart == '!lightup') await scum.lightup(cmd)
             else if (cmdStart == '!business') await scum.business(cmd)
@@ -166,7 +173,6 @@ exports.start = async function start() {
             else if (cmdStart == 'kill_feed') newCmds[e] = await cmdsInternal['kill_feed'](cmd)
             else if (cmdStart == 'auth_log') newCmds[e] = await cmdsInternal['auth_log'](cmd)
             else if (cmdStart == 'mine_armed') newCmds[e] = await cmdsInternal['mine_armed'](cmd)
-
         }
 
         i++

@@ -39,6 +39,22 @@ def focus(window_name):
         return False
 
 
+def idlePos():
+    print('IDLE -> Going to idle position')
+    sendChat('#Teleport -116369 -65906 37144')
+    if (onScreen('img/c_global.png', bw=False)):
+        pyautogui.press('esc')
+    sleep()
+    pyautogui.keyDown('tab')
+    sleep(0.8)
+    pyautogui.click(630, 500, duration=0.2)
+    pyautogui.click(810, 300, duration=0.2)
+    sleep()
+    pyautogui.keyUp('tab')
+    ready()
+    return True
+
+
 def onScreen(img, bw=True, sure=0.9):
     isThere = pyautogui.locateCenterOnScreen(
         path() + img, grayscale=bw, confidence=sure)

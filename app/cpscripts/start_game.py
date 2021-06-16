@@ -11,8 +11,8 @@ fullBatPath = os.path.dirname(os.path.realpath(__file__))
 print('\n\n')
 
 print(' -> Killing running processes')
-subprocess.call([fullBatPath + '\kill_steam.bat'])
-subprocess.call([fullBatPath + '\kill_scum.bat'])
+subprocess.call([fullBatPath + '\use\kill_steam.bat'])
+subprocess.call([fullBatPath + '\use\kill_scum.bat'])
 scb.sleep(5)
 
 print(' -> Starting Scum')
@@ -48,8 +48,6 @@ scb.sendChat('#SetFakeName [SF-BOT][BOOTING]')
 scb.sleepLong()
 scb.sendChat('I\'m getting prepared...')
 scb.sleepLong()
-scb.sendChat('#Teleport -117129 -66713 37065')
-scb.sleepLong()
 
 # -------------------------------   SETUP
 
@@ -58,7 +56,7 @@ make_break.doIt()
 
 # -------------------------------   SETUP DONE
 
-scb.ready()
+scb.idlePos()
 scb.sendChat("I'm ready!")
 scb.sendChat('#ClearFakeName')
 

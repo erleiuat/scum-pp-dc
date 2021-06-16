@@ -38,9 +38,7 @@ def doIt():
         control.doOnThis('img/startup/fackel.png',
                          'img/startup/anzuenden.png', 1.8)
 
-    scb.sendChat('#Teleport -117129 -66713 37065')
-    # Teleport -117129 -66713 37065      <- Theke
-    # Teleport -117331 -66059 37065      <- Hinterzimmer
+    scb.idlePos()
 
 
 if __name__ == '__main__':

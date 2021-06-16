@@ -13,9 +13,7 @@ def shoot():
     scb.sendChat('There you go')
     scb.sleepLong()
     scb.sendChat('#ClearFakeName')
-    scb.sleepLong()
-    scb.sendChat('#Teleport -117129 -66713 37065')
-    scb.sleepLong()
+    scb.idlePos()
 
 
 if __name__ == '__main__':

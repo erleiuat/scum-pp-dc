@@ -22,7 +22,6 @@ exports.spawn = async function spawn(cmd) {
             '#SetFakeName [SF-BOT][' + cmd.user + '][EXEC]',
             '#Teleport -116077 -66395 37065',
             message,
-            '#Teleport -117129 -66713 37065',
             '#ClearFakeName'
         ]
     }
@@ -85,7 +84,8 @@ exports.sk_ready = async function sk_ready(cmd) {
         type: 'global',
         commands: [
             '#SetFakeName [SF-BOT][STARTERKIT]',
-            '@' + cmd.user + ' you will be transported to the trading zone now.',
+            '@' + cmd.user + ' you will be transported to the trading zone in a few seconds.',
+            '#Teleport -117129 -66713 37065',
             '#TeleportToMe ' + cmd.steamID,
             '#SpawnItem Backpack_01_07',
             '#SpawnItem MRE_Stew 2',
@@ -104,7 +104,6 @@ exports.sk_ready = async function sk_ready(cmd) {
             '#Teleport -116453 -66401 37477',
             '#SpawnVehicle BP_Quad_01_A',
             '@' + cmd.user + ' your starterkit should now be there any your Quad should be waiting for you outside.',
-            '#Teleport -117129 -66713 37065',
             '#ClearFakeName'
         ]
     }
