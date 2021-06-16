@@ -5,14 +5,14 @@ import webbrowser
 import subprocess
 import os
 
-fullBatPath = os.path.dirname(os.path.realpath(__file__))
+fullBatPath = os.path.dirname(os.path.realpath(__file__)) + '\use'
 
 
 print('\n\n')
 
 print(' -> Killing running processes')
-subprocess.call([fullBatPath + '\use\kill_steam.bat'])
-subprocess.call([fullBatPath + '\use\kill_scum.bat'])
+subprocess.call([fullBatPath + '\kill_steam.bat'])
+subprocess.call([fullBatPath + '\kill_scum.bat'])
 scb.sleep(5)
 
 print(' -> Starting Scum')
