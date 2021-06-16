@@ -54,7 +54,6 @@ scb.sleepLong()
 # -------------------------------   SETUP
 
 big_business.doIt(2)
-make_break.doIt()
 
 # -------------------------------   SETUP DONE
 
