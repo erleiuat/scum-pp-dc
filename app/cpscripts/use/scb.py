@@ -124,7 +124,7 @@ def loading():
 def dragInv():
     ist = onScreen('img/invDrag.png')
     soll = onScreen('img/invDrag_to.png')
-    if(ist.y < (soll.y - 20) or ist.y > (soll.y + 20)):
+    while(ist.y < (soll.y - 50) or ist.y > (soll.y + 50)):
         pyautogui.moveTo(ist)
         sleep()
         pyautogui.mouseDown()
@@ -133,6 +133,7 @@ def dragInv():
         sleep()
         pyautogui.mouseUp()
         sleep()
+        ist = onScreen('img/invDrag.png')
     centerMouse()
     return True
 
