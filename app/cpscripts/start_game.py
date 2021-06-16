@@ -45,6 +45,7 @@ print(' -> Game ready! Took ' + str(count) + ' seconds')
 
 scb.sleep(5)
 scb.ready()
+scb.sleep(2)
 scb.sendChat('#SetFakeName [SF-BOT][BOOTING]')
 scb.sleepLong()
 scb.sendChat('I\'m getting prepared...')

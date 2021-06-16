@@ -145,8 +145,9 @@ def openTab():
     if(onScreen('img/c_stumm.png')):
         pyautogui.press('esc')
     pyautogui.keyDown('tab')
-    sleep(0.01)
+    sleep(0.02)
     pyautogui.keyUp('tab')
+    sleep()
     pyautogui.press('1')
     if(not onScreen('img/inventar.png')):
         return False
