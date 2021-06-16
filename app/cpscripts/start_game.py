@@ -34,7 +34,7 @@ print(' -> Main-Menu loaded! Took ' + str(count) + ' seconds')
 
 count = 0
 print(' -> Waiting for ingame')
-while(not scb.openTab()):
+while(not scb.onScreen('img/startup/mic.png')):
     scb.focus('scum')
     count = count + 1
     if(count > 100):
@@ -42,7 +42,7 @@ while(not scb.openTab()):
     scb.sleep(1)
 print(' -> Game ready! Took ' + str(count) + ' seconds')
 
-
+scb.sleep(5)
 scb.sendChat('#SetFakeName [SF-BOT][BOOTING]')
 scb.sleepLong()
 scb.sendChat('I\'m getting prepared...')
