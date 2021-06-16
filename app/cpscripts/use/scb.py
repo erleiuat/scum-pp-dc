@@ -41,11 +41,8 @@ def focus(window_name):
 
 
 def idlePos():
-    if (not onScreen('img/c_global.png', bw=False)):
-        ready(chatOnly=True)
+    ready(chatOnly=True)
     # sendChat('#Teleport -116369 -65906 37144', chatOnly=True)
-    pyautogui.hotkey('ctrl', 'a')
-    pyautogui.press('del')
     keyboard.write('#Teleport -116369 -65906 37144')
     pyautogui.press('enter')
     loading()
@@ -92,6 +89,8 @@ def ready(chatOnly=False):
     if(not chatOnly):
         openTab()
     if(onScreen('img/c_global.png', bw=False)):
+        pyautogui.hotkey('ctrl', 'a')
+        pyautogui.press('del')
         print('READY -> Chat is ready')
         return True
     if(not onScreen('img/c_stumm.png')):
