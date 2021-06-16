@@ -14,8 +14,8 @@ def doIt(repeats=1):
 if __name__ == '__main__':
     scb.sendChat('#SetFakeName [SF-BOT][BUSINESS]')
     scb.sleepLong()
-    #scb.sendChat('I will be unavailable for one minute.')
+    scb.sendChat('I will be unavailable for one minute.')
     doIt()
-    #scb.sendChat('I\'m available again!')
+    scb.sendChat('I\'m available again!')
     scb.sleepLong()
     scb.sendChat('#ClearFakeName')
