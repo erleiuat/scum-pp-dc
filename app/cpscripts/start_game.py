@@ -22,7 +22,7 @@ scb.sleep(5)
 
 count = 0
 print(' -> Waiting for Main-Menu')
-while(not scb.click('img/fortsetzen.png')):
+while(not scb.click('img/fortsetzen.png', sure=0.8)):
     scb.focus('scum')
     scb.centerMouse()
     count = count + 1
