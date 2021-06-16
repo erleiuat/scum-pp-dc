@@ -4,7 +4,7 @@ import sys
 
 print('\n\n')
 
-scb.ready(chatOnly=True)
+scb.ready()
 
 count = 0
 del sys.argv[0]
