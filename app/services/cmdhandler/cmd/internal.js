@@ -1,11 +1,11 @@
 exports.console_msg = async function console_msg(cmd) {
+
+    let cmdArr = ['#SetFakeName [SF-BOT][' + cmd.user + ']']
+    cmdArr.push(cmd.content.split().map(s => s.trim()))
+    cmdArr.push('#ClearFakeName')
     return {
         message: 'console_msg',
-        commands: [
-            '#SetFakeName [SF-BOT][' + cmd.user + ']',
-            cmd.content,
-            '#ClearFakeName'
-        ]
+        commands: cmdArr
     }
 }
 
