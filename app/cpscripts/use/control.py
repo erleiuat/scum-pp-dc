@@ -2,32 +2,8 @@ from use import scb
 import pyautogui
 
 
-def teleport(tpCommand):
-    scb.sendChat(tpCommand, safe=True)
-    return True
-
-
-def pickupAll(itemImg):
-    while (pickup(itemImg)):
-        scb.sleep()
-    return True
-
-
-def pickup(itemImg):
-    scb.sleep()
-    itemLoc = scb.onScreen(itemImg, sure=0.8)
-    if (itemLoc):
-        pyautogui.moveTo(itemLoc)
-        scb.sleep()
-        pyautogui.doubleClick(itemLoc)
-        scb.sleep()
-        return True
-    else:
-        return False
-
-
 def doOnThis(victim, action, duration=5):
-    if(scb.onScreen('img/c_global.png')):
+    if(scb.onScreen('img/c_stumm.png')):
         pyautogui.press('esc')
     scb.sleep(0.5)
     itemLoc = scb.onScreen(victim, sure=0.8)
@@ -47,14 +23,8 @@ def doOnThis(victim, action, duration=5):
         return False
 
 
-def doAllOnThis(victim, action, duration=5):
-    while(doOnThis(victim, action, duration=duration)):
-        scb.sleep()
-    return True
-
-
 def takeA(action):
-    if(scb.onScreen('img/c_global.png')):
+    if(scb.onScreen('img/c_stumm.png')):
         pyautogui.press('esc')
     scb.sleep(0.1)
     pyautogui.keyDown('tab')

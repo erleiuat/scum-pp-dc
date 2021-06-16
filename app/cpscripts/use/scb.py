@@ -17,10 +17,6 @@ def sleepLong():
     sleep(0.7)
 
 
-def mouseReady():
-    pyautogui.move(0, 0)
-
-
 def focus(window_name):
     if(window_name.lower() in win32gui.GetWindowText(win32gui.GetForegroundWindow()).lower()):
         return True
@@ -63,50 +59,33 @@ def click(img, button='left', bw=True, sure=0.9):
         return False
 
 
-def ready(chat='global', once=False, failsafe=True):
-    print('READY -> Checking if chat is ready')
+def centerMouse():
+    x, y = pyautogui.size()
+    pyautogui.moveTo((x/2), (y/2), duration=0.2)
+
+
+def ready():
     imgChat = 'img/c_global.png'
-    if(chat != 'global'):
-        return False
+    print('READY -> Checking if chat is ready')
     focus('scum')
     sleep()
     openTab()
-    if(not onScreen(imgChat, bw=False) and not onScreen('img/c_stumm.png')):
+    if(not onScreen('img/c_stumm.png')):
         pyautogui.press('t')
         sleep()
         pyautogui.hotkey('ctrl', 'a')
         pyautogui.press('del')
-    if(not onScreen(imgChat, bw=False)):
-        sleep()
-        if(onScreen('img/c_stumm.png')):
-            while(not onScreen(imgChat, bw=False)):
-                pyautogui.press('tab')
-                sleep(1)
-        elif(onScreen('img/spiel_fortsetzen.png')):
-            pyautogui.press('esc')
-            sleep()
-            pyautogui.press('t')
-            pyautogui.hotkey('ctrl', 'a')
-            pyautogui.press('del')
-            if(not once):
-                return ready(once=True, failsafe=failsafe)
-            elif(failsafe):
-                raise Exception('Game not ready')
-            else:
-                return False
-        else:
-            sleep(5)
-            if(not once):
-                return ready(once=True, failsafe=failsafe)
-            elif(failsafe):
-                raise Exception('Game not ready')
-            else:
-                return False
-
-    pyautogui.hotkey('ctrl', 'a')
-    pyautogui.press('del')
-    print('READY -> Chat is ready')
-    return True
+    if(onScreen('img/c_stumm.png') and not onScreen(imgChat, bw=False)):
+        while(not onScreen(imgChat, bw=False)):
+            pyautogui.press('tab')
+            sleep(0.5)
+        return True
+    if(onScreen('img/c_stumm.png') and onScreen(imgChat, bw=False)):
+        pyautogui.hotkey('ctrl', 'a')
+        pyautogui.press('del')
+        print('READY -> Chat is ready')
+        return True
+    return False
 
 
 def loading():
@@ -120,40 +99,41 @@ def loading():
     time.sleep(0.05)
 
 
-def openTab(menu=1):
-    if(not onScreen('img/startup/inventar.png')):
-        if(onScreen('img/c_global.png') or onScreen('img/spiel_fortsetzen.png')):
-            pyautogui.press('esc')
-            sleep()
-        pyautogui.keyDown('tab')
-        sleep(0.01)
-        pyautogui.keyUp('tab')
-        sleep()
-        pyautogui.press(str(menu))
-
-
-def enlargeInv():
-    invSize = onScreen('img/startup/invSize.png')
-    if(not invSize):
-        invSize = onScreen('img/startup/invSize_alt.png')
-    if(invSize):
-        print(invSize)
-        pyautogui.moveTo(invSize)
+def dragInv():
+    ist = onScreen('img/invDrag.png')
+    soll = onScreen('img/invDrag_to.png')
+    if(ist.y < (soll.y - 20) or ist.y > (soll.y + 20)):
+        pyautogui.moveTo(ist)
         sleep()
         pyautogui.mouseDown()
         sleep()
-        pyautogui.moveTo(invSize.x, (invSize.y+800), duration=1)
+        pyautogui.moveTo(soll, duration=0.5)
         sleep()
         pyautogui.mouseUp()
         sleep()
+    centerMouse()
+    return True
 
 
-def sendChat(msg, wait=False, safe=False, chat='global'):
-    if (safe and not onScreen('img/c_global.png')):
-        if(not ready(chat)):
-            return False
-    if(wait):
-        sleepLong()
+def openTab():
+    if(onScreen('img/inventar.png')):
+        if(onScreen('img/invDrag.png')):
+            dragInv()
+        return True
+    pyautogui.keyDown('tab')
+    sleep(0.01)
+    pyautogui.keyUp('tab')
+    pyautogui.press('1')
+    if(not onScreen('img/inventar.png')):
+        return False
+    if(onScreen('img/invDrag.png')):
+        dragInv()
+    return True
+
+
+def sendChat(msg):
+    if (not onScreen('img/c_global.png')):
+        ready()
     pyautogui.hotkey('ctrl', 'a')
     pyautogui.press('del')
     keyboard.write(str(msg))
@@ -161,6 +141,5 @@ def sendChat(msg, wait=False, safe=False, chat='global'):
     print('CHAT -> Sent: ' + str(msg))
     if(msg.lower().startswith('#teleport')):
         loading()
-        openTab()
         ready()
     return True

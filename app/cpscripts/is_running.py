@@ -21,7 +21,5 @@ if (not processRunning('scum')):
 if(not scb.ready()):
     raise Exception('Not ingame or on server')
 
-scb.enlargeInv()
-
 
 print('\n\n')

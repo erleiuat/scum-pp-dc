@@ -22,30 +22,30 @@ def doIt():
     ]
 
     control.teleport('#Teleport -117331 -66059 37065')
-    scb.sendChat('#SpawnItem Lighter', wait=True, safe=True)
+    scb.sendChat('#SpawnItem Lighter')
     scb.sleepLong()
 
     control.doOnThis('img/startup/lighter.png',
                      'img/startup/aufnehmen.png', 0.8)
 
     for torch in torches:
-        control.teleport(torch)
-        scb.sendChat('#SpawnItem Wooden_Plank 2', wait=True, safe=True)
+        scb.sendChat(torch)
+        scb.sendChat('#SpawnItem Wooden_Plank 2')
         for x in range(2):
             control.doOnThis('img/startup/fackel.png',
                              'img/startup/schueren.png', 1.8)
         control.doOnThis('img/startup/fackel.png',
                          'img/startup/anzuenden.png', 1.8)
 
-    control.teleport('#Teleport -117129 -66713 37065')
+    scb.sendChat('#Teleport -117129 -66713 37065')
     # Teleport -117129 -66713 37065      <- Theke
     # Teleport -117331 -66059 37065      <- Hinterzimmer
 
 
 if __name__ == '__main__':
-    scb.sendChat('#SetFakeName [SF-BOT][LIGHT]', wait=True, safe=True)
+    scb.sendChat('#SetFakeName [SF-BOT][LIGHT]')
     scb.sendChat(
-        'I will now maintain the trading zone and be unavailable for about 5 minutes.', wait=True, safe=True)
+        'I will now maintain the trading zone and be unavailable for about 5 minutes.')
     doIt()
-    scb.sendChat('I am done and available again!', wait=True, safe=True)
-    scb.sendChat('#ClearFakeName', wait=True, safe=True)
+    scb.sendChat('I am done and available again!')
+    scb.sendChat('#ClearFakeName')

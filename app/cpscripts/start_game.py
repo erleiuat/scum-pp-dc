@@ -1,7 +1,4 @@
-from pyautogui import failSafeCheck
 from use import scb
-from use import control
-import light_up
 import make_break
 import big_business
 import webbrowser
@@ -16,54 +13,53 @@ print('\n\n')
 print(' -> Killing running processes')
 subprocess.call([fullBatPath + '\kill_steam.bat'])
 subprocess.call([fullBatPath + '\kill_scum.bat'])
-scb.sleepLong()
+scb.sleep(5)
 
 print(' -> Starting Scum')
 webbrowser.open('steam://rungameid/513710')
-scb.sleepLong()
+scb.sleep(5)
 
 
 count = 0
 print(' -> Waiting for Main-Menu')
 while(not scb.click('img/fortsetzen.png')):
-    count = count+1
-    scb.sleep(1)
     scb.focus('scum')
+    scb.centerMouse()
+    count = count + 1
     if(count > 100):
         raise Exception('Could not start game (1)')
-
+    scb.sleep(1)
 print(' -> Main-Menu loaded! Took ' + str(count) + ' seconds')
+
 
 count = 0
 print(' -> Waiting for ingame')
-while(not scb.ready(failsafe=False)):
-    count = count+1
-    scb.sleep(1)
+while(not scb.openTab()):
     scb.focus('scum')
+    count = count + 1
     if(count > 100):
         raise Exception('Could not start game (2)')
-
+    scb.sleep(1)
 print(' -> Game ready! Took ' + str(count) + ' seconds')
 
-scb.sendChat('#SetFakeName [SF-BOT][BOOTING]', wait=True, safe=True)
-scb.sendChat('BOT PREPARES ITSELF', wait=True, safe=True)
 
-scb.openTab()
-scb.enlargeInv()
-
-control.teleport('#Teleport -117129 -66713 37065')
+scb.sendChat('#SetFakeName [SF-BOT][BOOTING]')
+scb.sleepLong()
+scb.sendChat('I\'m getting prepared...')
+scb.sleepLong()
+scb.sendChat('#Teleport -117129 -66713 37065')
+scb.sleepLong()
 
 # -------------------------------   SETUP
 
-# light_up.doIt()
 big_business.doIt(4)
 make_break.doIt()
 
 # -------------------------------   SETUP DONE
 
 scb.ready()
-scb.sendChat('SF-BOT IS READY!', True)
-scb.sendChat('#ClearFakeName', True)
+scb.sendChat("I'm ready!")
+scb.sendChat('#ClearFakeName')
 
 
 print('\n\n')
