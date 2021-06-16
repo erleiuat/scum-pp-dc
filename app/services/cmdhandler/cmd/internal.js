@@ -9,7 +9,7 @@ exports.console_msg = async function console_msg(cmd) {
 }
 
 exports.spawn = async function spawn(cmd) {
-    cmd.message = '#Teleport -116077 -66395 37065; ' + cmd.message
+    cmd.message = '#Teleport -116077 -66395 37065; ' + cmd.message.replace('!spawn', '').trim()
     return await this.exec(cmd)
 }
 
@@ -31,7 +31,7 @@ exports.exec = async function exec(cmd) {
     if (!cmd.steamID || !aList[cmd.steamID] || !aList[cmd.steamID].canExec) return null
     let message = cmd.message.toLowerCase().replace('!exec', '').trim()
     let cmdArr = ['#SetFakeName [SF-BOT][' + cmd.user + '][EXEC]']
-    let msgCmds = cmd.message.split(';').map(s => s.trim())
+    let msgCmds = message.split(';').map(s => s.trim())
     if(aList[cmd.steamID].commands['#*']) {
         cmdArr = cmdArr.concat(msgCmds)
     } else {
