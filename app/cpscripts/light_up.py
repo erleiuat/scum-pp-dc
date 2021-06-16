@@ -25,6 +25,7 @@ def doIt():
     ]
 
     scb.sendChat('#Teleport -117331 -66059 37065', chatOnly=True)
+    scb.sleep()
     scb.sendChat('#SpawnItem Lighter', noCheck=True)
 
     control.doOnThis('img/startup/lighter.png',
