@@ -96,6 +96,7 @@ async function checkStatus() {
         if (!global.gameReady) continue
         if (global.updatingFTP) continue
         if (!await scum.isReady()) await scum.start()
+        checkCounter = 0
     } while (true)
 }
 
