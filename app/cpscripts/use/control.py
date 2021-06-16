@@ -5,7 +5,7 @@ import pyautogui
 def doOnThis(victim, action, duration=5):
     itemLoc = scb.onScreen(victim, sure=0.8)
     if (itemLoc):
-        pyautogui.click(itemLoc, button='right')
+        pyautogui.click(itemLoc, button='right', duration=0.05)
         scb.sleep()
         actionLoc = scb.onScreen(action, sure=0.8)
         if (actionLoc):
