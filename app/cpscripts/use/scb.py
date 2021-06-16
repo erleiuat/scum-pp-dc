@@ -51,8 +51,7 @@ def onScreen(img, bw=True, sure=0.9):
 def click(img, button='left', bw=True, sure=0.9):
     toClick = onScreen(img, bw=bw, sure=sure)
     if(toClick):
-        pyautogui.moveTo(toClick)
-        pyautogui.click(button=button)
+        pyautogui.click(button=button, duration=0.01)
         sleep()
         return True
     else:
@@ -65,7 +64,6 @@ def centerMouse():
 
 
 def ready():
-    imgChat = 'img/c_global.png'
     print('READY -> Checking if chat is ready')
     focus('scum')
     sleep()
@@ -75,12 +73,12 @@ def ready():
         sleep()
         pyautogui.hotkey('ctrl', 'a')
         pyautogui.press('del')
-    if(onScreen('img/c_stumm.png') and not onScreen(imgChat, bw=False)):
-        while(not onScreen(imgChat, bw=False)):
+    if(onScreen('img/c_stumm.png') and not onScreen('img/c_global.png', bw=False)):
+        while(not onScreen('img/c_global.png', bw=False)):
             pyautogui.press('tab')
             sleep(0.5)
         return True
-    if(onScreen('img/c_stumm.png') and onScreen(imgChat, bw=False)):
+    if(onScreen('img/c_stumm.png') and onScreen('img/c_global.png', bw=False)):
         pyautogui.hotkey('ctrl', 'a')
         pyautogui.press('del')
         print('READY -> Chat is ready')

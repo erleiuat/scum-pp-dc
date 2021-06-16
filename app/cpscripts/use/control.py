@@ -5,15 +5,14 @@ import pyautogui
 def doOnThis(victim, action, duration=5):
     if(scb.onScreen('img/c_stumm.png')):
         pyautogui.press('esc')
-    scb.sleep(0.5)
-    itemLoc = scb.onScreen(victim, sure=0.8)
+    scb.sleep()
+    itemLoc = scb.onScreen(victim)
     if (itemLoc):
-        pyautogui.click(itemLoc, button='right')
-        scb.sleep(0.1)
-        actionLoc = scb.onScreen(action, sure=0.8)
+        pyautogui.click(itemLoc, button='right', duration=0.5)
+        scb.sleepLong()
+        actionLoc = scb.onScreen(action)
         if (actionLoc):
-            pyautogui.moveTo(actionLoc)
-            pyautogui.click(actionLoc)
+            pyautogui.click(actionLoc, duration=0.5)
             scb.sleep(duration)
             return True
         else:
@@ -26,29 +25,19 @@ def doOnThis(victim, action, duration=5):
 def takeA(action):
     if(scb.onScreen('img/c_stumm.png')):
         pyautogui.press('esc')
-    scb.sleep(0.1)
+    scb.sleep()
     pyautogui.keyDown('tab')
-    scb.sleep(0.8)
-    toilet = scb.onScreen('img/startup/toilet.png', sure=0.8)
-    if(toilet):
-        pyautogui.moveTo(toilet)
-        pyautogui.click(toilet)
-
-        if(action == 'shit'):
-            shit = scb.onScreen('img/startup/t_shit.png', sure=0.8)
-            if(shit):
-                pyautogui.moveTo(shit)
-                pyautogui.click(shit)
-                pyautogui.keyUp('tab')
-                scb.sleep(35)
-                return True
-        else:
-            piss = scb.onScreen('img/startup/t_piss.png', sure=0.8)
-            if(piss):
-                pyautogui.moveTo(piss)
-                pyautogui.click(piss)
-                pyautogui.keyUp('tab')
-                scb.sleep(15)
-                return True
-    pyautogui.keyUp('tab')
-    return False
+    scb.sleep(0.9)
+    pyautogui.click(810, 400, duration=0.2)
+    if(action == 'shit'):
+        pyautogui.click(870, 360, duration=0.2)
+        scb.sleep()
+        pyautogui.keyUp('tab')
+        scb.sleep(35)
+        return True
+    else:
+        pyautogui.click(810, 300, duration=0.2)
+        scb.sleep()
+        pyautogui.keyUp('tab')
+        scb.sleep(15)
+        return True
