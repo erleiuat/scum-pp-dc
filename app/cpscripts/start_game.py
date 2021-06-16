@@ -43,7 +43,7 @@ while(not scb.onScreen('img/startup/mic.png')):
     scb.sleep(1)
 print(' -> Game ready! Took ' + str(count) + ' seconds')
 
-scb.sleep(10)
+scb.sleep(30)
 scb.ready()
 scb.sleep(5)
 scb.sendChat('#SetFakeName [SF-BOT][BOOTING]')
