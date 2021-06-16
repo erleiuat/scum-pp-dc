@@ -80,11 +80,14 @@ def centerMouse():
     pyautogui.moveTo((x/2), (y/2), duration=0.2)
 
 
-def ready():
+def ready(chatOnly=False):
     print('READY -> Checking if chat is ready')
     focus('scum')
-    sleep()
-    openTab()
+    if(not chatOnly):
+        openTab()
+    if(onScreen('img/c_global.png', bw=False)):
+        print('READY -> Chat is ready')
+        return True
     if(not onScreen('img/c_stumm.png')):
         pyautogui.press('t')
         sleep()
@@ -100,7 +103,7 @@ def ready():
         pyautogui.press('del')
         print('READY -> Chat is ready')
         return True
-    return False
+    raise Exception('NOT READY')
 
 
 def loading():
@@ -146,9 +149,10 @@ def openTab():
     return True
 
 
-def sendChat(msg):
-    if (not onScreen('img/c_global.png', bw=False)):
-        ready()
+def sendChat(msg, chatOnly=False, noCheck=False):
+    if(not noCheck):
+        if (not onScreen('img/c_global.png', bw=False)):
+            ready(chatOnly=chatOnly)
     pyautogui.hotkey('ctrl', 'a')
     pyautogui.press('del')
     keyboard.write(str(msg))

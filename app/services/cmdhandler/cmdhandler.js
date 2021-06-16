@@ -6,6 +6,7 @@ const cmdsPublic = require('./cmd/public')
 const cmdsInternal = require('./cmd/internal')
 const scum = require('./scum')
 let hasStarterkit = []
+let checkCounter = 0
 
 async function ftpCon() {
     try {
@@ -77,7 +78,7 @@ async function sendCommands(cmdObj) {
             for (const cmd of cmdObj[e].commands) cmdArr.push(cmd)
             if (!await scum.send(cmdArr)) {
                 if (!await scum.isReady()) await scum.start()
-            }
+            } else checkCounter = 0
         }
         global.newCmds = false
     } catch (error) {
@@ -87,31 +88,15 @@ async function sendCommands(cmdObj) {
 
 async function checkStatus() {
     do {
-        await global.sleep.timer(121)
+        await global.sleep.timer(1)
+        checkCounter++
+        if (checkCounter < 120) continue
         if (global.newCmds) continue
         if (global.updates) continue
         if (!global.gameReady) continue
         if (global.updatingFTP) continue
         if (!await scum.isReady()) await scum.start()
     } while (true)
-}
-
-async function dcSpam() {
-
-    let times = {
-        '0:20': 'dc1@scumfiction.com',
-        '6:20': 'dc2@scumfiction.com',
-        '12:20': 'dc1@scumfiction.com',
-        '18:20': 'dc2@scumfiction.com'
-    }
-
-    do {
-        await global.sleep.timer(45)
-        let now = new Date()
-        if (times[now.getHours() + ':' + now.getMinutes()])
-            await scum.spam(times[now.getHours() + ':' + now.getMinutes()])
-    } while (true)
-
 }
 
 async function makeBreak() {
@@ -127,7 +112,9 @@ async function makeBreak() {
         now = new Date()
         if (!bTimes.includes(now.getMinutes())) continue
         global.gameReady = false
-        scum.makeBreak()
+        if (!await scum.makeBreak()) {
+            if (!await scum.isReady()) await scum.start()
+        } else checkCounter = 0
         await global.sleep.timer(60)
 
 
@@ -138,7 +125,6 @@ exports.start = async function start() {
     if (!await scum.isReady()) await scum.start()
 
     makeBreak()
-    //dcSpam()
     checkStatus()
     announce()
     let i = 0
