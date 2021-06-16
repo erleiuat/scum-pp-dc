@@ -22,16 +22,16 @@ def doIt():
         '#Teleport -111485 -72208 36588'
     ]
 
-    scb.sendChat('#Teleport -117331 -66059 37065')
-    scb.sendChat('#SpawnItem Lighter')
-    scb.sleepLong()
+    scb.sendChat('#Teleport -117331 -66059 37065', chatOnly=True)
+    scb.sendChat('#SpawnItem Lighter', noCheck=True)
 
     control.doOnThis('img/startup/lighter.png',
-                     'img/startup/aufnehmen.png', 0.8)
+                     'img/startup/aufnehmen.png', 0.5)
 
     for torch in torches:
-        scb.sendChat(torch)
-        scb.sendChat('#SpawnItem Wooden_Plank 2')
+        scb.sendChat(torch, chatOnly=True)
+        scb.sendChat('#SpawnItem Wooden_Plank 2', noCheck=True)
+        scb.openTab()
         for x in range(2):
             control.doOnThis('img/startup/fackel.png',
                              'img/startup/schueren.png', 1.8)
@@ -45,6 +45,17 @@ if __name__ == '__main__':
     scb.sendChat('#SetFakeName [SF-BOT][LIGHT]')
     scb.sendChat(
         'I will now maintain the trading zone and be unavailable for about 5 minutes.')
+
     doIt()
+
     scb.sendChat('I\'m done and available again!')
     scb.sendChat('#ClearFakeName')
+
+
+"""
+
+    '#Teleport -116184 -66292 37065',
+        '#Teleport -116137 -66740 37065'
+
+        
+        """

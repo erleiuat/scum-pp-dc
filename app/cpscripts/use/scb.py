@@ -77,7 +77,7 @@ def click(img, button='left', bw=True, sure=0.9):
 
 def centerMouse():
     x, y = pyautogui.size()
-    pyautogui.moveTo((x/2), (y/2), duration=0.2)
+    pyautogui.moveTo((x/2), (y/2), duration=0.05)
 
 
 def ready(chatOnly=False):
@@ -112,9 +112,8 @@ def loading():
     print('LOADING -> Waiting till done')
     while(onScreen('img/laden.png')):
         count = count + 1
-        time.sleep(0.5)
+        time.sleep(0.1)
     print('LOADING -> Done, took ' + str(count/2) + ' seconds')
-    time.sleep(0.05)
 
 
 def dragInv():
@@ -138,6 +137,8 @@ def openTab():
         if(onScreen('img/invDrag.png')):
             dragInv()
         return True
+    if(onScreen('img/c_stumm.png')):
+        pyautogui.press('esc')
     pyautogui.keyDown('tab')
     sleep(0.01)
     pyautogui.keyUp('tab')

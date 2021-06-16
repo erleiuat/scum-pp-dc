@@ -3,16 +3,15 @@ import pyautogui
 
 
 def doOnThis(victim, action, duration=5):
-    if(scb.onScreen('img/c_stumm.png')):
-        pyautogui.press('esc')
-    scb.sleep()
     itemLoc = scb.onScreen(victim, sure=0.8)
     if (itemLoc):
-        pyautogui.click(itemLoc, button='right', duration=0.5)
-        scb.sleepLong()
+        pyautogui.click(itemLoc, button='right')
+        scb.sleep()
         actionLoc = scb.onScreen(action, sure=0.8)
         if (actionLoc):
-            pyautogui.click(actionLoc, duration=0.5)
+            pyautogui.moveTo(itemLoc.x, actionLoc.y, duration=0.05)
+            pyautogui.moveTo(actionLoc.x, actionLoc.y, duration=0.15)
+            pyautogui.click()
             scb.sleep(duration)
             return True
         else:
