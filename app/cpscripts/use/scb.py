@@ -68,10 +68,10 @@ def onScreen(img, bw=True, sure=0.9):
         return False
 
 
-def click(img, button='left', bw=True, sure=0.9):
+def click(img, button='left', bw=True, sure=0.9, duration=0.1):
     toClick = onScreen(img, bw=bw, sure=sure)
     if(toClick):
-        pyautogui.click(button=button, duration=0.01)
+        pyautogui.click(toClick, button=button, duration=duration)
         sleep()
         return True
     else:

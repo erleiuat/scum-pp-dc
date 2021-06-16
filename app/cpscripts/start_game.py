@@ -10,6 +10,7 @@ fullBatPath = os.path.dirname(os.path.realpath(__file__))
 
 print('\n\n')
 
+
 print(' -> Killing running processes')
 subprocess.call([fullBatPath + '\\use\\kill_steam.bat'])
 subprocess.call([fullBatPath + '\\use\\kill_scum.bat'])
@@ -22,7 +23,7 @@ scb.sleep(5)
 
 count = 0
 print(' -> Waiting for Main-Menu')
-while(not scb.click('img/fortsetzen.png')):
+while(not scb.click('img/fortsetzen.png', duration=1)):
     scb.focus('scum')
     scb.centerMouse()
     count = count + 1
