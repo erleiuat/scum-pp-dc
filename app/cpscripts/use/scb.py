@@ -48,8 +48,9 @@ def idlePos():
     pyautogui.keyDown('tab')
     sleep(0.8)
     pyautogui.click(630, 500, duration=0.2)
-    pyautogui.click(810, 300, duration=0.2)
     sleep()
+    pyautogui.click(810, 300, duration=0.2)
+    sleepLong()
     pyautogui.keyUp('tab')
     ready()
     return True

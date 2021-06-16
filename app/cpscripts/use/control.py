@@ -6,11 +6,11 @@ def doOnThis(victim, action, duration=5):
     if(scb.onScreen('img/c_stumm.png')):
         pyautogui.press('esc')
     scb.sleep()
-    itemLoc = scb.onScreen(victim)
+    itemLoc = scb.onScreen(victim, sure=0.8)
     if (itemLoc):
         pyautogui.click(itemLoc, button='right', duration=0.5)
         scb.sleepLong()
-        actionLoc = scb.onScreen(action)
+        actionLoc = scb.onScreen(action, sure=0.8)
         if (actionLoc):
             pyautogui.click(actionLoc, duration=0.5)
             scb.sleep(duration)

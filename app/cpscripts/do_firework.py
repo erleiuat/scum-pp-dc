@@ -8,11 +8,6 @@ def shoot():
     scb.sendChat('#SpawnItem Fireworks_Big')
     control.doOnThis('img/startup/firework.png', 'img/startup/use.png', 2)
     scb.sleepLong()
-    scb.sendChat('#SetFakeName [SF-BOT][FIREWORK]')
-    scb.sleepLong()
-    scb.sendChat('There you go')
-    scb.sleepLong()
-    scb.sendChat('#ClearFakeName')
     scb.idlePos()
 
 
