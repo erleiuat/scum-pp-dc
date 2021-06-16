@@ -8,6 +8,8 @@ def doIt():
         '#Teleport -117327 -66464 37064',
         '#Teleport -117317 -66969 37064',
         '#Teleport -116304 -65755 37064',
+        '#Teleport -116184 -66292 37065',
+        '#Teleport -116137 -66740 37065',
         '#Teleport -116298 -67044 37064',
         '#Teleport -113569 -66546 36994',
         '#Teleport -113786 -67711 36987',
@@ -34,9 +36,9 @@ def doIt():
         scb.openTab()
         for x in range(2):
             control.doOnThis('img/startup/fackel.png',
-                             'img/startup/schueren.png', 1.8)
+                             'img/startup/schueren.png', 2)
         control.doOnThis('img/startup/fackel.png',
-                         'img/startup/anzuenden.png', 1.8)
+                         'img/startup/anzuenden.png', 2)
 
     scb.idlePos()
 
@@ -50,12 +52,3 @@ if __name__ == '__main__':
 
     scb.sendChat('I\'m done and available again!')
     scb.sendChat('#ClearFakeName')
-
-
-"""
-
-    '#Teleport -116184 -66292 37065',
-        '#Teleport -116137 -66740 37065'
-
-        
-        """
