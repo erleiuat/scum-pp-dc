@@ -5,11 +5,11 @@ import pyautogui
 def doOnThis(victim, action, duration=5):
     itemLoc = scb.onScreen(victim, sure=0.8)
     if (itemLoc):
-        pyautogui.click(itemLoc, button='right', duration=0.05)
+        pyautogui.click(itemLoc, button='right', duration=0.15)
         scb.sleep()
         actionLoc = scb.onScreen(action, sure=0.8)
         if (actionLoc):
-            pyautogui.moveTo(itemLoc.x, actionLoc.y, duration=0.05)
+            pyautogui.moveTo(itemLoc.x, actionLoc.y, duration=0.15)
             pyautogui.moveTo(actionLoc.x, actionLoc.y, duration=0.15)
             pyautogui.click()
             scb.sleep(duration)
