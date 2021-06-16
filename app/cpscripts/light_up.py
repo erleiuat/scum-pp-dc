@@ -47,5 +47,5 @@ if __name__ == '__main__':
     scb.sendChat(
         'I will now maintain the trading zone and be unavailable for about 5 minutes.')
     doIt()
-    scb.sendChat('I am done and available again!')
+    scb.sendChat('I\'m done and available again!')
     scb.sendChat('#ClearFakeName')

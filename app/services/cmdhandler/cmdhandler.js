@@ -165,6 +165,7 @@ exports.start = async function start() {
             else if (cmdStart == 'console_msg') newCmds['console_' + e] = await cmdsInternal['console_msg'](cmd)
             else if (cmdStart == 'kill_feed') newCmds[e] = await cmdsInternal['kill_feed'](cmd)
             else if (cmdStart == 'auth_log') newCmds[e] = await cmdsInternal['auth_log'](cmd)
+            else if (cmdStart == 'mine_armed') newCmds[e] = await cmdsInternal['mine_armed'](cmd)
 
         }
 

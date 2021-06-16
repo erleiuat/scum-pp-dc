@@ -16,6 +16,6 @@ if __name__ == '__main__':
     scb.sleepLong()
     scb.sendChat('I will be unavailable for one minute.')
     doIt()
-    scb.sendChat('I am available again!')
+    scb.sendChat('I\'m available again!')
     scb.sleepLong()
     scb.sendChat('#ClearFakeName')

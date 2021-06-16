@@ -33,6 +33,10 @@ exports.start = async function start(dcClient) {
 async function sendMines(dcClient) {
     if (Object.keys(global.newEntries.mines).length <= 0) return
     for (const e in global.newEntries.mines) {
+        if (global.newEntries.mines[e].action == 'armed') global.commands['mine_' + global.newEntries.mines[e].steamID] = {
+            time: global.newEntries.mines[e].time,
+            message: 'mine_armed'
+        }
         dump[e] = {
             dump: 'mines',
             ...global.newEntries.mines[e]
@@ -132,7 +136,7 @@ async function sendLogins(dcClient) {
     let channel = dcClient.channels.cache.find(channel => channel.id === channels.login)
 
     for (const el in global.newEntries.login) {
-        
+
         await channel.send(new Discord.MessageEmbed(await format.login(global.newEntries.login[el])))
         console.log(sn + 'Login sent: ' + el)
         aList = await global.admins.list()
@@ -180,7 +184,7 @@ async function sendDump(dcClient) {
             }
             if (msg.fields[0].value.match(/(?:admin|support|abuse|abuze)/gmi))
                 await channel.send(' <@&' + process.env.DISCORD_ROLE_SUPPORT + '> ')
-                
+
         } else if (dump[el].dump == 'admin') msg = {
             ...await format.admin(dump[el]),
             color: '00ff00'

@@ -30,6 +30,19 @@ exports.spawn = async function spawn(cmd) {
     return null
 }
 
+exports.mine_armed = async function mine_armed(cmd) {
+    return {
+        date: cmd.time.date,
+        time: cmd.time.time,
+        type: 'global',
+        commands: [
+            '#SetFakeName [SF-BOT][MINE]',
+            'If you have just placed a mine, please note that this is only allowed in and immediately around your Base. Remove the mine if this is not the case.',
+            '#ClearFakeName'
+        ]
+    }
+}
+
 exports.exec = async function exec(cmd) {
     aList = await global.admins.list()
     if (!cmd.steamID || !aList[cmd.steamID] || !aList[cmd.steamID].canExec) return null
