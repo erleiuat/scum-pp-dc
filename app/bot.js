@@ -8,7 +8,7 @@ const dcWriter = require('./services/dcwriter/dcwriter')
 const state = require('./services/state')
 const statistics = require('./services/statistics/statistics')
 const cmdHandler = require('./services/cmdhandler/cmdhandler')
-const dcHandler = require('./services/dcHandler')
+const dcHandler = require('./services/dchandler')
 const dcBot = require('./services/dcbot')
 
 exports.start = async function start() {
