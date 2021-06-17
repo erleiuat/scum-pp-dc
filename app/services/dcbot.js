@@ -1,20 +1,6 @@
 const sn = global.chalk.red('[DISCORD-BOT] -> ')
 const fetch = require('node-fetch')
 
-async function consoleMsg(msg) {
-    if (
-        msg.member.hasPermission('ADMINISTRATOR') &&
-        msg.author.id !== process.env.DISCORD_BOT_ID
-    ) {
-        console.log(sn + 'Console message detected!')
-        global.commands[msg.id] = {
-            message: 'console_msg',
-            user: msg.author.username,
-            content: msg.content
-        }
-    }
-}
-
 async function doFetch(url) {
     return await fetch(url, {
         method: 'Get'
@@ -44,7 +30,8 @@ async function processContent(data, dcClient) {
     }
 }
 
-async function buildServer(dcClient) {
+async function buildServer(dcClient, msg) {
+    if (msg && !msg.member.hasPermission('ADMINISTRATOR')) return
     let data = await fetch(process.env.DATA_URL + 'dc_text/data.json', {
         method: 'Get'
     }).then(res => res.json()).then(json => {
@@ -93,11 +80,11 @@ async function setLang(msg) {
 exports.start = async function start(dcClient) {
 
     dcClient.on('message', async msg => {
-        if (msg.channel.id == process.env.DISCORD_CH_CONSOLE) consoleMsg(msg)
-        else if (msg.channel.id == process.env.DISCORD_CH_LANGUAGE) setLang(msg)
         if (msg.content.toLowerCase().startsWith('!clearchat')) clearchat(msg)
+        else if (msg.content.toLowerCase().startsWith('!buildserver')) buildServer(dcClient, msg)
+        else if (msg.channel.id == process.env.DISCORD_CH_LANGUAGE) setLang(msg)
     })
 
-    buildServer(dcClient)
+    buildServer(dcClient, false)
 
 }

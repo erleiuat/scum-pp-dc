@@ -3,7 +3,7 @@ const sn = global.chalk.inverse('[MAIN] -> ')
 
 console.log('\n\n' + sn + '----------------------------------------------------------')
 console.log(sn + 'Welcome to SDP-Bot 1.0!')
-console.log(sn + '----------------------------------------------------------\n\n')
+console.log(sn + '----------------------------------------------------------')
 
 console.log(sn + 'Starting directory: ' + process.cwd())
 try {
@@ -25,7 +25,7 @@ process.on('unhandledRejection', err => {
 
 console.log('\n\n' + sn + '----------------------------------------------------------')
 console.log(sn + 'Bot initialized, starting processes')
-console.log(sn + '----------------------------------------------------------\n\n')
+console.log(sn + '----------------------------------------------------------\n')
 
 
 require('dotenv').config()
