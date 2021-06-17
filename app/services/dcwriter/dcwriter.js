@@ -117,7 +117,9 @@ async function sendAdmins(dcClient) {
         else if (line.message.toLowerCase().includes('clearfakename')) shouldHide = true
 
         if (!shouldHide) {
+            if (aList[line.steamID].alertCommands) await channel.send('**The following command was not executed by the bot but by <@&' + aList[line.steamID].discord + '>. Please explain by replying to the message what you needed the command for.**')
             await channel.send(new Discord.MessageEmbed(await format.admin(global.newEntries.admin[el])))
+            if (aList[line.steamID].alertCommands) await channel.send('**If you don\'t want to receive admin abuse notifications in the future, change the notification settings of this channel to "nothing"**')
             console.log(sn + 'Admin sent: ' + el)
         }
 
