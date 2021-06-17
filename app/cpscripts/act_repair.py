@@ -10,8 +10,9 @@ def doIt():
 
     for flag in flags:
         scb.sendChat(flag)
-        scb.sendChat('#SpawnItem Tool_Box')
-        control.doOnF('img/startup/repairAll.png', duration=4)
+        scb.sendChat('#SpawnItem Tool_Box 3')
+        for x in range(3):
+            control.doOnF('img/startup/repairAll.png', duration=4)
 
 
 if __name__ == '__main__':
