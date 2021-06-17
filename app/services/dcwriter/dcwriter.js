@@ -102,39 +102,25 @@ async function sendAdmins(dcClient) {
         let line = {
             ...global.newEntries.admin[el]
         }
-
+        
+        let doHide = false
         let msgCmd = line.message.toLowerCase()
         aList = await global.admins.list()
+        
+        if (aList[line.steamID].useFakeNames) {
+            if (msgCmd.includes('setfakename')) fakeNameCache[line.steamID] = line.message.split(' ')[1]
+            else if (msgCmd.includes('clearfakename')) fakeNameCache[line.steamID] = false
+        }
+        
+        for (const cmd in aList[line.steamID].hideCommands)
+            if (aList[line.steamID].hideCommands[cmd] && msgCmd.includes(cmd.toLowerCase())) doHide = true
 
-        if (
-            !aList[line.steamID].hideCommands ||
-            !msgCmd.includes('teleport') &&
-            !msgCmd.includes('location') &&
-            !msgCmd.includes('spawn') &&
-            !msgCmd.includes('showotherplayerinfo') &&
-            !msgCmd.includes('godmode') &&
-            !msgCmd.includes('setfakename') &&
-            !msgCmd.includes('clearfakename') &&
-            !msgCmd.includes('shownameplates')
-        ) {
+        if (!doHide) {
             let abuserID = false
-
             if (aList[line.steamID].alertCommands) abuserID = aList[line.steamID].discord
-            if (aList[line.steamID].useFakeNames) {
-                if (msgCmd.includes('setfakename')) fakeNameCache[line.steamID] = line.message.split(' ')[1]
-                else if (msgCmd.includes('clearfakename')) fakeNameCache[line.steamID] = false
-            }
-
-            if (
-                !msgCmd.includes('setfakename') &&
-                !msgCmd.includes('clearfakename') &&
-                !msgCmd.includes('listplayers')
-            ) {
-                if (fakeNameCache[line.steamID]) line.user = fakeNameCache[line.steamID]
-                await channel.send(new Discord.MessageEmbed(await format.admin(line, abuserID)))
-                console.log(sn + 'Admin sent: ' + el)
-            }
-
+            if (fakeNameCache[line.steamID]) line.user = fakeNameCache[line.steamID]
+            await channel.send(new Discord.MessageEmbed(await format.admin(line, abuserID)))
+            console.log(sn + 'Admin sent: ' + el)
         }
 
         dump[el] = {
@@ -142,7 +128,6 @@ async function sendAdmins(dcClient) {
             ...global.newEntries.admin[el]
         }
         delete global.newEntries.admin[el]
-
     }
 
 }

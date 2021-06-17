@@ -28,20 +28,18 @@ exports.mine_armed = async function mine_armed(cmd) {
 
 exports.exec = async function exec(cmd) {
     aList = await global.admins.list()
-    if (!cmd.steamID || !aList[cmd.steamID] || !aList[cmd.steamID].canExec) return null
+    if (!cmd.steamID || !aList[cmd.steamID]) return null
     let message = cmd.message.toLowerCase().replace('!exec', '').trim()
-    let cmdArr = ['#SetFakeName [SF-BOT][' + cmd.user + '][EXEC]']
     let msgCmds = message.split(';').map(s => s.trim())
-    if(aList[cmd.steamID].commands['#*']) {
-        cmdArr = cmdArr.concat(msgCmds)
-    } else {
+    
+    let cmdArr = ['#SetFakeName [SF-BOT][' + cmd.user + '][EXEC]']
+    if (aList[cmd.steamID].canExecute['#*']) cmdArr = cmdArr.concat(msgCmds)
+    else
         for (const e of msgCmds) {
             let command = msgCmds[e].split(' ')[0].toLowerCase().trim()
-            if (aList[cmd.steamID].commands[command]) {
-                cmdArr.push(msgCmds[e])
-            }
+            if (aList[cmd.steamID].canExecute[command]) cmdArr.push(msgCmds[e])
         }
-    }
+
     cmdArr.push('#ClearFakeName')
     return {
         date: cmd.time.date,
