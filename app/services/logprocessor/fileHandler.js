@@ -161,12 +161,13 @@ async function login(file) {
             let user = line.substring(line.indexOf(ip) + ip.length + 19).replace(userID, '')
             userID = userID[0].slice(userID[0].indexOf('(') + 1, userID[0].indexOf(')'))
             let key = formKey(t, userID) + '.' + i
-
+       
             formatted[key] = {
                 type: 'login',
                 steamID: steamID,
                 userID: userID,
                 user: user,
+                drone: line.includes('(as drone)'),
                 time: t,
                 ip: ip,
                 online: true
