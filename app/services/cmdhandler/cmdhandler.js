@@ -49,12 +49,6 @@ async function receivesStarterkit(steamID, name) {
     }
 }
 
-/*
-async function tStorageBox(cmd) {
-
-}
-*/
-
 async function tStarterkit(cmd) {
     hasStarterkit = await loadStatus('starterkits.json')
     if (cmd.type.toLowerCase() != 'global') return null
@@ -169,7 +163,6 @@ exports.start = async function start() {
             if (cmdsPublic.list[cmdStart]) newCmds[e] = await cmdsPublic[cmdsPublic.list[cmdStart]](cmd)
             else if (cmdStart == '!starterkit') newCmds[e] = await tStarterkit(cmd)
             else if (cmdStart == '!ready') newCmds[e] = await tReady(cmd)
-            //else if (cmdStart == '!storagebox') newCmds[e] = await tStorageBox(cmd)
             else if (cmdStart == '!exec') newCmds['exec_' + cmd.steamID] = await cmdsInternal['exec'](cmd)
             else if (cmdStart == '!spawn') newCmds['spawn_' + cmd.steamID] = await cmdsInternal['spawn'](cmd)
             else if (cmdStart == 'welcome_new') newCmds['welcome_' + cmd.joined.getTime] = await cmdsInternal['welcome_new'](cmd)
