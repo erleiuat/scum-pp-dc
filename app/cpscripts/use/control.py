@@ -3,6 +3,7 @@ import pyautogui
 
 
 def doOnThis(victim, action, duration=5):
+    scb.openTab()
     itemLoc = scb.onScreen(victim, sure=0.8)
     if (itemLoc):
         pyautogui.click(itemLoc, button='right', duration=0.15)

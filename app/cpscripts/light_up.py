@@ -34,7 +34,6 @@ def doIt():
     for torch in torches:
         scb.sendChat(torch, chatOnly=True)
         scb.sendChat('#SpawnItem Wooden_Plank 2', noCheck=True)
-        scb.openTab()
         for x in range(2):
             control.doOnThis('img/startup/fackel.png',
                              'img/startup/schueren.png', 2)
