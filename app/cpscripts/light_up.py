@@ -24,16 +24,16 @@ def doIt():
         '#Teleport -111485 -72208 36588'
     ]
 
-    scb.sendChat('#Teleport -117331 -66059 37065', chatOnly=True)
+    scb.sendChat('#Teleport -117331 -66059 37065')
     scb.sleep()
-    scb.sendChat('#SpawnItem Lighter', noCheck=True)
+    scb.sendChat('#SpawnItem Lighter')
 
     control.doOnThis('img/startup/lighter.png',
                      'img/startup/aufnehmen.png', 0.5)
 
     for torch in torches:
-        scb.sendChat(torch, chatOnly=True)
-        scb.sendChat('#SpawnItem Wooden_Plank 2', noCheck=True)
+        scb.sendChat(torch)
+        scb.sendChat('#SpawnItem Wooden_Plank 2')
         for x in range(2):
             control.doOnThis('img/startup/fackel.png',
                              'img/startup/schueren.png', 2)
