@@ -12,4 +12,8 @@ def doIt():
 
 
 if __name__ == '__main__':
+    scb.sendChat('#SetFakeName [SF-BOT][LUNCHBREAK]')
+    scb.sleep()
     doIt()
+    scb.sleep()
+    scb.sendChat('#ClearFakeName')

@@ -42,9 +42,9 @@ def doIt():
 
 
 if __name__ == '__main__':
-    scb.sendChat('#SetFakeName [SF-BOT][LIGHT]')
+    scb.sendChat('#SetFakeName [SF-BOT][ILLUMINATE]')
     scb.sendChat(
-        'I will now maintain the trading zone and be unavailable for about 5 minutes.')
+        'I will now illuminate the trading zone and be unavailable for about 5 minutes.')
     doIt()
     scb.idlePos()
     scb.sendChat('I\'m done and available again!')
