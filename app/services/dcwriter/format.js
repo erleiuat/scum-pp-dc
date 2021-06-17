@@ -155,7 +155,7 @@ exports.admin = async function admin(entry, abuserID = false) {
         msg.fields[0].value = '**' + msg.fields[0].value + '**'
         msg.fields.push({
             name: '\u200b',
-            value: '_[placeholder] if you don\'t want to receive admin abuse notifications in the future, change the notification settings of this channel to "nothing"_'
+            value: '_@here if you don\'t want to receive admin abuse notifications in the future, change the notification settings of this channel to "nothing"_'
         })
     }
     return msg
