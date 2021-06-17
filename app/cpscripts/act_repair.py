@@ -4,7 +4,7 @@ from use import control
 
 def doIt():
     flags = [
-        '#Teleport -117564.797 -67782.078 36810.098',
+        '#Teleport -117564.797 -67794.680 36809.430',
         '#Teleport -107551.336 -67783.750 36857.059'
     ]
 
