@@ -2,6 +2,7 @@ const Discord = require('discord.js')
 const format = require('./format')
 const sn = global.chalk.cyan('[DCWriter] -> ')
 const dump = {}
+let fakeNameCache = {}
 
 const channels = {
     kill: process.env.DISCORD_CH_KILL,
@@ -98,30 +99,42 @@ async function sendAdmins(dcClient) {
     let channel = dcClient.channels.cache.find(channel => channel.id === channels.admin)
 
     for (const el in global.newEntries.admin) {
-        let line = global.newEntries.admin[el]
-        let shouldHide = false
-        aList = await global.admins.list()
-
-        if (aList[line.steamID] && aList[line.steamID].hideCommands) {
-            if (line.message.toLowerCase().includes('teleport')) shouldHide = true
-            else if (line.message.toLowerCase().includes('location')) shouldHide = true
-            else if (line.message.toLowerCase().includes('spawn')) shouldHide = true
-            else if (line.message.toLowerCase().includes('showotherplayerinfo')) shouldHide = true
-            else if (line.message.toLowerCase().includes('godmode')) shouldHide = true
-            else if (line.message.toLowerCase().includes('setfakename')) shouldHide = true
-            else if (line.message.toLowerCase().includes('clearfakename')) shouldHide = true
-            else if (line.message.toLowerCase().includes('shownameplates')) shouldHide = true
+        let line = {
+            ...global.newEntries.admin[el]
         }
 
-        if (line.message.toLowerCase().includes('setfakename')) shouldHide = true
-        else if (line.message.toLowerCase().includes('clearfakename')) shouldHide = true
-        else if (line.message.toLowerCase().includes('listplayers')) shouldHide = true
+        let msgCmd = line.message.toLowerCase()
+        aList = await global.admins.list()
 
-        if (!shouldHide) {
+        if (
+            !aList[line.steamID].hideCommands ||
+            !msgCmd.includes('teleport') &&
+            !msgCmd.includes('location') &&
+            !msgCmd.includes('spawn') &&
+            !msgCmd.includes('showotherplayerinfo') &&
+            !msgCmd.includes('godmode') &&
+            !msgCmd.includes('setfakename') &&
+            !msgCmd.includes('clearfakename') &&
+            !msgCmd.includes('shownameplates')
+        ) {
             let abuserID = false
-            if (aList[line.steamID] && aList[line.steamID].alertCommands) abuserID = aList[line.steamID].discord
-            await channel.send(new Discord.MessageEmbed(await format.admin(global.newEntries.admin[el], abuserID)))
-            console.log(sn + 'Admin sent: ' + el)
+
+            if (aList[line.steamID].alertCommands) abuserID = aList[line.steamID].discord
+            if (aList[line.steamID].useFakeNames) {
+                if (msgCmd.includes('setfakename')) fakeNameCache[line.steamID] = line.message.split(' ')[1]
+                else if (msgCmd.includes('clearfakename')) fakeNameCache[line.steamID] = false
+            }
+
+            if (
+                !msgCmd.includes('setfakename') &&
+                !msgCmd.includes('clearfakename') &&
+                !msgCmd.includes('listplayers')
+            ) {
+                if (fakeNameCache[line.steamID]) line.user = fakeNameCache[line.steamID]
+                await channel.send(new Discord.MessageEmbed(await format.admin(line, abuserID)))
+                console.log(sn + 'Admin sent: ' + el)
+            }
+
         }
 
         dump[el] = {
