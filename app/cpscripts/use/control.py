@@ -15,9 +15,11 @@ def doOnThis(victim, action, duration=5):
             scb.sleep(duration)
             return True
         else:
+            print('ACTIONLOC NOT FOUND')
             scb.centerMouse(click=True)
             return False
     else:
+        print('ITEMLOC NOT FOUND')
         return False
 
 
