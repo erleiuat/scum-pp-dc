@@ -43,7 +43,7 @@ exports.start = async function start() {
             }
         } else {
             console.log(sn + 'Starting Discord-Bot')
-            dcBot.start()
+            dcBot.start(dcClient)
         }
 
 
