@@ -8,7 +8,6 @@ def doIt(repeats=1):
     control.takeA('piss')
     for x in range(repeats):
         control.takeA('shit')
-    scb.idlePos()
 
 
 if __name__ == '__main__':
@@ -16,6 +15,7 @@ if __name__ == '__main__':
     scb.sleepLong()
     scb.sendChat('I will be unavailable for one minute.')
     doIt()
+    scb.idlePos()
     scb.sendChat('I\'m available again!')
     scb.sleepLong()
     scb.sendChat('#ClearFakeName')
