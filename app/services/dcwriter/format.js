@@ -189,10 +189,10 @@ exports.login = async function login(entry) {
 
     if(entry.drone) return {
         'color': 'FFFF00',
-        'title': 'Login -> ' + entry.user + ' (Drone)',
+        'title': 'Login -> ' + entry.user + ' (as drone)',
         ...msg
     }
-    
+
     return {
         'color': 'FFFF00',
         'title': 'Login -> ' + entry.user,
