@@ -150,8 +150,7 @@ exports.admin = async function admin(entry, abuserID = false) {
     }
     if (abuserID) {
         msg.color = 'dc122a'
-        msg.title = 'Command executed by <@' + abuserID + '>.'
-        msg.description = '**__Please explain by replying to the message what you needed the command for.__**'
+        msg.description = '<@' + abuserID + '>\n**__Please explain by replying to the message what you needed the command for.__**'
         msg.fields.push({
             name: '\u200b',
             value: '_[placeholder] if you don\'t want to receive admin abuse notifications in the future, change the notification settings of this channel to "nothing"_'
