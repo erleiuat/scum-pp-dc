@@ -2,132 +2,7 @@ const sn = global.chalk.magenta('[CMD-Handler] -> [SCUM] -> ')
 const cp = require('child_process')
 let starting = false
 let checking = false
-let latestFirework = false
-let latestBusiness = false
-let latestLight = false
-
-exports.makeBreak = async function makeBreak() {
-    return new Promise((resolve) => {
-
-        global.gameReady = false
-        console.log(sn + 'Taking a break.')
-
-        let ls = cp.spawn('py', ['./app/cpscripts/make_break.py '])
-        ls.stdout.on('data', (data) => {
-            console.log(`${data}`)
-        })
-        ls.stderr.on('data', (data) => {
-            console.error(`${data}`)
-        })
-        ls.on('close', (code) => {
-            console.log(`Child process exited with code ${code}`)
-            if (code != 0) resolve(false)
-            else {
-                global.gameReady = true
-                resolve(true)
-            }
-        })
-
-    })
-}
-
-exports.firework = async function firework() {
-    return new Promise((resolve) => {
-
-        global.gameReady = false
-        console.log(sn + 'Making firework.')
-
-        let now = new Date().getTime()
-        if (latestFirework && latestFirework > (now - 60 * 60000)) {
-            this.send(['#SetFakeName [SF-BOT][FIREWORK]', 'Sorry, I can only do one firework per hour.', '#ClearFakeName']).then(()=>{
-                global.gameReady = true
-                resolve(true)
-            })
-        } else {
-            latestFirework = now
-            let ls = cp.spawn('py', ['./app/cpscripts/do_firework.py '])
-            ls.stdout.on('data', (data) => {
-                console.log(`${data}`)
-            })
-            ls.stderr.on('data', (data) => {
-                console.error(`${data}`)
-            })
-            ls.on('close', (code) => {
-                console.log(`Child process exited with code ${code}`)
-                if (code != 0) resolve(false)
-                else {
-                    global.gameReady = true
-                    resolve(true)
-                }
-            })
-        }
-    })
-}
-
-exports.business = async function business() {
-    return new Promise((resolve) => {
-
-        global.gameReady = false
-        console.log(sn + 'Doing my business.')
-
-        let now = new Date().getTime()
-        if (latestBusiness && latestBusiness > (now - 60 * 60000)) {
-            global.gameReady = true
-            resolve(true)
-        } else {
-            latestBusiness = now
-            let ls = cp.spawn('py', ['./app/cpscripts/big_business.py '])
-            ls.stdout.on('data', (data) => {
-                console.log(`${data}`)
-            })
-            ls.stderr.on('data', (data) => {
-                console.error(`${data}`)
-            })
-            ls.on('close', (code) => {
-                console.log(`Child process exited with code ${code}`)
-                if (code != 0) resolve(false)
-                else {
-                    global.gameReady = true
-                    resolve(true)
-                }
-            })
-        }
-    })
-}
-
-exports.lightup = async function lightup() {
-    return new Promise((resolve) => {
-
-        global.gameReady = false
-        console.log(sn + 'Lighting everything up.')
-
-        let now = new Date().getTime()
-        if (latestLight && latestLight > (now - 30 * 60000)) {
-            this.send(['#SetFakeName [SF-BOT][LIGHTS]', 'Sorry, I can only light up the torches once every 30 minutes.', '#ClearFakeName']).then(()=>{
-                global.gameReady = true
-                resolve(true)
-            })
-        } else {
-            latestLight = now
-            let ls = cp.spawn('py', ['./app/cpscripts/light_up.py '])
-            ls.stdout.on('data', (data) => {
-                console.log(`${data}`)
-            })
-            ls.stderr.on('data', (data) => {
-                console.error(`${data}`)
-            })
-            ls.on('close', (code) => {
-                console.log(`Child process exited with code ${code}`)
-                if (code != 0) resolve(false)
-                else {
-                    global.commands = {}
-                    global.gameReady = true
-                    resolve(true)
-                }
-            })
-        }
-    })
-}
+let latestExec = {}
 
 exports.start = async function start() {
     return new Promise((resolve) => {
@@ -193,8 +68,40 @@ exports.isReady = async function isReady() {
 
         }
     })
+}
 
+exports.execScript = async function execScript(scriptName, clearCmds = false) {
+    return new Promise((resolve) => {
 
+        global.gameReady = false
+        console.log(sn + 'Executing Script: ' + scriptName)
+
+        let now = new Date().getTime()
+        if (latestExec[scriptName] && latestExec[scriptName] > (now - 30 * 60000)) {
+            this.send(['#SetFakeName [SF-BOT]', 'Sorry, I can only do this once every 30 minutes.', '#ClearFakeName']).then(() => {
+                global.gameReady = true
+                resolve(true)
+            })
+        } else {
+            latestExec[scriptName] = now
+            let ls = cp.spawn('py', ['./app/cpscripts/' + scriptName])
+            ls.stdout.on('data', (data) => {
+                console.log(`${data}`)
+            })
+            ls.stderr.on('data', (data) => {
+                console.error(`${data}`)
+            })
+            ls.on('close', (code) => {
+                console.log(`Child process exited with code ${code}`)
+                if (code != 0) resolve(false)
+                else {
+                    if (clearCmds) global.commands = {}
+                    global.gameReady = true
+                    resolve(true)
+                }
+            })
+        }
+    })
 }
 
 exports.send = async function send(commands) {
@@ -205,7 +112,6 @@ exports.send = async function send(commands) {
         }
         global.gameReady = false
         console.log(sn + 'Sending: ' + commands.join())
-
         let ls = cp.spawn('py', ['./app/cpscripts/send_command.py', ...commands])
         ls.stdout.on('data', (data) => {
             console.log(`${data}`)
@@ -224,27 +130,3 @@ exports.send = async function send(commands) {
 
     })
 }
-
-
-/*
-exports.spam = async function spam(user) {
-    return new Promise((resolve) => {
-        global.gameReady = false
-        console.log(sn + 'Spaming DC.')
-        const scumCmd = cp.exec('py ./app/cpscripts/dc_spam.py "' + user + '"', (error, stdout, stderr) => {
-            if (error) {
-                console.log(sn + 'STDOUT: ' + stdout)
-                console.log(sn + error.stack)
-                console.log(sn + 'Error code: ' + error.code)
-                console.log(sn + 'Signal received: ' + error.signal)
-            }
-        })
-
-        scumCmd.on('exit', code => {
-            global.gameReady = true
-            console.log(sn + 'Exited with exit code ' + code)
-            resolve()
-        })
-    })
-}
-*/

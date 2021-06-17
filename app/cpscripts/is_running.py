@@ -14,12 +14,11 @@ def processRunning(processName):
 
 print('\n\n')
 
-
-if (not processRunning('scum')):
-    raise Exception('Scum not running')
-
 if(not scb.ready()):
-    raise Exception('Not ingame or on server')
+    if (not processRunning('scum')):
+        raise Exception('Scum not running')
+    else:
+        raise Exception('Not ingame or on server')
 
 
 print('\n\n')

@@ -2,6 +2,25 @@ from use import scb
 import pyautogui
 
 
+def doOnF(action, duration=5):
+    pyautogui.press('esc')
+    scb.sleep()
+    pyautogui.press('esc')
+    scb.sleep()
+    pyautogui.keyDown('f')
+    scb.sleep(0.8)
+    actionLoc = scb.onScreen(action, sure=0.8)
+    if (actionLoc):
+        pyautogui.moveTo(actionLoc.x, actionLoc.y, duration=0.3)
+        pyautogui.click()
+        scb.sleep()
+        pyautogui.keyUp('f')
+        scb.sleep(duration)
+        return True
+    pyautogui.keyUp('f')
+    return False
+
+
 def doOnThis(victim, action, duration=5):
     scb.openTab()
     itemLoc = scb.onScreen(victim, sure=0.8)

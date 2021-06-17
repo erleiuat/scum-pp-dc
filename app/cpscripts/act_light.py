@@ -40,15 +40,12 @@ def doIt():
         control.doOnThis('img/startup/fackel.png',
                          'img/startup/anzuenden.png', 2)
 
-    scb.idlePos()
-
 
 if __name__ == '__main__':
     scb.sendChat('#SetFakeName [SF-BOT][LIGHT]')
     scb.sendChat(
         'I will now maintain the trading zone and be unavailable for about 5 minutes.')
-
     doIt()
-
+    scb.idlePos()
     scb.sendChat('I\'m done and available again!')
     scb.sendChat('#ClearFakeName')

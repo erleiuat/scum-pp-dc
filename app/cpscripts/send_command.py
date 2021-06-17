@@ -1,4 +1,3 @@
-from re import T
 from use import scb
 import sys
 
