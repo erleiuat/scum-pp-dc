@@ -70,14 +70,14 @@ exports.isReady = async function isReady() {
     })
 }
 
-exports.execScript = async function execScript(scriptName, clearCmds = false) {
+exports.execScript = async function execScript(scriptName, clearCmds = false, force = false) {
     return new Promise((resolve) => {
 
         global.gameReady = false
         console.log(sn + 'Executing Script: ' + scriptName)
 
         let now = new Date().getTime()
-        if (latestExec[scriptName] && latestExec[scriptName] > (now - 30 * 60000)) {
+        if (!force && latestExec[scriptName] && latestExec[scriptName] > (now - 30 * 60000)) {
             this.send(['#SetFakeName [SF-BOT]', 'Sorry, I can only do this once every 30 minutes.', '#ClearFakeName']).then(() => {
                 global.gameReady = true
                 resolve(true)

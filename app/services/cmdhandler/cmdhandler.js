@@ -100,6 +100,23 @@ async function checkStatus() {
     } while (true)
 }
 
+async function makeBusiness() {
+    let bTimes = [15, 45]
+    do {
+        await global.sleep.timer(10)
+        if (global.newCmds) continue
+        if (global.updates) continue
+        if (!global.gameReady) continue
+        if (global.updatingFTP) continue
+
+        now = new Date()
+        if (!bTimes.includes(now.getMinutes())) continue
+        doExecute('act_business.py', false, true)
+        await global.sleep.timer(60)
+
+    } while (true)
+}
+
 async function makeBreak() {
     let bTimes = [10, 20, 30, 40, 50]
     do {
@@ -111,14 +128,15 @@ async function makeBreak() {
 
         now = new Date()
         if (!bTimes.includes(now.getMinutes())) continue
-        doExecute('act_break.py')
+        doExecute('act_break.py', false, true)
         await global.sleep.timer(60)
 
     } while (true)
 }
 
-async function doExecute(scriptName, clearCmds = false) {
-    if (!await scum.execScript(scriptName, clearCmds)) {
+async function doExecute(scriptName, clearCmds = false, force = false) {
+    global.gameReady = false
+    if (!await scum.execScript(scriptName, clearCmds, force)) {
         if (!await scum.isReady()) await scum.start()
     } else checkCounter = 0
 }
@@ -127,6 +145,7 @@ exports.start = async function start() {
     if (!await scum.isReady()) await scum.start()
 
     makeBreak()
+    makeBusiness()
     checkStatus()
     announce()
     let i = 0
