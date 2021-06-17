@@ -103,7 +103,6 @@ async function checkStatus() {
 async function makeBreak() {
     let bTimes = [10, 20, 30, 40, 50]
     do {
-
         await global.sleep.timer(10)
         if (global.newCmds) continue
         if (global.updates) continue
@@ -112,14 +111,16 @@ async function makeBreak() {
 
         now = new Date()
         if (!bTimes.includes(now.getMinutes())) continue
-        global.gameReady = false
-        if (!await scum.makeBreak()) {
-            if (!await scum.isReady()) await scum.start()
-        } else checkCounter = 0
+        doExecute('act_break.py')
         await global.sleep.timer(60)
 
-
     } while (true)
+}
+
+async function doExecute(scriptName, clearCmds = false) {
+    if (!await scum.execScript(scriptName, clearCmds)) {
+        if (!await scum.isReady()) await scum.start()
+    } else checkCounter = 0
 }
 
 exports.start = async function start() {
@@ -150,12 +151,6 @@ exports.start = async function start() {
             else if (cmdStart == '!starterkit') newCmds[e] = await tStarterkit(cmd)
             else if (cmdStart == '!ready') newCmds[e] = await tReady(cmd)
             //else if (cmdStart == '!storagebox') newCmds[e] = await tStorageBox(cmd)
-            else if (cmdStart == '!break') await scum.execScript('act_break.py')
-            else if (cmdStart == '!business') await scum.execScript('act_business.py')
-            else if (cmdStart == '!firework') await scum.execScript('act_firework.py')
-            else if (cmdStart == '!idle') await scum.execScript('act_idle.py')
-            else if (cmdStart == '!lightup') await scum.execScript('act_light.py', true)
-            else if (cmdStart == '!repair') await scum.execScript('act_repair.py')
             else if (cmdStart == '!exec') newCmds['exec_' + cmd.steamID] = await cmdsInternal['exec'](cmd)
             else if (cmdStart == '!spawn') newCmds['spawn_' + cmd.steamID] = await cmdsInternal['spawn'](cmd)
             else if (cmdStart == 'welcome_new') newCmds['welcome_' + cmd.joined.getTime] = await cmdsInternal['welcome_new'](cmd)
@@ -163,6 +158,15 @@ exports.start = async function start() {
             else if (cmdStart == 'kill_feed') newCmds[e] = await cmdsInternal['kill_feed'](cmd)
             else if (cmdStart == 'auth_log') newCmds[e] = await cmdsInternal['auth_log'](cmd)
             else if (cmdStart == 'mine_armed') newCmds[e] = await cmdsInternal['mine_armed'](cmd)
+            else {
+                if (cmdStart == '!break') await doExecute('act_break.py')
+                else if (cmdStart == '!business') await doExecute('act_business.py')
+                else if (cmdStart == '!firework') await doExecute('act_firework.py')
+                else if (cmdStart == '!idle') await doExecute('act_idle.py')
+                else if (cmdStart == '!lightup') await doExecute('act_light.py', true)
+                else if (cmdStart == '!repair') await doExecute('act_repair.py')
+            }
+
         }
 
         i++
