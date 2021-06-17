@@ -139,7 +139,7 @@ exports.chat = async function chat(entry) {
 
 exports.admin = async function admin(entry, abuserID = false) {
     let msg = {
-        'color': '000000',
+        'color': '34a853',
         'fields': [{
             'name': entry.user,
             'value': entry.message
@@ -149,7 +149,16 @@ exports.admin = async function admin(entry, abuserID = false) {
         }
     }
     if (abuserID) {
-        msg.description = '** [placeholder] The following command was not executed by the bot but by <@' + abuserID + '>.\nPlease explain by replying to the message what you needed the command for.**\n\n_If you don\'t want to receive admin abuse notifications in the future, change the notification settings of this channel to "nothing"_'
+        msg.color = 'dc122a'
+        msg.description = '**[placeholder] The following command was not executed by the bot but by <@' + abuserID + '>.**'
+        msg.fields.push({
+            name: '\u200b',
+            value: '**Please explain by replying to the message what you needed the command for.**'
+        })
+        msg.fields.push({
+            name: '\u200b',
+            value: '_If you don\'t want to receive admin abuse notifications in the future, change the notification settings of this channel to "nothing"_'
+        })
     }
     return msg
 }
