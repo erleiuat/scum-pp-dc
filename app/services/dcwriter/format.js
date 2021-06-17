@@ -16,12 +16,18 @@ function formDate(dateStr) {
 
 async function findMineOwner(steamID, date, time) {
     let data = JSON.parse(fs.readFileSync('./app/storage/logs/mines.json'))
-    let trigger = formDate({date:date, time:time})
+    let trigger = formDate({
+        date: date,
+        time: time
+    })
     let from = new Date(trigger.getTime() - 1 * 60000).getTime()
     let to = new Date(trigger.getTime() + 1 * 60000).getTime()
     for (const e in data) {
         if (data[e].action == 'triggered' && data[e].steamID == steamID) {
-            let check = formDate({date:data[e].time.date, time:data[e].time.time}).getTime()
+            let check = formDate({
+                date: data[e].time.date,
+                time: data[e].time.time
+            }).getTime()
             if (check > from && check < to) return data[e].owner
         }
     }
@@ -131,8 +137,8 @@ exports.chat = async function chat(entry) {
     }
 }
 
-exports.admin = async function admin(entry) {
-    return {
+exports.admin = async function admin(entry, abuserID = false) {
+    let msg = {
         'color': '000000',
         'fields': [{
             'name': entry.user,
@@ -142,6 +148,10 @@ exports.admin = async function admin(entry) {
             'text': entry.time.date + ` - ` + entry.time.time
         }
     }
+    if (abuserID) {
+        msg.description = '** [placeholder] The following command was not executed by the bot but by <@' + abuserID + '>.\nPlease explain by replying to the message what you needed the command for.**\n\n_If you don\'t want to receive admin abuse notifications in the future, change the notification settings of this channel to "nothing"_'
+    }
+    return msg
 }
 
 exports.login = async function login(entry) {

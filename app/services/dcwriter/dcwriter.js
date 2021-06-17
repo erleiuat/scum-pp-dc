@@ -118,8 +118,9 @@ async function sendAdmins(dcClient) {
         else if (line.message.toLowerCase().includes('listplayers')) shouldHide = true
 
         if (!shouldHide) {
-            if (aList[line.steamID] && aList[line.steamID].alertCommands) await channel.send('** @everyone The following command was not executed by the bot but by <@' + aList[line.steamID].discord + '>.\nPlease explain by replying to the message what you needed the command for.**\n\n_If you don\'t want to receive admin abuse notifications in the future, change the notification settings of this channel to "nothing"_')
-            await channel.send(new Discord.MessageEmbed(await format.admin(global.newEntries.admin[el])))
+            let abuserID = false
+            if (aList[line.steamID] && aList[line.steamID].alertCommands) abuserID = aList[line.steamID].discord
+            await channel.send(new Discord.MessageEmbed(await format.admin(global.newEntries.admin[el], abuserID)))
             console.log(sn + 'Admin sent: ' + el)
         }
 
