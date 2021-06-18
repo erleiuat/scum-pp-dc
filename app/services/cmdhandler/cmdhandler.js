@@ -89,7 +89,7 @@ async function checkStatus() {
         if (global.updates) continue
         if (!global.gameReady) continue
         if (global.updatingFTP) continue
-        if (!await scum.isReady()) await scum.restart()
+        if (!await scum.isReady()) await doExecute('do_restart.py', true, true)
         checkCounter = 0
     } while (true)
 }
@@ -131,7 +131,7 @@ async function makeBreak() {
 async function doExecute(scriptName, clearCmds = false, force = false) {
     global.gameReady = false
     if (!await scum.execScript(scriptName, clearCmds, force)) {
-        if (!await scum.isReady()) await scum.restart()
+        if (!await scum.isReady()) await scum.execScript('do_restart.py', true, true)
     } else checkCounter = 0
 }
 

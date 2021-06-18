@@ -70,17 +70,6 @@ exports.isReady = async function isReady() {
     })
 }
 
-exports.restart = async function restart() {
-    return new Promise((resolve) => {
-        global.gameReady = false
-        console.log(sn + 'Restarting')
-        cp.exec('./app/cpscripts/use/restart.bat', (error, stdout, stderr) => {
-            console.log(stdout)
-            resolve()
-        })
-    })
-}
-
 exports.execScript = async function execScript(scriptName, clearCmds = false, force = false) {
     return new Promise((resolve) => {
 
