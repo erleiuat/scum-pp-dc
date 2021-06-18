@@ -1,6 +1,5 @@
 from use import scb
 import act_repair
-import act_business
 import webbrowser
 import subprocess
 import os
@@ -53,7 +52,6 @@ scb.sleepLong()
 
 # -------------------------------   SETUP
 
-act_business.doIt(2)
 act_repair.doIt()
 
 # -------------------------------   SETUP DONE
