@@ -18,30 +18,7 @@ exports.start = async function start() {
 
         console.log(sn + `Logged in as ${dcClient.user.tag}!`)
 
-        if (args.includes('everythingbutingame')) {
-            
-            console.log(sn + 'Starting Discord-Handler functionalities')
-            dcHandler.start(dcClient)
-
-            console.log(sn + 'Starting Discord-Writer')
-            dcWriter.start(dcClient)
-
-            console.log(sn + 'Starting State-Display')
-            state.start(dcClient)
-
-            console.log(sn + 'Starting Statistics')
-            statistics.start(dcClient)
-
-            console.log(sn + 'Starting FTP-Watcher')
-            ftpWatcher.start()
-
-            console.log(sn + 'Starting Log-Processor')
-            logProcessor.start()
-
-            console.log(sn + 'Starting Discord-Bot')
-            dcBot.start(dcClient)
-
-        } else if (!args.includes('discord')) {
+        if (!args.includes('discord')) {
 
             console.log(sn + 'Starting Discord-Handler functionalities')
             dcHandler.start(dcClient)
@@ -64,6 +41,11 @@ exports.start = async function start() {
             if (!args.includes('noIngame')) {
                 console.log(sn + 'Starting Command-handler')
                 cmdHandler.start()
+            }
+
+            if (args.includes('withdiscord')) {
+                console.log(sn + 'Starting Discord-Bot')
+                dcBot.start(dcClient)
             }
 
         } else {
