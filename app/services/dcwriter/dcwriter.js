@@ -174,7 +174,7 @@ async function sendDump(dcClient) {
         let msg = false
 
         if (dump[el].dump == 'kill') msg = {
-            ...await format.kill(dump[el]),
+            ...await format.kill(dump[el], true),
             color: 'ff0000'
         }
         else if (dump[el].dump == 'chat') {

@@ -78,7 +78,7 @@ exports.mines = async function mines(entry) {
     return msg
 }
 
-exports.kill = async function kill(entry) {
+exports.kill = async function kill(entry, dump = false) {
 
     if (entry.Killer.ProfileName.toLowerCase() == 'unknown') {
         let mineOwner = await findMineOwner(entry.Victim.UserId, entry.time.date, entry.time.time)
@@ -123,6 +123,17 @@ exports.kill = async function kill(entry) {
     if (entry.Victim.IsInGameEvent) {
         msg.title = 'Event-Kill'
         msg.color = '00ffff'
+    }
+
+    if (dump) {
+        msg.fields.push({
+            'name': 'Killer Position',
+            'value': '(' + entry.Killer.ServerLocation.X + ', ' + entry.Killer.ServerLocation.Y + ', ' + entry.Killer.ServerLocation.Z,
+        })
+        msg.fields.push({
+            'name': 'Victim Position',
+            'value': '(' + entry.Victim.ServerLocation.X + ', ' + entry.Victim.ServerLocation.Y + ', ' + entry.Victim.ServerLocation.Z,
+        })
     }
 
     return msg
@@ -191,7 +202,7 @@ exports.login = async function login(entry) {
         ...msg
     }
 
-    if(entry.drone) return {
+    if (entry.drone) return {
         'color': 'FFFF00',
         'title': 'Login -> ' + entry.user + ' (as drone)',
         ...msg
