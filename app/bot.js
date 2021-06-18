@@ -18,6 +18,28 @@ exports.start = async function start() {
 
         console.log(sn + `Logged in as ${dcClient.user.tag}!`)
 
+        onsole.log(sn + 'Starting Discord-Handler functionalities')
+        dcHandler.start(dcClient)
+
+        console.log(sn + 'Starting Discord-Writer')
+        dcWriter.start(dcClient)
+
+        console.log(sn + 'Starting State-Display')
+        state.start(dcClient)
+
+        console.log(sn + 'Starting Statistics')
+        statistics.start(dcClient)
+
+        console.log(sn + 'Starting FTP-Watcher')
+        ftpWatcher.start()
+
+        console.log(sn + 'Starting Log-Processor')
+        logProcessor.start()
+
+        console.log(sn + 'Starting Discord-Bot')
+        dcBot.start(dcClient)
+
+        /*
         if (!args.includes('discord')) {
 
             console.log(sn + 'Starting Discord-Handler functionalities')
@@ -52,7 +74,7 @@ exports.start = async function start() {
             console.log(sn + 'Starting Discord-Bot')
             dcBot.start(dcClient)
         }
-
+        */
 
     })
 
