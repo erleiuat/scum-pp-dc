@@ -14,7 +14,6 @@ print('\n\n')
 print(' -> Killing running processes')
 subprocess.call([fullBatPath + '\\use\\kill_steam.bat'])
 subprocess.call([fullBatPath + '\\use\\kill_scum.bat'])
-subprocess.call([fullBatPath + '\\use\\kill_eac.bat'])
 scb.sleep(5)
 
 print(' -> Starting Scum')

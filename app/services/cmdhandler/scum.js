@@ -70,6 +70,29 @@ exports.isReady = async function isReady() {
     })
 }
 
+exports.restart = async function restart() {
+    return new Promise((resolve) => {
+        global.gameReady = false
+        console.log(sn + 'Restarting')
+        let ls = cp.spawn('cmd.exe', ['./app/cpscripts/use/restart.bat'])
+        ls.stdout.on('data', (data) => {
+            console.log(`${data}`)
+        })
+        ls.stderr.on('data', (data) => {
+            console.error(`${data}`)
+        })
+        ls.on('close', (code) => {
+            console.log(`Child process exited with code ${code}`)
+            if (code != 0) resolve(false)
+            else {
+                if (clearCmds) global.commands = {}
+                global.gameReady = true
+                resolve(true)
+            }
+        })
+    })
+}
+
 exports.execScript = async function execScript(scriptName, clearCmds = false, force = false) {
     return new Promise((resolve) => {
 

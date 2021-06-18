@@ -89,13 +89,13 @@ async function checkStatus() {
         if (global.updates) continue
         if (!global.gameReady) continue
         if (global.updatingFTP) continue
-        if (!await scum.isReady()) await scum.start()
+        if (!await scum.isReady()) await scum.restart()
         checkCounter = 0
     } while (true)
 }
 
 async function makeBusiness() {
-    let bTimes = [15, 45]
+    let bTimes = [1, 30]
     do {
         await global.sleep.timer(10)
         if (global.newCmds) continue
@@ -112,7 +112,7 @@ async function makeBusiness() {
 }
 
 async function makeBreak() {
-    let bTimes = [10, 20, 30, 40, 50]
+    let bTimes = [15, 45]
     do {
         await global.sleep.timer(10)
         if (global.newCmds) continue
@@ -131,7 +131,7 @@ async function makeBreak() {
 async function doExecute(scriptName, clearCmds = false, force = false) {
     global.gameReady = false
     if (!await scum.execScript(scriptName, clearCmds, force)) {
-        if (!await scum.isReady()) await scum.start()
+        if (!await scum.isReady()) await scum.restart()
     } else checkCounter = 0
 }
 
