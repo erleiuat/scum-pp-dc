@@ -128,11 +128,11 @@ exports.kill = async function kill(entry, dump = false) {
     if (dump) {
         msg.fields.push({
             'name': 'Killer Position',
-            'value': '(' + entry.Killer.ServerLocation.X + ', ' + entry.Killer.ServerLocation.Y + ', ' + entry.Killer.ServerLocation.Z,
+            'value': '(' + entry.Killer.ServerLocation.X + ', ' + entry.Killer.ServerLocation.Y + ', ' + entry.Killer.ServerLocation.Z + ')',
         })
         msg.fields.push({
             'name': 'Victim Position',
-            'value': '(' + entry.Victim.ServerLocation.X + ', ' + entry.Victim.ServerLocation.Y + ', ' + entry.Victim.ServerLocation.Z,
+            'value': '(' + entry.Victim.ServerLocation.X + ', ' + entry.Victim.ServerLocation.Y + ', ' + entry.Victim.ServerLocation.Z + ')',
         })
     }
 
