@@ -18,7 +18,7 @@ exports.start = async function start() {
 
         console.log(sn + `Logged in as ${dcClient.user.tag}!`)
 
-        onsole.log(sn + 'Starting Discord-Handler functionalities')
+        console.log(sn + 'Starting Discord-Handler functionalities')
         dcHandler.start(dcClient)
 
         console.log(sn + 'Starting Discord-Writer')
