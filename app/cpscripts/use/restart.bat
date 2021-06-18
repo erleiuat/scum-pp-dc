@@ -1,1 +1,1 @@
-shutdown -r –t 1
+shutdown /r /t 2
