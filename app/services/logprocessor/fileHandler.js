@@ -54,9 +54,11 @@ async function mines(file) {
         let user = line.slice(40).replace(userID, '')
 
         let owner = null
+        let location = 'unknown'
         let actionType = 'unknown'
         if (line.includes(')\' armed trap on location(')) actionType = 'armed'
         else if (line.includes(')\' disarmed trap on location(')) actionType = 'disarmed'
+        else if (line.includes(')\' crafted trap (')) actionType = 'crafted'
         else if (line.includes(')\' triggered trap on location(')) {
             actionType = 'triggered'
             let ownInfo = line.split(') from ')[1]
@@ -69,11 +71,18 @@ async function mines(file) {
             }
         }
 
+        if (line.includes('on location(')) {
+            location = line.substring(line.indexOf('on location(') + 11)
+            location = location.substring(0, location.indexOf(')') + 1).trim()
+            console.log(location)
+        }
+
         formatted[key] = {
             time: t,
             user: user,
             steamID: steamID,
             action: actionType,
+            location: location,
             owner: owner
         }
 
@@ -161,7 +170,7 @@ async function login(file) {
             let user = line.substring(line.indexOf(ip) + ip.length + 19).replace(userID, '')
             userID = userID[0].slice(userID[0].indexOf('(') + 1, userID[0].indexOf(')'))
             let key = formKey(t, userID) + '.' + i
-       
+
             formatted[key] = {
                 type: 'login',
                 steamID: steamID,

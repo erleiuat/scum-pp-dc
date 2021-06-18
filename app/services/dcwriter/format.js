@@ -58,7 +58,11 @@ exports.mines = async function mines(entry) {
         }, {
             'name': 'Action',
             'value': entry.action,
-            'inline': true
+            'inline': false
+        }, {
+            'name': 'Location',
+            'value': entry.location,
+            'inline': false
         }],
         'footer': {
             'text': entry.time.date + ` - ` + entry.time.time
