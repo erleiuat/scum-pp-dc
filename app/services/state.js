@@ -1,7 +1,7 @@
 const request = require('request')
 const sn = global.chalk.green('[State] -> ')
 
-let updateTimer = 60
+let updateTimer = 300
 let serverTime = false
 
 /*
@@ -23,7 +23,7 @@ async function checkTime() {
     do {
         await global.sleep.timer(1)
         updateTimer++
-        if (updateTimer < 60) continue
+        if (updateTimer < 300) continue
         updateTimer = 0
         request({
             'url': process.env.BATTLEMETRICS_URL
@@ -33,7 +33,6 @@ async function checkTime() {
                 try {
                     let data = (JSON.parse(response.body))
                     if (data.data && timeCache != data.data.attributes.details.time) {
-
                         // Load from Battlemetrics
                         global.playersOnline = data.data.attributes.players
                         timeCache = data.data.attributes.details.time
