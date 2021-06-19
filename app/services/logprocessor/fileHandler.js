@@ -170,8 +170,6 @@ async function login(file) {
             userID = userID[0].slice(userID[0].indexOf('(') + 1, userID[0].indexOf(')'))
             let key = formKey(t, userID) + '.' + i
 
-            global.playersOnline++
-
             formatted[key] = {
                 type: 'login',
                 steamID: steamID,
@@ -198,8 +196,6 @@ async function login(file) {
                 ip: global.playerlist[userID].ip,
                 online: false
             }
-
-            global.playersOnline--
 
             global.playerlist[userID] = formatted[key]
 

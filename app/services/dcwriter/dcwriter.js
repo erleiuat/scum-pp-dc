@@ -143,17 +143,22 @@ async function sendLogins(dcClient) {
         aList = await global.admins.list()
 
         if (!aList[global.newEntries.login[el].steamID] || !aList[global.newEntries.login[el].steamID].hideLogin) {
-            if (global.newEntries.login[el].type == 'login') global.commands['auth_' + global.newEntries.login[el].steamID] = {
-                message: 'auth_log',
-                time: global.newEntries.login[el].time,
-                user: global.newEntries.login[el].user,
-                text: 'is joining'
-            }
-            else if (global.newEntries.login[el].type == 'logout') global.commands['auth_' + global.newEntries.login[el].steamID] = {
-                message: 'auth_log',
-                time: global.newEntries.login[el].time,
-                user: global.newEntries.login[el].user,
-                text: 'left'
+            global.playersOnline = global.playersOnline + 1
+            if (global.newEntries.login[el].type == 'login') {
+                global.commands['auth_' + global.newEntries.login[el].steamID] = {
+                    message: 'auth_log',
+                    time: global.newEntries.login[el].time,
+                    user: global.newEntries.login[el].user,
+                    text: 'is joining'
+                }
+            } else if (global.newEntries.login[el].type == 'logout') {
+                global.playersOnline = global.playersOnline - 1
+                global.commands['auth_' + global.newEntries.login[el].steamID] = {
+                    message: 'auth_log',
+                    time: global.newEntries.login[el].time,
+                    user: global.newEntries.login[el].user,
+                    text: 'left'
+                }
             }
         }
 
