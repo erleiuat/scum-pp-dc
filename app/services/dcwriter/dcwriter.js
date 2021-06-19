@@ -102,16 +102,16 @@ async function sendAdmins(dcClient) {
         let line = {
             ...global.newEntries.admin[el]
         }
-        
+
         let doHide = false
         let msgCmd = line.message.toLowerCase()
         aList = await global.admins.list()
-        
+
         if (aList[line.steamID].useFakeNames) {
             if (msgCmd.includes('setfakename')) fakeNameCache[line.steamID] = line.message.split(' ')[1]
             else if (msgCmd.includes('clearfakename')) fakeNameCache[line.steamID] = false
         }
-        
+
         for (const cmd in aList[line.steamID].hideCommands)
             if (aList[line.steamID].hideCommands[cmd] && msgCmd.includes(cmd.toLowerCase())) doHide = true
 
@@ -142,19 +142,19 @@ async function sendLogins(dcClient) {
         console.log(sn + 'Login sent: ' + el)
         aList = await global.admins.list()
 
-        if (aList[global.newEntries.login[el].steamID] && aList[global.newEntries.login[el].steamID].hideLogin) {
-
-        } else if (global.newEntries.login[el].type == 'login') global.commands['auth_' + global.newEntries.login[el].steamID] = {
-            message: 'auth_log',
-            time: global.newEntries.login[el].time,
-            user: global.newEntries.login[el].user,
-            text: 'is joining'
-        }
-        else if (global.newEntries.login[el].type == 'logout') global.commands['auth_' + global.newEntries.login[el].steamID] = {
-            message: 'auth_log',
-            time: global.newEntries.login[el].time,
-            user: global.newEntries.login[el].user,
-            text: 'left'
+        if (!aList[global.newEntries.login[el].steamID] || !aList[global.newEntries.login[el].steamID].hideLogin) {
+            if (global.newEntries.login[el].type == 'login') global.commands['auth_' + global.newEntries.login[el].steamID] = {
+                message: 'auth_log',
+                time: global.newEntries.login[el].time,
+                user: global.newEntries.login[el].user,
+                text: 'is joining'
+            }
+            else if (global.newEntries.login[el].type == 'logout') global.commands['auth_' + global.newEntries.login[el].steamID] = {
+                message: 'auth_log',
+                time: global.newEntries.login[el].time,
+                user: global.newEntries.login[el].user,
+                text: 'left'
+            }
         }
 
         dump[el] = {

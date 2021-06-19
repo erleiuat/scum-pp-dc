@@ -31,7 +31,7 @@ async function checkTime() {
                     if (data.data && timeCache != data.data.attributes.details.time) {
 
                         // Load from Battlemetrics
-                        online = data.data.attributes.players
+                        global.playersOnline = data.data.attributes.players
                         timeCache = data.data.attributes.details.time
                         serverTime = data.data.attributes.details.time
                         console.log(sn + 'Server-time updated')
@@ -42,7 +42,7 @@ async function checkTime() {
                 }
             }
         })
-        await global.sleep.timer(10)
+        await global.sleep.timer(60)
     } while (true)
 }
 
@@ -84,10 +84,8 @@ exports.start = async function start(dcClient) {
         if (global.updates) continue
         if (global.updatingFTP) continue
 
-        if (online < 1) continue
-        global.playersOnline = online
         global.ingameTime = serverTime.slice(0, -3)
-        let msg = online + ' 👥'
+        let msg = global.playersOnline + ' 👥'
         if (serverTime) msg += ' | ' + serverTime.slice(0, -3) + ' 🕒'
         if (msg == msgCache) continue
         dcClient.user.setActivity(msg, {
