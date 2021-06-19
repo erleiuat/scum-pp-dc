@@ -87,7 +87,7 @@ exports.start = async function start(dcClient) {
     let onlineCache = 0
 
     do {
-        await global.sleep.timer(1)
+        await global.sleep.timer(5)
         if (global.updates) continue
         if (global.updatingFTP) continue
         if (onlineCache != global.playersOnline) {
