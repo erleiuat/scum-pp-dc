@@ -59,19 +59,23 @@ async function incrementTime() {
     do {
         await global.sleep.timer(1 / process.env.GS_TIMEOFDAYSPEED)
         if (!serverTime) continue
-        let parts = serverTime.split(':')
-        parts[2] = parseInt(parts[2]) + 1
+        try {
+            let parts = serverTime.split(':')
+            parts[2] = parseInt(parts[2]) + 1
 
-        if (parts[2] >= 60) {
-            parts[1] = parseInt(parts[1]) + 1
-            parts[2] = 0
+            if (parts[2] >= 60) {
+                parts[1] = parseInt(parts[1]) + 1
+                parts[2] = 0
+            }
+            if (parseInt(parts[1]) >= 60) {
+                parts[0] = parseInt(parts[0]) + 1
+                parts[1] = 0
+            }
+            if (parseInt(parts[0]) >= 24) parts[0] = 0
+            serverTime = nZero(parseInt(parts[0])) + ':' + nZero(parseInt(parts[1])) + ':' + nZero(parseInt(parts[2]))
+        } catch (error) {
+            console.log(sn + 'Error: ' + error)
         }
-        if (parseInt(parts[1]) >= 60) {
-            parts[0] = parseInt(parts[0]) + 1
-            parts[1] = 0
-        }
-        if (parseInt(parts[0]) >= 24) parts[0] = 0
-        serverTime = nZero(parseInt(parts[0])) + ':' + nZero(parseInt(parts[1])) + ':' + nZero(parseInt(parts[2]))
     } while (true)
 }
 
@@ -87,11 +91,15 @@ exports.start = async function start(dcClient) {
         await global.sleep.timer(1)
         if (global.updates) continue
         if (global.updatingFTP) continue
-        if (onlineCache != global.playersOnline) updateTimer = 0
-
-        global.ingameTime = serverTime.slice(0, -3)
+        if (onlineCache != global.playersOnline) {
+            onlineCache = global.playersOnline
+            updateTimer = 0
+        }
         let msg = global.playersOnline + ' 👥'
-        if (serverTime) msg += ' | ' + serverTime.slice(0, -3) + ' 🕒'
+        if (serverTime) {
+            global.ingameTime = serverTime.slice(0, -3)
+            msg += ' | ' + serverTime.slice(0, -3) + ' 🕒'
+        }
         if (msg == msgCache) continue
         dcClient.user.setActivity(msg, {
             type: 'WATCHING'
