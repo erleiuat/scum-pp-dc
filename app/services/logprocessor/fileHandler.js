@@ -74,7 +74,6 @@ async function mines(file) {
         if (line.includes('on location(')) {
             location = line.substring(line.indexOf('on location(') + 11)
             location = location.substring(0, location.indexOf(')') + 1).trim()
-            console.log(location)
         }
 
         formatted[key] = {
