@@ -1,7 +1,7 @@
 const request = require('request')
 const sn = global.chalk.green('[State] -> ')
 
-let online = 0
+let updateTimer = 0
 let serverTime = false
 
 /*
@@ -21,6 +21,10 @@ async function checkOnline() {
 async function checkTime() {
     let timeCache = ''
     do {
+        await global.sleep.timer(1)
+        updateTimer++
+        if (updateTimer < 60) continue
+        updateTimer = 0
         request({
             'url': process.env.BATTLEMETRICS_URL
         }, (error, response) => {
@@ -42,7 +46,6 @@ async function checkTime() {
                 }
             }
         })
-        await global.sleep.timer(60)
     } while (true)
 }
 
@@ -78,11 +81,13 @@ exports.start = async function start(dcClient) {
     checkTime()
     incrementTime()
     let msgCache = ''
+    let onlineCache = 0
 
     do {
         await global.sleep.timer(1)
         if (global.updates) continue
         if (global.updatingFTP) continue
+        if (onlineCache != global.playersOnline) updateTimer = 0
 
         global.ingameTime = serverTime.slice(0, -3)
         let msg = global.playersOnline + ' 👥'

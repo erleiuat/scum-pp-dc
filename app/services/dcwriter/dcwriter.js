@@ -143,8 +143,8 @@ async function sendLogins(dcClient) {
         aList = await global.admins.list()
 
         if (!aList[global.newEntries.login[el].steamID] || !aList[global.newEntries.login[el].steamID].hideLogin) {
-            global.playersOnline = global.playersOnline + 1
             if (global.newEntries.login[el].type == 'login') {
+                global.playersOnline = global.playersOnline + 1
                 global.commands['auth_' + global.newEntries.login[el].steamID] = {
                     message: 'auth_log',
                     time: global.newEntries.login[el].time,
