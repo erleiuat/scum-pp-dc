@@ -142,23 +142,21 @@ async function sendLogins(dcClient) {
         console.log(sn + 'Login sent: ' + el)
         aList = await global.admins.list()
 
+        if (global.newEntries.login[el].type == 'login') global.playersOnline = global.playersOnline + 1
+        else global.playersOnline = global.playersOnline - 1
+
         if (!aList[global.newEntries.login[el].steamID] || !aList[global.newEntries.login[el].steamID].hideLogin) {
-            if (global.newEntries.login[el].type == 'login') {
-                global.playersOnline = global.playersOnline + 1
-                global.commands['auth_' + global.newEntries.login[el].steamID] = {
-                    message: 'auth_log',
-                    time: global.newEntries.login[el].time,
-                    user: global.newEntries.login[el].user,
-                    text: 'is joining'
-                }
-            } else if (global.newEntries.login[el].type == 'logout') {
-                global.playersOnline = global.playersOnline - 1
-                global.commands['auth_' + global.newEntries.login[el].steamID] = {
-                    message: 'auth_log',
-                    time: global.newEntries.login[el].time,
-                    user: global.newEntries.login[el].user,
-                    text: 'left'
-                }
+            if (global.newEntries.login[el].type == 'login') global.commands['auth_' + global.newEntries.login[el].steamID] = {
+                message: 'auth_log',
+                time: global.newEntries.login[el].time,
+                user: global.newEntries.login[el].user,
+                text: 'is joining'
+            }
+            else if (global.newEntries.login[el].type == 'logout') global.commands['auth_' + global.newEntries.login[el].steamID] = {
+                message: 'auth_log',
+                time: global.newEntries.login[el].time,
+                user: global.newEntries.login[el].user,
+                text: 'left'
             }
         }
 
@@ -168,7 +166,6 @@ async function sendLogins(dcClient) {
         }
         delete global.newEntries.login[el]
     }
-
 }
 
 async function sendDump(dcClient) {
