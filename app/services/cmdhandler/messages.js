@@ -1,13 +1,13 @@
 exports.list = {
-    '6:55': {
+    '5:55': {
         text: '#Announce Restart in 5 Minutes!',
         done: false
     },
-    '6:57': {
+    '5:57': {
         text: 'RESTART-INFO: Don\'t drive and make sure there are no valuable items on the floor!',
         done: false
     },
-    '6:59': {
+    '5:59': {
         text: '#Announce Restart in 1 Minute!',
         done: false
     },
