@@ -1,0 +1,96 @@
+{
+    "76561198058320009": {
+        "Name": "Joppala",
+        "discord": "276057160738406400",
+        "hideRankingPlaytime": true,
+        "hideRankingKills": false,
+        "alertCommands": true,
+        "useFakeNames": false,
+        "hideLogin": true,
+        "hideCommands": {
+            "listplayers": true,
+            "showotherplayerinfo": true,
+            "vote": true,
+            "showflaglocations": true,
+            "starttournamentmode": true,
+            "location": true,
+            "listsquads": true,
+            "endtournamentmode": true
+        },
+        "canExecute": {
+            "#*": true
+        }
+    },
+    "76561198082374095": {
+        "Name": "Lox",
+        "discord": "526887566545256470",
+        "hideRankingPlaytime": true,
+        "hideRankingKills": false,
+        "alertCommands": true,
+        "useFakeNames": false,
+        "hideLogin": true,
+        "hideCommands": {
+            "listplayers": true,
+            "showotherplayerinfo": true,
+            "vote": true,
+            "showflaglocations": true
+        },
+        "canExecute": {
+            "#*": true
+        }
+    },
+    "76561198046659274": {
+        "Name": "LamaAndy",
+        "discord": "314437826764603392",
+        "hideRankingPlaytime": true,
+        "hideRankingKills": false,
+        "alertCommands": true,
+        "useFakeNames": false,
+        "hideLogin": false,
+        "hideCommands": {
+            "listplayers": true,
+            "vote": true
+        },
+        "canExecute": {
+            "#*": true
+        }
+    },
+    "76561199166410611": {
+        "Name": "ScumFiction(BOT)",
+        "discord": "837680842108043264",
+        "hideRankingPlaytime": true,
+        "hideRankingKills": true,
+        "alertCommands": false,
+        "useFakeNames": true,
+        "hideLogin": true,
+        "hideCommands": {
+            "setfakename": true,
+            "clearfakename": true
+        },
+        "canExecute": {
+            "#*": true
+        }
+    },
+    "TEMPLATE": {
+        "Name": "Muster",
+        "discord": "12345123451234512345",
+        "hideRankingPlaytime": true,
+        "hideRankingKills": false,
+        "alertCommands": true,
+        "useFakeNames": false,
+        "hideLogin": true,
+        "hideCommands": {
+            "teleport": true,
+            "location": true,
+            "spawn": true,
+            "showotherplayerinfo": true,
+            "godmode": true,
+            "setfakename": true,
+            "clearfakename": true,
+            "shownameplates": true
+        },
+        "canExecute": {
+            "#*": true
+        }
+    }
+}
