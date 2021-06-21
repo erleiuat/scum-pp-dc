@@ -95,7 +95,7 @@ async function checkStatus() {
 }
 
 async function makeBusiness() {
-    let bTimes = [1, 30]
+    let bTimes = [1]
     do {
         await global.sleep.timer(10)
         if (global.newCmds) continue
