@@ -43,7 +43,7 @@ async function generateGif(dcClient) {
     let gifName = global.nZero.form(now.getHours()) + '_00.gif'
     if (gifCreated.includes(gifName)) return
 
-    let path = now.getFullYear() + '_' + global.nZero.form(now.getMonth() + 1) + '_' + global.nZero.form(now.getDate()) + '/'
+    let path = './app/storage/maps/' + now.getFullYear() + '_' + global.nZero.form(now.getMonth() + 1) + '_' + global.nZero.form(now.getDate()) + '/'
 
     let inputDir = path + global.nZero.form((now.getHours()) + '_00/')
 
