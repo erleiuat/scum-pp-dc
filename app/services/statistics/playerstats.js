@@ -57,7 +57,7 @@ exports.rankingKills = async function rankingKills(statesOrg) {
     tmpMsg = '-----\n\n\n**Best Players by Kills**\n_Beste Spieler nach Kills_'
     tmpMsg += '\`\`\`diff\n+Rank  \tKills  \t\t Player\n- - - - - - - - - - - - - - - - - - - - - - - -\n\n'
     states.sort((a, b) => (a.totalKills > b.totalKills) ? 1 : -1).reverse()
-    for (let i = 0; i < states.length; i++) {
+    for (let i = 0; i < 10; i++) {
         tmpMsg += global.nZero.form((i + 1), ' ') + '.\t\t  ' + global.nZero.form(states[i].totalKills, ' ') + '    \t\t' + states[i].name + '\n'
     }
     tmpMsg += '\n- - - - - - - - - - - - - - - - - - - - - - - -\n\`\`\`\n'
@@ -67,7 +67,7 @@ exports.rankingKills = async function rankingKills(statesOrg) {
     tmpMsg = '-----\n\n\n**Best Players by Kill-Distance**\n_Beste Spieler nach Kill-Distanz_'
     tmpMsg += '\`\`\`diff\n+Rank  \tDistance\t\t Player\n- - - - - - - - - - - - - - - - - - - - - - - -\n\n'
     states.sort((a, b) => (a.farthestAll > b.farthestAll) ? 1 : -1).reverse()
-    for (let i = 0; i < states.length; i++) {
+    for (let i = 0; i < 10; i++) {
         tmpMsg += global.nZero.form((i + 1), ' ') + '.\t\t   ' + global.nZero.form(states[i].farthestAll, ' ') + '    \t\t' + states[i].name + '\n'
     }
     tmpMsg += '\n- - - - - - - - - - - - - - - - - - - - - - - -\n\`\`\`\n'
@@ -77,7 +77,7 @@ exports.rankingKills = async function rankingKills(statesOrg) {
     tmpMsg = '-----\n\n\n**Best Players by EVENT-Kills**\n_Beste Spieler nach EVENT-Kills_'
     tmpMsg += '\`\`\`diff\n+Rank  \tEvent-Kills\t  Player\n- - - - - - - - - - - - - - - - - - - - - - - -\n\n'
     states.sort((a, b) => (a.totalEventKills > b.totalEventKills) ? 1 : -1).reverse()
-    for (let i = 0; i < states.length; i++) {
+    for (let i = 0; i < 10; i++) {
         tmpMsg += global.nZero.form((i + 1), ' ') + '.\t\t   ' + global.nZero.form(states[i].totalEventKills, ' ') + '    \t\t' + states[i].name + '\n'
     }
     tmpMsg += '\n- - - - - - - - - - - - - - - - - - - - - - - -\n\`\`\`\n'
@@ -106,36 +106,6 @@ exports.rankingPlaytime = async function rankingPlaytime(statesOrg) {
     msgs.push(tmpMsg)
 
     return msgs
-}
-
-function formWinner(user, place, color, img) {
-    let pTime = getDuration(user.playtime)
-    return new Discord.MessageEmbed({
-        title: place + '. ' + user.user.toUpperCase(),
-        color: color,
-        thumbnail: {
-            url: process.env.DATA_URL + img
-        },
-        footer: {
-            text: user.totalLogins + ' Logins'
-        },
-        fields: [{
-                name: 'Days',
-                value: pTime.d,
-                inline: true
-            },
-            {
-                name: 'Hours',
-                value: pTime.h,
-                inline: true
-            },
-            {
-                name: 'Minutes',
-                value: pTime.m,
-                inline: true
-            }
-        ]
-    })
 }
 
 function getDuration(milli) {
