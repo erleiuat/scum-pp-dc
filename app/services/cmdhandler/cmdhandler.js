@@ -76,8 +76,8 @@ async function getMap() {
         global.newEntries['maps'][imgInfo.fileName] = {
             ...imgInfo,
             time: {
-                date: global.nZero(d.getDate()) + '.' + global.nZero((d.getMonth() + 1)) + '.' + d.getFullYear(),
-                time: global.nZero(d.getHours()) + ':' + global.nZero(d.getMinutes()) + ':' + global.nZero(d.getSeconds())
+                date: global.nZero.form(d.getDate()) + '.' + global.nZero.form((d.getMonth() + 1)) + '.' + d.getFullYear(),
+                time: global.nZero.form(d.getHours()) + ':' + global.nZero.form(d.getMinutes()) + ':' + global.nZero.form(d.getSeconds())
             }
         }
 

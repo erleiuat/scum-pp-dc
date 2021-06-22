@@ -58,7 +58,7 @@ exports.rankingKills = async function rankingKills(statesOrg) {
     tmpMsg += '\`\`\`diff\n+Rank  \tKills  \t\t Player\n- - - - - - - - - - - - - - - - - - - - - - - -\n\n'
     states.sort((a, b) => (a.totalKills > b.totalKills) ? 1 : -1).reverse()
     for (let i = 0; i < states.length; i++) {
-        tmpMsg += global.nZero((i + 1), ' ') + '.\t\t  ' + global.nZero(states[i].totalKills, ' ') + '    \t\t' + states[i].name + '\n'
+        tmpMsg += global.nZero.form((i + 1), ' ') + '.\t\t  ' + global.nZero.form(states[i].totalKills, ' ') + '    \t\t' + states[i].name + '\n'
     }
     tmpMsg += '\n- - - - - - - - - - - - - - - - - - - - - - - -\n\`\`\`\n'
     msgs.push(tmpMsg)
@@ -68,7 +68,7 @@ exports.rankingKills = async function rankingKills(statesOrg) {
     tmpMsg += '\`\`\`diff\n+Rank  \tDistance\t\t Player\n- - - - - - - - - - - - - - - - - - - - - - - -\n\n'
     states.sort((a, b) => (a.farthestAll > b.farthestAll) ? 1 : -1).reverse()
     for (let i = 0; i < states.length; i++) {
-        tmpMsg += global.nZero((i + 1), ' ') + '.\t\t   ' + global.nZero(states[i].farthestAll, ' ') + '    \t\t' + states[i].name + '\n'
+        tmpMsg += global.nZero.form((i + 1), ' ') + '.\t\t   ' + global.nZero.form(states[i].farthestAll, ' ') + '    \t\t' + states[i].name + '\n'
     }
     tmpMsg += '\n- - - - - - - - - - - - - - - - - - - - - - - -\n\`\`\`\n'
     msgs.push(tmpMsg)
@@ -78,7 +78,7 @@ exports.rankingKills = async function rankingKills(statesOrg) {
     tmpMsg += '\`\`\`diff\n+Rank  \tEvent-Kills\t  Player\n- - - - - - - - - - - - - - - - - - - - - - - -\n\n'
     states.sort((a, b) => (a.totalEventKills > b.totalEventKills) ? 1 : -1).reverse()
     for (let i = 0; i < states.length; i++) {
-        tmpMsg += global.nZero((i + 1), ' ') + '.\t\t   ' + global.nZero(states[i].totalEventKills, ' ') + '    \t\t' + states[i].name + '\n'
+        tmpMsg += global.nZero.form((i + 1), ' ') + '.\t\t   ' + global.nZero.form(states[i].totalEventKills, ' ') + '    \t\t' + states[i].name + '\n'
     }
     tmpMsg += '\n- - - - - - - - - - - - - - - - - - - - - - - -\n\`\`\`\n'
     msgs.push(tmpMsg)
@@ -100,7 +100,7 @@ exports.rankingPlaytime = async function rankingPlaytime(statesOrg) {
     states.sort((a, b) => (a.playtime > b.playtime) ? 1 : -1).reverse()
     for (let i = 0; i < 10; i++) {
         let formed = getDuration(states[i].playtime)
-        tmpMsg += global.nZero((i + 1), ' ') + '.\t\t' + formed.d + 'd ' + formed.h + 'h  \t\t' + states[i].user + '\n'
+        tmpMsg += global.nZero.form((i + 1), ' ') + '.\t\t' + formed.d + 'd ' + formed.h + 'h  \t\t' + states[i].user + '\n'
     }
     tmpMsg += '\n- - - - - - - - - - - - - - - - - - - - - - - -\n\`\`\`\n'
     msgs.push(tmpMsg)
@@ -145,8 +145,8 @@ function getDuration(milli) {
     minutes = (hours - Math.floor(hours)) * 60
     hours = Math.floor(hours) - (days * 24)
     return {
-        d: global.nZero(Math.floor(days)),
-        h: global.nZero(Math.floor(hours)),
-        m: global.nZero(Math.floor(minutes))
+        d: global.nZero.form(Math.floor(days)),
+        h: global.nZero.form(Math.floor(hours)),
+        m: global.nZero.form(Math.floor(minutes))
     }
 }

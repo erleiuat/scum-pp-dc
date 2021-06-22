@@ -65,7 +65,7 @@ async function incrementTime() {
                 parts[1] = 0
             }
             if (parseInt(parts[0]) >= 24) parts[0] = 0
-            serverTime = global.nZero(parseInt(parts[0])) + ':' + global.nZero(parseInt(parts[1])) + ':' + global.nZero(parseInt(parts[2]))
+            serverTime = global.nZero.form(parseInt(parts[0])) + ':' + global.nZero.form(parseInt(parts[1])) + ':' + global.nZero.form(parseInt(parts[2]))
         } catch (error) {
             console.log(sn + 'Error: ' + error)
         }

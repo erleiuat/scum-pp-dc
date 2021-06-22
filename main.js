@@ -31,7 +31,7 @@ console.log(sn + '----------------------------------------------------------\n')
 require('dotenv').config()
 global.admins = require('./app/plugins/admins')
 global.sleep = require('./app/plugins/sleep')
-global.nZero = require('./app/plugins/nzero')
+global.nZero.form = require('./app/plugins/nzero')
 global.io = require('@pm2/io')
 global.gameReady = false
 global.ingameTime = false

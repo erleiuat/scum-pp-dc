@@ -263,8 +263,8 @@ function formTime(line) {
     let d = new Date(date + 'T' + time)
     d.setHours(d.getHours() + 2)
     return {
-        date: global.nZero(d.getDate()) + '.' + global.nZero((d.getMonth() + 1)) + '.' + d.getFullYear(),
-        time: global.nZero(d.getHours()) + ':' + global.nZero(d.getMinutes()) + ':' + global.nZero(d.getSeconds())
+        date: global.nZero.form(d.getDate()) + '.' + global.nZero.form((d.getMonth() + 1)) + '.' + d.getFullYear(),
+        time: global.nZero.form(d.getHours()) + ':' + global.nZero.form(d.getMinutes()) + ':' + global.nZero.form(d.getSeconds())
     }
 }
 

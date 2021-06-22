@@ -1,4 +1,4 @@
-exports.nZero = function nZero(val) {
+exports.form = function form(val) {
     if (val < 10) return '0' + val
     else return val
 }
