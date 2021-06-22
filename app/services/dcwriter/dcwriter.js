@@ -1,10 +1,10 @@
 const Discord = require('discord.js')
 const format = require('./format')
 const sn = global.chalk.cyan('[DCWriter] -> ')
-const gifMaker = require('../../plugins/gifmaker')
+//const gifMaker = require('../../plugins/gifmaker')
 const dump = {}
 let fakeNameCache = {}
-let gifCreated = []
+//let gifCreated = []
 
 const channels = {
     kill: process.env.DISCORD_CH_KILL,
