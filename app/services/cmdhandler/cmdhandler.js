@@ -71,6 +71,8 @@ async function getMap() {
 
         console.log(sn + 'Getting current player positions')
         let imgInfo = await doExecute('get_map.py', false, true)
+        console.log(imgInfo)
+        console.log(typeof imgInfo)
         if (!imgInfo) {
             console.log(sn + 'No image info received')
             continue
