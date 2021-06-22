@@ -1,6 +1,7 @@
 const Discord = require('discord.js')
 const format = require('./format')
 const sn = global.chalk.cyan('[DCWriter] -> ')
+const gifMaker = require('../../plugins/gifmaker')
 const dump = {}
 let fakeNameCache = {}
 let gifCreated = []
@@ -46,7 +47,7 @@ async function generateGif(dcClient) {
 
     let inputDir = path + global.nZero.form((now.getHours()) + '_00/')
 
-    createGif(gifName, inputDir, path)
+    gifMaker.createGif(gifName, inputDir, path)
 
     let channel = dcClient.channels.cache.find(channel => channel.id === channels.playerActivity)
     let attachment = new Discord.MessageAttachment(path + gifName, gifName)
