@@ -9,14 +9,14 @@ def getMap():
         pyautogui.press('esc')
     scb.sleep()
     pyautogui.press('m')
-    scb.sleep()
+    scb.sleepLong()
     x, y = pyautogui.size()
     now = datetime.now()
     fileName = now.strftime('%Y_%m_%d.%H_%M_%S')+'.png'
     fullPath = './app/storage/maps/'+fileName
     pyautogui.screenshot(fullPath,
                          region=(((x/2) - (y/2)), 0, y, y))
-    scb.sleep(1)
+    scb.sleep(2)
     pyautogui.keyDown('tab')
     scb.sleep(0.02)
     pyautogui.keyUp('tab')
