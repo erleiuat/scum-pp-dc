@@ -47,8 +47,8 @@ exports.loadWeapons = async function loadWeapons() {
 exports.maps = async function maps(entry) {
     let attachment = new Discord.MessageAttachment(entry.fullPath, entry.fileName)
     let msg = {
-        'title': 'CURRENT MAP',
         'color': '73A832',
+        'type': 'image',
         'files': [
             attachment
         ],

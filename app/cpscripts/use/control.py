@@ -16,6 +16,7 @@ def getMap():
     fullPath = './app/storage/maps/'+fileName
     pyautogui.screenshot(fullPath,
                          region=(((x/2) - (y/2)), 0, y, y))
+    scb.sleep()
     pyautogui.keyDown('tab')
     scb.sleep(0.02)
     pyautogui.keyUp('tab')

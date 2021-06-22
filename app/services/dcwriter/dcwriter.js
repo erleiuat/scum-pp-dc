@@ -49,7 +49,7 @@ async function sendMaps(dcClient) {
 
 async function sendMines(dcClient) {
     if (Object.keys(global.newEntries.mines).length <= 0) return
-    
+
     for (const e in global.newEntries.mines) {
         if (global.newEntries.mines[e].action == 'armed') global.commands['mine_' + global.newEntries.mines[e].steamID] = {
             time: global.newEntries.mines[e].time,
