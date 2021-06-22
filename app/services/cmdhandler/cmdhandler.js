@@ -64,9 +64,9 @@ exports.start = async function start() {
 
 async function getMap() {
     do {
-        await global.sleep.timer(5)
+        await global.sleep.timer(40)
         if (global.newCmds) continue
-        //if (global.updates) continue
+        if (global.updates) continue
         if (!global.gameReady) continue
         if (global.updatingFTP) continue
 
