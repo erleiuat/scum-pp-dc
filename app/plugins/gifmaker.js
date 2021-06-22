@@ -1,57 +1,42 @@
-const GIFEncoder = require('gif-encoder-2')
-const {
-    createCanvas,
-    Image
-} = require('canvas')
-const {
-    createWriteStream,
-    readdir
-} = require('fs')
-const {
-    promisify
-} = require('util')
+const execFile = require('child_process').execFile
+const fs = require('fs')
 const path = require('path')
+const promisify = require('util').promisify
 
-const readdirAsync = promisify(readdir)
+const writeFile = promisify(fs.writeFile)
 
-exports.createGif = async function createGif(name, inputDir, outputDir) {
-    return new Promise(async resolve1 => {
-        const files = await readdirAsync(inputDir)
-
-        const [width, height] = await new Promise(resolve2 => {
-            const image = new Image()
-            image.onload = () => resolve2([image.width, image.height])
-            image.src = path.join(inputDir, files[0])
+exports.createGif = async function createGif(name, inputDir, dstPath, cwd = 'C:/Users/Elia/Documents/Code/scum-pp-dc') {
+    return new Promise(resolve => {
+        let str = ''
+        let images = fs.readdirSync(inputDir)
+        images.forEach((image, i) => {
+            str += `file ${path.basename(image.path)}\n`
+            str += `duration ${image.duration}\n`
         })
-
-        const dstPath = path.join(outputDir, `${name}`)
-
-        const writeStream = createWriteStream(dstPath)
-
-        writeStream.on('close', () => {
-            resolve1()
-        })
-
-        const encoder = new GIFEncoder(width, height, 'neuquant')
-
-        encoder.createReadStream().pipe(writeStream)
-        encoder.start()
-        encoder.setDelay(200)
-
-        const canvas = createCanvas(width, height)
-        const ctx = canvas.getContext('2d')
-
-        for (const file of files) {
-            await new Promise(resolve3 => {
-                console.log('[GIFMAKER] -> Working...')
-                const image = new Image()
-                image.onload = () => {
-                    ctx.drawImage(image, 0, 0)
-                    encoder.addFrame(ctx)
-                    resolve3()
+        str += `file ${path.basename(images[images.length - 1].path)}`
+        const txtPath = path.join(cwd, 'template.txt')
+        writeFile(txtPath, str).then(() => {
+            execFile(
+                './app/plugins/ffmpeg/ffmpeg.exe',
+                [
+                    '-f',
+                    'concat',
+                    '-i',
+                    'template.txt',
+                    '-lavfi',
+                    'palettegen=stats_mode=diff[pal],[0:v][pal]paletteuse=new=1:diff_mode=rectangle',
+                    dstPath
+                ], {
+                    cwd
+                },
+                (error, stdout, stderr) => {
+                    if (error) {
+                        throw error
+                    } else {
+                        resolve()
+                    }
                 }
-                image.src = path.join(inputDir, file)
-            })
-        }
+            )
+        })
     })
 }
