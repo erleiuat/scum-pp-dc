@@ -24,8 +24,9 @@ def getMap(firstTime=False):
     pyautogui.keyDown('tab')
     scb.sleep(0.02)
     pyautogui.keyUp('tab')
-    scb.sleep()
+    scb.sleepLong()
     pyautogui.press('t')
+    scb.sleep()
     return {
         'fileName': fileName,
         'fullPath': fullPath
