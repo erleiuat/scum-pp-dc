@@ -40,7 +40,7 @@ async function generateGif(dcClient) {
     let now = new Date()
     now.setHours(now.getHours() - 1)
     let gifName = global.nZero.form(now.getHours()) + '_00.gif'
-    if (gifCreated.includes(gifName)) continue
+    if (gifCreated.includes(gifName)) return
 
     let path = now.getFullYear() + '_' + global.nZero.form(now.getMonth() + 1) + '_' + global.nZero.form(now.getDate()) + '/'
 
