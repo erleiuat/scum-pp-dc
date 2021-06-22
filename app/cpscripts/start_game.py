@@ -1,13 +1,11 @@
 from use import scb
+from use import control
 import act_repair
 import webbrowser
 import subprocess
 import os
 
 fullBatPath = os.path.dirname(os.path.realpath(__file__))
-
-
-print('\n\n')
 
 
 print(' -> Killing running processes')
@@ -59,8 +57,7 @@ act_repair.doIt()
 scb.idlePos()
 scb.sendChat("#ShowOtherPlayerInfo true")
 scb.sleepLong()
+control.getMap()
+scb.sleepLong()
 scb.sendChat("I'm ready!")
 scb.sendChat('#ClearFakeName')
-
-
-print('\n\n')

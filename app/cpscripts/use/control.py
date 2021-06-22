@@ -3,7 +3,7 @@ from datetime import datetime
 import pyautogui
 
 
-def getMap():
+def getMap(firstTime=False):
     scb.focus('scum')
     if(scb.onScreen('img/c_stumm.png')):
         pyautogui.press('esc')
@@ -11,6 +11,8 @@ def getMap():
     pyautogui.press('subtract')
     pyautogui.press('m')
     scb.sleepLong()
+    if(firstTime):
+        scb.sleep(4)
     x, y = pyautogui.size()
     now = datetime.now()
     fileName = now.strftime('%Y_%m_%d.%H_%M_%S')+'.png'
