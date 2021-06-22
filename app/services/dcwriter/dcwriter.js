@@ -34,7 +34,7 @@ exports.start = async function start(dcClient) {
     iterate(sendLogins, dcClient)
     iterate(sendDump, dcClient)
     iterate(sendMaps, dcClient, 5)
-    iterate(generateGif, dcClient, 10)
+    iterate(generateGif, dcClient, 60)
 }
 
 async function generateGif(dcClient) {
