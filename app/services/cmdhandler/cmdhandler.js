@@ -63,7 +63,7 @@ exports.start = async function start() {
 
 async function getMap() {
     do {
-        await global.sleep.timer(40)
+        await global.sleep.timer(60)
         if (global.newCmds) continue
         if (global.updates) continue
         if (!global.gameReady) continue
@@ -87,13 +87,12 @@ async function getMap() {
                     time: global.nZero.form(d.getHours()) + ':' + global.nZero.form(d.getMinutes()) + ':' + global.nZero.form(d.getSeconds())
                 }
             }
-            console.log(global.newEntries.maps)
             console.log(sn + 'Added map for processing')
         } catch (error) {
             console.log(sn + 'Error: ' + error)
         }
 
-    } while (false)
+    } while (true)
 }
 
 

@@ -57,6 +57,8 @@ act_repair.doIt()
 # -------------------------------   SETUP DONE
 
 scb.idlePos()
+scb.sendChat("#ShowOtherPlayerInfo true")
+scb.sleepLong()
 scb.sendChat("I'm ready!")
 scb.sendChat('#ClearFakeName')
 
