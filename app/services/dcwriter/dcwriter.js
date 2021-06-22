@@ -9,12 +9,13 @@ const channels = {
     chat: process.env.DISCORD_CH_CHAT,
     login: process.env.DISCORD_CH_LOGIN,
     admin: process.env.DISCORD_CH_ADMIN,
-    dump: process.env.DISCORD_CH_CONSOLE
+    dump: process.env.DISCORD_CH_CONSOLE,
+    maps: process.env.DISCORD_CH_MAPS
 }
 
-async function iterate(logFunction, dcClient) {
+async function iterate(logFunction, dcClient, seconds = 0.01) {
     do {
-        await global.sleep.timer(0.01)
+        await global.sleep.timer(seconds)
         if (global.updates) continue
         if (global.updatingFTP) continue
         await logFunction(dcClient)
@@ -29,6 +30,20 @@ exports.start = async function start(dcClient) {
     iterate(sendAdmins, dcClient)
     iterate(sendLogins, dcClient)
     iterate(sendDump, dcClient)
+    iterate(sendMap, dcClient, 5)
+}
+
+async function sendMap(dcClient) {
+    if (Object.keys(global.newEntries.maps).length <= 0) return
+    for (const e in global.newEntries.maps) {
+        let channel = dcClient.channels.cache.find(channel => channel.id === channels.maps)
+        await channel.send(new Discord.MessageEmbed(await format.maps(global.newEntries.maps[e])))
+        dump[e] = {
+            dump: 'maps',
+            ...global.newEntries.maps[e]
+        }
+        delete global.newEntries.maps[e]
+    }
 }
 
 async function sendMines(dcClient) {
@@ -51,7 +66,6 @@ async function sendKills(dcClient) {
     let channel = dcClient.channels.cache.find(channel => channel.id === channels.kill)
 
     for (const e in global.newEntries.kill) {
-        await format.kill(global.newEntries.kill[e])
         await channel.send(new Discord.MessageEmbed(await format.kill(global.newEntries.kill[e])))
         if (!global.newEntries.kill[e].Victim.IsInGameEvent) global.commands['kill_' + global.newEntries.kill[e].Victim.UserId] = {
             message: 'kill_feed',

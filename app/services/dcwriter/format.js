@@ -1,4 +1,5 @@
 const fetch = require('node-fetch')
+const Discord = require('discord.js')
 const fs = require('fs')
 const sn = global.chalk.cyan('[DCWriter] -> [Format] -> ')
 let weaponImg = null
@@ -41,6 +42,25 @@ exports.loadWeapons = async function loadWeapons() {
     }).then(res => res.json()).then((json) => {
         weaponImg = json
     })
+}
+
+exports.maps = async function maps(entry) {
+    let attachment = new Discord.MessageAttachment(entry.fullPath, entry.fileName)
+    let msg = {
+        'title': 'CURRENT MAP',
+        'color': '73A832',
+        'files': [
+            attachment
+        ],
+        'image': {
+            'url': 'attachment://' + entry.fileName
+        },
+        'footer': {
+            'text': entry.time.date + ` - ` + entry.time.time
+        }
+    }
+
+    return msg
 }
 
 exports.mines = async function mines(entry) {

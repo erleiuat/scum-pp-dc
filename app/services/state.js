@@ -48,12 +48,6 @@ async function checkTime() {
     } while (true)
 }
 
-function nZero(val) {
-    if (val == 0) return '00'
-    if (val < 10) return '0' + val
-    else return val
-}
-
 async function incrementTime() {
     do {
         await global.sleep.timer(1 / process.env.GS_TIMEOFDAYSPEED)
@@ -71,7 +65,7 @@ async function incrementTime() {
                 parts[1] = 0
             }
             if (parseInt(parts[0]) >= 24) parts[0] = 0
-            serverTime = nZero(parseInt(parts[0])) + ':' + nZero(parseInt(parts[1])) + ':' + nZero(parseInt(parts[2]))
+            serverTime = global.nZero(parseInt(parts[0])) + ':' + global.nZero(parseInt(parts[1])) + ':' + global.nZero(parseInt(parts[2]))
         } catch (error) {
             console.log(sn + 'Error: ' + error)
         }

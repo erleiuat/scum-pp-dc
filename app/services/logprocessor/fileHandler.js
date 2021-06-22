@@ -257,19 +257,14 @@ async function formLines(content) {
     return lines
 }
 
-function nZero(val) {
-    if (val < 10) return '0' + val
-    else return val
-}
-
 function formTime(line) {
     let date = line.substring(0, 10).replace(/\./g, '-')
     let time = line.substring(11, 19).replace(/\./g, ':')
     let d = new Date(date + 'T' + time)
     d.setHours(d.getHours() + 2)
     return {
-        date: nZero(d.getDate()) + '.' + nZero((d.getMonth() + 1)) + '.' + d.getFullYear(),
-        time: nZero(d.getHours()) + ':' + nZero(d.getMinutes()) + ':' + nZero(d.getSeconds())
+        date: global.nZero(d.getDate()) + '.' + global.nZero((d.getMonth() + 1)) + '.' + d.getFullYear(),
+        time: global.nZero(d.getHours()) + ':' + global.nZero(d.getMinutes()) + ':' + global.nZero(d.getSeconds())
     }
 }
 

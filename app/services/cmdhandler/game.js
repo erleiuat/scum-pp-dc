@@ -85,8 +85,9 @@ exports.execScript = async function execScript(scriptName, clearCmds = false, fo
         } else {
             latestExec[scriptName] = now
             let ls = cp.spawn('py', ['./app/cpscripts/' + scriptName])
-            ls.stdout.on('data', (data) => {
+            let data = ls.stdout.on('data', (data) => {
                 console.log(`${data}`)
+                return data
             })
             ls.stderr.on('data', (data) => {
                 console.error(`${data}`)
@@ -97,7 +98,7 @@ exports.execScript = async function execScript(scriptName, clearCmds = false, fo
                 else {
                     if (clearCmds) global.commands = {}
                     global.gameReady = true
-                    resolve(true)
+                    resolve(data || true)
                 }
             })
         }

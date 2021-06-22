@@ -1,8 +1,32 @@
 from use import scb
+from datetime import datetime
 import pyautogui
 
 
+def getMap():
+    scb.focus('scum')
+    if(scb.onScreen('img/c_stumm.png')):
+        pyautogui.press('esc')
+    scb.sleep()
+    pyautogui.press('m')
+    scb.sleep()
+    x, y = pyautogui.size()
+    now = datetime.now()
+    fileName = now.strftime('%Y_%m_%d.%H_%M_%S')+'.png'
+    fullPath = './app/storage/maps/'+fileName
+    pyautogui.screenshot(fullPath,
+                         region=(((x/2) - (y/2)), 0, y, y))
+    pyautogui.keyDown('tab')
+    scb.sleep(0.02)
+    pyautogui.keyUp('tab')
+    return {
+        'fileName': fileName,
+        'fullPath': fullPath
+    }
+
+
 def doOnF(action, duration=5):
+    scb.focus('scum')
     pyautogui.press('esc')
     scb.sleep()
     pyautogui.press('esc')
@@ -22,6 +46,7 @@ def doOnF(action, duration=5):
 
 
 def doOnThis(victim, action, duration=5):
+    scb.focus('scum')
     scb.openTab()
     itemLoc = scb.onScreen(victim, sure=0.8)
     if (itemLoc):
@@ -44,6 +69,7 @@ def doOnThis(victim, action, duration=5):
 
 
 def takeA(action):
+    scb.focus('scum')
     if(scb.onScreen('img/c_stumm.png')):
         pyautogui.press('esc')
     scb.sleep()
