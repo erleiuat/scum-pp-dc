@@ -30,10 +30,10 @@ exports.start = async function start(dcClient) {
     iterate(sendAdmins, dcClient)
     iterate(sendLogins, dcClient)
     iterate(sendDump, dcClient)
-    iterate(sendMap, dcClient, 5)
+    iterate(sendMaps, dcClient, 5)
 }
 
-async function sendMap(dcClient) {
+async function sendMaps(dcClient) {
     if (Object.keys(global.newEntries.maps).length <= 0) return
     for (const e in global.newEntries.maps) {
         let channel = dcClient.channels.cache.find(channel => channel.id === channels.maps)

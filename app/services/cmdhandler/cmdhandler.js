@@ -69,17 +69,23 @@ async function getMap() {
         if (!global.gameReady) continue
         if (global.updatingFTP) continue
 
+        console.log(sn + 'Getting current player positions')
         let imgInfo = await doExecute('get_map.py', false, true)
-        if (!imgInfo) continue
+        if (!imgInfo) {
+            console.log(sn + 'No image info received')
+            continue
+        }
 
         let d = new Date()
-        global.newEntries['maps'][imgInfo.fileName] = {
+        global.newEntries.maps[imgInfo.fileName] = {
             ...imgInfo,
             time: {
                 date: global.nZero.form(d.getDate()) + '.' + global.nZero.form((d.getMonth() + 1)) + '.' + d.getFullYear(),
                 time: global.nZero.form(d.getHours()) + ':' + global.nZero.form(d.getMinutes()) + ':' + global.nZero.form(d.getSeconds())
             }
         }
+
+        console.log(sn + 'Added map for processing')
 
     } while (false)
 }

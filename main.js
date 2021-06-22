@@ -23,7 +23,7 @@ process.on('unhandledRejection', err => {
   process.exit(1)
 })
 
-console.log('\n\n' + sn + '----------------------------------------------------------')
+console.log(sn + '----------------------------------------------------------')
 console.log(sn + 'Bot initialized, starting processes')
 console.log(sn + '----------------------------------------------------------\n')
 
