@@ -24,7 +24,7 @@ exports.createGif = async function createGif(name, inputDir, outputDir) {
             image.src = path.join(inputDir, files[0])
         })
 
-        const dstPath = path.join(outputDir, `${name}.gif`)
+        const dstPath = path.join(outputDir, `${name}`)
 
         const writeStream = createWriteStream(dstPath)
 
