@@ -104,6 +104,7 @@ async function sendAdmins(dcClient) {
         }
 
         let doHide = false
+        let doAlert = false
         let msgCmd = line.message.toLowerCase()
         aList = await global.admins.list()
 
@@ -112,12 +113,22 @@ async function sendAdmins(dcClient) {
             else if (msgCmd.includes('clearfakename')) fakeNameCache[line.steamID] = false
         }
 
-        for (const cmd in aList[line.steamID].hideCommands)
-            if (aList[line.steamID].hideCommands[cmd] && msgCmd.includes(cmd.toLowerCase())) doHide = true
+
+        if (aList[line.steamID].hideCommands['#*']) doHide = true
+        else
+            for (const cmd in aList[line.steamID].hideCommands)
+                if (msgCmd.includes(cmd.toLowerCase())) doHide = true
+
+
+        if (aList[line.steamID].alertCommands['#*']) doAlert = true
+        else
+            for (const cmd in aList[line.steamID].alertCommands)
+                if (msgCmd.includes(cmd.toLowerCase())) doAlert = true
+
 
         if (!doHide) {
             let abuserID = false
-            if (aList[line.steamID].alertCommands) abuserID = aList[line.steamID].discord
+            if (doAlert) abuserID = aList[line.steamID].discord
             if (fakeNameCache[line.steamID]) line.user = fakeNameCache[line.steamID]
             await channel.send(new Discord.MessageEmbed(await format.admin(line, abuserID)))
             console.log(sn + 'Admin sent: ' + el)
