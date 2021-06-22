@@ -8,6 +8,7 @@ def getMap():
     if(scb.onScreen('img/c_stumm.png')):
         pyautogui.press('esc')
     scb.sleep()
+    pyautogui.press('subtract')
     pyautogui.press('m')
     scb.sleepLong()
     x, y = pyautogui.size()
@@ -17,6 +18,7 @@ def getMap():
     pyautogui.screenshot(fullPath,
                          region=(((x/2) - (y/2)), 0, y, y))
     scb.sleep(2)
+    pyautogui.press('subtract')
     pyautogui.keyDown('tab')
     scb.sleep(0.02)
     pyautogui.keyUp('tab')
