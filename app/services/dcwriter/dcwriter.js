@@ -47,7 +47,7 @@ async function generateGif(dcClient) {
 
     let inputDir = path + global.nZero.form((now.getHours()) + '_00/')
 
-    gifMaker.createGif(gifName, inputDir, path)
+    await gifMaker.createGif(gifName, inputDir, path)
 
     let channel = dcClient.channels.cache.find(channel => channel.id === channels.playerActivity)
     let attachment = new Discord.MessageAttachment(path + gifName, gifName)

@@ -13,9 +13,8 @@ const {
 const path = require('path')
 
 const readdirAsync = promisify(readdir)
-const imagesFolder = path.join(__dirname, 'input')
 
-async function createGif(name, inputDir, outputDir) {
+exports.createGif = async function createGif(name, inputDir, outputDir) {
     return new Promise(async resolve1 => {
         const files = await readdirAsync(inputDir)
 
