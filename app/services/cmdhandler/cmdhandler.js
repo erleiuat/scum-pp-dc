@@ -11,12 +11,11 @@ let checkCounter = 0
 exports.start = async function start() {
     if (!await scum.isReady()) await scum.start()
 
-    getMap()
-    return
     makeBreak()
     makeBusiness()
     checkStatus()
     announce()
+    getMap()
 
     let i = 0
     do {
