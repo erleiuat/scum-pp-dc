@@ -38,12 +38,13 @@ exports.start = async function start(dcClient) {
 
 async function generateGif(dcClient) {
     let now = new Date()
+    now.setHours(now.getHours() - 1)
     let gifName = global.nZero.form(now.getHours()) + '_00.gif'
     if (gifCreated.includes(gifName)) continue
 
     let path = now.getFullYear() + '_' + global.nZero.form(now.getMonth() + 1) + '_' + global.nZero.form(now.getDate()) + '/'
 
-    let inputDir = path + global.nZero.form(now.getHours() + '_00/')
+    let inputDir = path + global.nZero.form((now.getHours()) + '_00/')
 
     createGif(gifName, inputDir, path)
 
@@ -60,7 +61,7 @@ async function generateGif(dcClient) {
             'url': 'attachment://' + gifName
         },
         'footer': {
-            'text': global.nZero.form(now.getDate()) + '.' + global.nZero.form((now.getMonth() + 1)) + '.' + now.getFullYear() + ` - ` + global.nZero.form(now.getHours()) + ':' + global.nZero.form(now.getMinutes()) + ':' + global.nZero.form(now.getSeconds())
+            'text': global.nZero.form(now.getDate()) + '.' + global.nZero.form((now.getMonth() + 1)) + '.' + now.getFullYear() + ` - ` + global.nZero.form(now.getHours()) + ':00 (1H Timelapse)'
         }
     }))
 
