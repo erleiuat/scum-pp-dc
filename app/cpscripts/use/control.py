@@ -1,5 +1,6 @@
 from use import scb
 from datetime import datetime
+from pathlib import Path
 import pyautogui
 
 
@@ -15,8 +16,10 @@ def getMap(firstTime=False):
         scb.sleep(4)
     x, y = pyautogui.size()
     now = datetime.now()
+    folderName = now.strftime('%Y_%m_%d/%H_00')
     fileName = now.strftime('%Y_%m_%d.%H_%M_%S')+'.png'
-    fullPath = './app/storage/maps/'+fileName
+    Path('./app/storage/maps/'+folderName).mkdir(parents=True, exist_ok=True)
+    fullPath = './app/storage/maps/'+folderName+'/'+fileName
     pyautogui.screenshot(fullPath,
                          region=(((x/2) - (y/2)), 0, y, y))
     scb.sleep(2)

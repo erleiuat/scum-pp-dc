@@ -3,6 +3,7 @@ const format = require('./format')
 const sn = global.chalk.cyan('[DCWriter] -> ')
 const dump = {}
 let fakeNameCache = {}
+let gifCreated = []
 
 const channels = {
     kill: process.env.DISCORD_CH_KILL,
@@ -10,7 +11,8 @@ const channels = {
     login: process.env.DISCORD_CH_LOGIN,
     admin: process.env.DISCORD_CH_ADMIN,
     dump: process.env.DISCORD_CH_CONSOLE,
-    maps: process.env.DISCORD_CH_MAPS
+    maps: process.env.DISCORD_CH_MAPS,
+    playerActivity: process.env.DISCORD_CH_PLAYERACTIVITY
 }
 
 async function iterate(logFunction, dcClient, seconds = 0.01) {
@@ -31,6 +33,39 @@ exports.start = async function start(dcClient) {
     iterate(sendLogins, dcClient)
     iterate(sendDump, dcClient)
     iterate(sendMaps, dcClient, 5)
+    iterate(generateGif, dcClient, 10)
+}
+
+async function generateGif(dcClient) {
+    let now = new Date()
+    let gifName = global.nZero.form(now.getHours()) + '_00.gif'
+    if (gifCreated.includes(gifName)) continue
+
+    let path = now.getFullYear() + '_' + global.nZero.form(now.getMonth() + 1) + '_' + global.nZero.form(now.getDate()) + '/'
+
+    let inputDir = path + global.nZero.form(now.getHours() + '_00/')
+
+    createGif(gifName, inputDir, path)
+
+    let channel = dcClient.channels.cache.find(channel => channel.id === channels.playerActivity)
+    let attachment = new Discord.MessageAttachment(path + gifName, gifName)
+
+    await channel.send(new Discord.MessageEmbed({
+        'color': '73A832',
+        'type': 'image',
+        'files': [
+            attachment
+        ],
+        'image': {
+            'url': 'attachment://' + gifName
+        },
+        'footer': {
+            'text': global.nZero.form(now.getDate()) + '.' + global.nZero.form((now.getMonth() + 1)) + '.' + now.getFullYear() + ` - ` + global.nZero.form(now.getHours()) + ':' + global.nZero.form(now.getMinutes()) + ':' + global.nZero.form(now.getSeconds())
+        }
+    }))
+
+    gifCreated.push(gifName)
+
 }
 
 async function sendMaps(dcClient) {
