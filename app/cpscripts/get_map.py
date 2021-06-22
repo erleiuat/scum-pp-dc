@@ -1,5 +1,6 @@
 from use import scb
 from use import control
+import json
 
 
 def doIt():
@@ -7,4 +8,4 @@ def doIt():
 
 
 if __name__ == '__main__':
-    print(doIt())
+    print(json.dumps(doIt()))

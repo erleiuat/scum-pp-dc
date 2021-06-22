@@ -11,6 +11,7 @@ print('\n\n')
 
 
 print(' -> Killing running processes')
+"""
 subprocess.call([fullBatPath + '\\use\\kill_steam.bat'])
 subprocess.call([fullBatPath + '\\use\\kill_scum.bat'])
 scb.sleep(5)
@@ -62,3 +63,4 @@ scb.sendChat('#ClearFakeName')
 
 
 print('\n\n')
+"""

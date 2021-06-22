@@ -15,14 +15,14 @@ exports.start = async function start() {
 
             let ls = cp.spawn('py', ['./app/cpscripts/start_game.py'])
             ls.stdout.on('data', (data) => {
-                console.log(`${data}`)
+                console.log(sn + `${data}`)
             })
             ls.stderr.on('data', (data) => {
-                console.error(`${data}`)
+                console.error(sn + `${data}`)
             })
             ls.on('close', (code) => {
                 starting = false
-                console.log(`Child process exited with code ${code}`)
+                console.log(sn + `Exited with code ${code}`)
                 if (code != 0) {
                     global.sleep.timer(10).then(() => {
                         this.start().then(res => {
@@ -51,14 +51,14 @@ exports.isReady = async function isReady() {
 
             let ls = cp.spawn('py', ['./app/cpscripts/is_running.py'])
             ls.stdout.on('data', (data) => {
-                console.log(`${data}`)
+                console.log(sn + `${data}`)
             })
             ls.stderr.on('data', (data) => {
-                console.error(`${data}`)
+                console.error(sn + `${data}`)
             })
             ls.on('close', (code) => {
                 checking = false
-                console.log(`Child process exited with code ${code}`)
+                console.log(sn + `Exited with code ${code}`)
                 if (code != 0) resolve(false)
                 else {
                     global.gameReady = true
@@ -86,19 +86,19 @@ exports.execScript = async function execScript(scriptName, clearCmds = false, fo
             latestExec[scriptName] = now
             let ls = cp.spawn('py', ['./app/cpscripts/' + scriptName])
             let data = ls.stdout.on('data', (data) => {
-                console.log(`${data}`)
-                return data
+                console.log(sn + `${data}`)
+                resolve(`${data}` || true)
             })
             ls.stderr.on('data', (data) => {
-                console.error(`${data}`)
+                console.error(sn + `${data}`)
             })
             ls.on('close', (code) => {
-                console.log(`Child process exited with code ${code}`)
+                console.log(sn + `Exited with code ${code}`)
                 if (code != 0) resolve(false)
                 else {
                     if (clearCmds) global.commands = {}
                     global.gameReady = true
-                    resolve(data || true)
+                    resolve(true)
                 }
             })
         }
@@ -115,13 +115,13 @@ exports.send = async function send(commands) {
         console.log(sn + 'Sending: ' + commands.join())
         let ls = cp.spawn('py', ['./app/cpscripts/send_command.py', ...commands])
         ls.stdout.on('data', (data) => {
-            console.log(`${data}`)
+            console.log(sn + `${data}`)
         })
         ls.stderr.on('data', (data) => {
-            console.error(`${data}`)
+            console.error(sn + `${data}`)
         })
         ls.on('close', (code) => {
-            console.log(`Child process exited with code ${code}`)
+            console.log(sn + `Exited with code ${code}`)
             if (code != 0) resolve(false)
             else {
                 global.gameReady = true

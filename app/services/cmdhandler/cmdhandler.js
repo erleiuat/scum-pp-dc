@@ -11,11 +11,12 @@ let checkCounter = 0
 exports.start = async function start() {
     if (!await scum.isReady()) await scum.start()
 
+    getMap()
+    return
     makeBreak()
     makeBusiness()
     checkStatus()
     announce()
-    getMap()
 
     let i = 0
     do {
@@ -63,31 +64,35 @@ exports.start = async function start() {
 
 async function getMap() {
     do {
-        await global.sleep.timer(60)
+        await global.sleep.timer(5)
         if (global.newCmds) continue
-        if (global.updates) continue
+        //if (global.updates) continue
         if (!global.gameReady) continue
         if (global.updatingFTP) continue
 
         console.log(sn + 'Getting current player positions')
         let imgInfo = await doExecute('get_map.py', false, true)
-        console.log(imgInfo)
-        console.log(typeof imgInfo)
         if (!imgInfo) {
             console.log(sn + 'No image info received')
             continue
         }
 
-        let d = new Date()
-        global.newEntries.maps[imgInfo.fileName] = {
-            ...imgInfo,
-            time: {
-                date: global.nZero.form(d.getDate()) + '.' + global.nZero.form((d.getMonth() + 1)) + '.' + d.getFullYear(),
-                time: global.nZero.form(d.getHours()) + ':' + global.nZero.form(d.getMinutes()) + ':' + global.nZero.form(d.getSeconds())
+        try {
+            imgInfo = JSON.parse(imgInfo)
+    
+            let d = new Date()
+            global.newEntries.maps[imgInfo.fileName] = {
+                ...imgInfo,
+                time: {
+                    date: global.nZero.form(d.getDate()) + '.' + global.nZero.form((d.getMonth() + 1)) + '.' + d.getFullYear(),
+                    time: global.nZero.form(d.getHours()) + ':' + global.nZero.form(d.getMinutes()) + ':' + global.nZero.form(d.getSeconds())
+                }
             }
+            console.log(global.newEntries.maps)
+            console.log(sn + 'Added map for processing')
+        } catch (error) {
+            console.log(sn + 'Error: ' + error)
         }
-
-        console.log(sn + 'Added map for processing')
 
     } while (false)
 }
@@ -215,9 +220,13 @@ async function makeBreak() {
 
 async function doExecute(scriptName, clearCmds = false, force = false) {
     global.gameReady = false
-    if (!await scum.execScript(scriptName, clearCmds, force)) {
+    let data = await scum.execScript(scriptName, clearCmds, force)
+    if (!data) {
         if (!await scum.isReady()) await scum.execScript('do_restart.py', true, true)
-    } else checkCounter = 0
+    } else {
+        checkCounter = 0
+        return data
+    }
 }
 
 async function announce() {
