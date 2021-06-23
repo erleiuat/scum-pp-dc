@@ -39,8 +39,10 @@ def onScreen(img, bw=True, sure=0.9, region=False):
 
 def safeClick(x, y, double=False):
     pyautogui.moveTo(x, y)
-    pyautogui.move(10, 10, duration=0.05)
-    pyautogui.move(-10, -10, duration=0.05)
+    pyautogui.move(10, 5, duration=0.025)
+    pyautogui.move(-20, -10, duration=0.025)
+    pyautogui.move(20, 10, duration=0.025)
+    pyautogui.move(-10, -5, duration=0.05)
     pyautogui.click()
     if(double):
         pyautogui.click()
