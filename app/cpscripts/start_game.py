@@ -51,7 +51,6 @@ scb.sleepLong()
 # -------------------------------   SETUP
 
 act_repair.doIt()
-act_dress.doIt()
 
 # -------------------------------   SETUP DONE
 
