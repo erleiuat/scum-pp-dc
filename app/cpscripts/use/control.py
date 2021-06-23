@@ -62,7 +62,7 @@ def doOnThis(victim, action, duration=5):
         scb.sleep()
         actionLoc = scb.onScreen(action, sure=0.8, region='middle')
         if (actionLoc):
-            scb.safeClick(actionLoc)
+            scb.safeClick(actionLoc.x, actionLoc.y)
             scb.sleep(duration)
             return True
         else:
