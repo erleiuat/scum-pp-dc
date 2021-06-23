@@ -105,4 +105,4 @@ dist
 
 *.pyc
 app/storage/maps/
-app/storage/logs/
+app/storage/logs/*.json
