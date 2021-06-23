@@ -1,12 +1,12 @@
 from use import scb
 from use import control
 import act_repair
+import act_dress
 import webbrowser
 import subprocess
 import os
 
 fullBatPath = os.path.dirname(os.path.realpath(__file__))
-
 
 print(' -> Killing running processes')
 subprocess.call([fullBatPath + '\\use\\kill_steam.bat'])
@@ -42,7 +42,7 @@ print(' -> Game ready! Took ' + str(count) + ' seconds')
 
 scb.sleep(30)
 scb.ready()
-scb.sleep(5)
+scb.sleepLong()
 scb.sendChat('#SetFakeName [SF-BOT][BOOTING]')
 scb.sleepLong()
 scb.sendChat('I\'m getting prepared...')
@@ -51,6 +51,7 @@ scb.sleepLong()
 # -------------------------------   SETUP
 
 act_repair.doIt()
+act_dress.doIt()
 
 # -------------------------------   SETUP DONE
 

@@ -4,15 +4,14 @@ from use import control
 
 def doIt():
     scb.focus('scum')
-    scb.sendChat('#SpawnItem Ganoderma_Lucidum')
-    scb.openTab()
-    control.doOnThis('img/startup/mushroom.png',
-                     'img/startup/essen.png', 0.05)
+    scb.sendChat('#SpawnItem Corn', chatOnly=True)
+    control.doOnThis('img/break/corn.png',
+                     'img/break/eat.png', 0.05)
     scb.ready()
 
 
 if __name__ == '__main__':
-    scb.sendChat('#SetFakeName [SF-BOT][LUNCHBREAK]')
+    scb.sendChat('#SetFakeName [SF-BOT][LUNCHBREAK]', chatOnly=True)
     scb.sleep()
     doIt()
     scb.sleep()

@@ -6,6 +6,45 @@ import win32con
 import keyboard
 
 
+middleRegion = (400, 0, 630, 820)
+cStummRegion = (20, 400, 70, 40)
+cRoomRegion = (380, 400, 440, 440)
+invNaviRegion = (480, 0, 120, 30)
+invHandsRegion = (1045, 700, 75, 30)
+centerRegion = (720, 450)
+"""
+middleRegion = (400, 30, 630, 820)
+cStummRegion = (20, 430, 70, 40)
+cRoomRegion = (380, 430, 440, 440)
+invNaviRegion = (480, 30, 120, 30)
+invHandsRegion = (1045, 730, 75, 30)
+centerRegion = (720, 480)
+"""
+
+def onScreen(img, bw=True, sure=0.9, region=False):
+    if(region == 'middle'):
+        isThere = pyautogui.locateCenterOnScreen(
+            path() + img, grayscale=bw, confidence=sure, region=middleRegion)
+    elif(region):
+        isThere = pyautogui.locateCenterOnScreen(
+            path() + img, grayscale=bw, confidence=sure, region=region)
+    else:
+        isThere = pyautogui.locateCenterOnScreen(
+            path() + img, grayscale=bw, confidence=sure)
+    if(isThere):
+        return isThere
+    else:
+        return False
+
+
+def safeClick(x, y, double=False):
+    pyautogui.moveTo(x, y)
+    pyautogui.move(10, 10, duration=0.05)
+    pyautogui.move(-10, -10, duration=0.05)
+    pyautogui.click()
+    if(double):
+        pyautogui.click()
+
 def path():
     return './app/cpscripts/'
 
@@ -15,7 +54,7 @@ def sleep(seconds=0.05):
 
 
 def sleepLong():
-    sleep(0.7)
+    sleep(0.6)
 
 
 def pressTab():
@@ -25,6 +64,21 @@ def pressTab():
     pyautogui.keyUp('tab')
     sleepLong()
 
+def chatOpen(globalChat=False):
+    if(globalChat):
+        isThere = onScreen('img/c_global.png', bw=False, region=cRoomRegion)
+    else:
+        isThere = onScreen('img/c_stumm.png', region=cStummRegion)
+    if(isThere):
+        return True
+    return False
+
+
+def tabOpen():
+    isThere = onScreen('img/inventar.png', region=invNaviRegion)
+    if(isThere):
+        return True
+    return False
 
 def focus(window_name):
     if(window_name.lower() in win32gui.GetWindowText(win32gui.GetForegroundWindow()).lower()):
@@ -50,30 +104,17 @@ def focus(window_name):
 
 def idlePos():
     ready(chatOnly=True)
-    keyboard.write('#Teleport -116369 -65906 37144')
+    keyboard.write('#Teleport -116369 -65906 37144')                                
     pyautogui.press('enter')
     loading()
     pyautogui.keyDown('tab')
     sleep(0.8)
-    pyautogui.moveTo(630, 500, duration=0.2)
-    pyautogui.click()
-    pyautogui.moveTo(810, 500, duration=0.2)
-    pyautogui.moveTo(810, 300, duration=0.2)
-    pyautogui.click()
-    sleepLong()
+    safeClick(625, 500)
+    safeClick(805, 300)
+    sleep()
     pyautogui.keyUp('tab')
     ready()
     return True
-
-
-def onScreen(img, bw=True, sure=0.9):
-    isThere = pyautogui.locateCenterOnScreen(
-        path() + img, grayscale=bw, confidence=sure)
-    if(isThere):
-        return isThere
-    else:
-        return False
-
 
 def click(img, button='left', bw=True, sure=0.9, duration=0.1):
     toClick = onScreen(img, bw=bw, sure=sure)
@@ -86,8 +127,7 @@ def click(img, button='left', bw=True, sure=0.9, duration=0.1):
 
 
 def centerMouse(click=False):
-    x, y = pyautogui.size()
-    pyautogui.moveTo((x/2), (y/2), duration=0.05)
+    pyautogui.moveTo(centerRegion, duration=0.02)
     if(click):
         pyautogui.click()
 
@@ -97,22 +137,24 @@ def ready(chatOnly=False):
     focus('scum')
     if(not chatOnly):
         openTab()
-    if(onScreen('img/c_global.png', bw=False)):
+    if(chatOpen(globalChat=True)):
         pyautogui.hotkey('ctrl', 'a')
         pyautogui.press('del')
         print('READY -> Chat is ready')
         return True
-    if(not onScreen('img/c_stumm.png')):
+    if(not chatOpen()):
+        openTab()
+        sleep()
         pyautogui.press('t')
         sleep()
         pyautogui.hotkey('ctrl', 'a')
         pyautogui.press('del')
-    if(onScreen('img/c_stumm.png') and not onScreen('img/c_global.png', bw=False)):
-        while(not onScreen('img/c_global.png', bw=False)):
+    if(chatOpen() and not chatOpen(globalChat=True)):
+        while(not chatOpen(globalChat=True)):
             pyautogui.press('tab')
             sleep(0.5)
         return True
-    if(onScreen('img/c_stumm.png') and onScreen('img/c_global.png', bw=False)):
+    if(chatOpen() and chatOpen(globalChat=True)):
         pyautogui.hotkey('ctrl', 'a')
         pyautogui.press('del')
         print('READY -> Chat is ready')
@@ -131,8 +173,8 @@ def loading():
 
 
 def dragInv():
-    ist = onScreen('img/invDrag.png')
-    soll = onScreen('img/invDrag_to.png')
+    ist = onScreen('img/invDrag.png', region='middle')
+    soll = onScreen('img/invDrag_to.png', region=invHandsRegion)
     while(ist.y < (soll.y - 50) or ist.y > (soll.y + 50)):
         pyautogui.moveTo(ist)
         sleep()
@@ -142,19 +184,19 @@ def dragInv():
         sleep()
         pyautogui.mouseUp()
         sleep()
-        ist = onScreen('img/invDrag.png')
+        ist = onScreen('img/invDrag.png', region='middle')
     centerMouse()
     return True
 
 
 def openTab():
-    if(onScreen('img/c_stumm.png')):
+    if(chatOpen()):
         pyautogui.press('esc')
-    if(onScreen('img/inventar.png')):
+    if(tabOpen()):
         dragInv()
         return True
     pressTab()
-    if(not onScreen('img/inventar.png')):
+    if(not tabOpen()):
         return False
     if(onScreen('img/invDrag.png')):
         dragInv()
@@ -163,7 +205,7 @@ def openTab():
 
 def sendChat(msg, chatOnly=False, noCheck=False):
     if(not noCheck):
-        if (not onScreen('img/c_global.png', bw=False)):
+        if (not chatOpen(globalChat=True)):
             ready(chatOnly=chatOnly)
     pyautogui.hotkey('ctrl', 'a')
     pyautogui.press('del')
