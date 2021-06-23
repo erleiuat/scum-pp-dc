@@ -11,7 +11,7 @@ let checkCounter = 0
 exports.start = async function start() {
     if (!await scum.isReady()) await scum.start()
 
-    makeBreak()
+    //makeBreak()
     makeBusiness()
     checkStatus()
     announce()
@@ -47,6 +47,7 @@ exports.start = async function start() {
             else {
                 if (cmdStart == '!break') await doExecute('act_break.py')
                 else if (cmdStart == '!business') await doExecute('act_business.py')
+                else if (cmdStart == '!dress') await doExecute('act_dress.py')
                 else if (cmdStart == '!firework') await doExecute('act_firework.py')
                 else if (cmdStart == '!idle') await doExecute('act_idle.py')
                 else if (cmdStart == '!lightup') await doExecute('act_light.py', true)
@@ -183,7 +184,7 @@ async function checkStatus() {
 }
 
 async function makeBusiness() {
-    let bTimes = [1]
+    let bTimes = [30]
     do {
         await global.sleep.timer(10)
         if (global.newCmds) continue

@@ -1,6 +1,6 @@
 from use import scb
 from use import control
-
+import act_break
 
 def doIt(repeats=1):
     scb.focus('scum')
@@ -16,6 +16,8 @@ if __name__ == '__main__':
     scb.sleepLong()
     doIt()
     scb.idlePos()
+    scb.sleepLong()
+    act_break.doIt()
     scb.sleepLong()
     scb.sendChat('I\'m available again!', chatOnly=True)
     scb.sendChat('#ClearFakeName')
