@@ -56,10 +56,10 @@ async function mines(file) {
         let owner = null
         let location = 'unknown'
         let actionType = 'unknown'
-        if (line.includes(')\' armed trap on location(')) actionType = 'armed'
-        else if (line.includes(')\' disarmed trap on location(')) actionType = 'disarmed'
-        else if (line.includes(')\' crafted trap (')) actionType = 'crafted'
-        else if (line.includes(')\' triggered trap on location(')) {
+        if (line.includes(')\' armed trap ')) actionType = 'armed'
+        else if (line.includes(')\' disarmed trap ')) actionType = 'disarmed'
+        else if (line.includes(')\' crafted trap ')) actionType = 'crafted'
+        else if (line.includes(')\' triggered trap ')) {
             actionType = 'triggered'
             let ownInfo = line.split(') from ')[1]
             let ownSteamID = ownInfo.split(':')[0]
