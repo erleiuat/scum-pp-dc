@@ -145,11 +145,10 @@ def openTab():
     if(onScreen('img/inventar.png')):
         dragInv()
         return True
-    pyautogui.keyDown('tab')
-    sleep(0.02)
-    pyautogui.keyUp('tab')
+    pyautogui.hotkey('shift','c')
     sleep()
     pyautogui.press('1')
+    sleep()
     if(not onScreen('img/inventar.png')):
         return False
     if(onScreen('img/invDrag.png')):
