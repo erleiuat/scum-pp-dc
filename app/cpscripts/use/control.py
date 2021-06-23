@@ -24,10 +24,7 @@ def getMap(firstTime=False):
                          region=(((x/2) - (y/2)), 0, y, y))
     scb.sleep(2)
     pyautogui.press('subtract')
-    pyautogui.hotkey('shift','c')
-    scb.sleep()
-    pyautogui.press('1')
-    scb.sleep()
+    scb.pressTab()
     pyautogui.press('t')
     scb.sleep()
     return {

@@ -18,6 +18,14 @@ def sleepLong():
     sleep(0.7)
 
 
+def pressTab():
+    sleepLong()
+    pyautogui.keyDown('tab')
+    sleep(0.01)
+    pyautogui.keyUp('tab')
+    sleepLong()
+
+
 def focus(window_name):
     if(window_name.lower() in win32gui.GetWindowText(win32gui.GetForegroundWindow()).lower()):
         return True
@@ -145,10 +153,7 @@ def openTab():
     if(onScreen('img/inventar.png')):
         dragInv()
         return True
-    pyautogui.hotkey('shift','c')
-    sleep()
-    pyautogui.press('1')
-    sleep()
+    pressTab()
     if(not onScreen('img/inventar.png')):
         return False
     if(onScreen('img/invDrag.png')):
