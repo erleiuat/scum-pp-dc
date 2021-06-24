@@ -60,17 +60,16 @@ async function setLang(msg) {
     let rGerman = msg.channel.guild.roles.cache.find(role => role.id === process.env.DISCORD_ROLE_LANG_GER)
     let rPlayer = msg.channel.guild.roles.cache.find(role => role.id === process.env.DISCORD_ROLE_PLAYER)
 
-    console.log(msg)
-    if (msg.content.toLowerCase().trim() == 'english') {
+    if (msg.content.toLowerCase().trim().includes('english')) {
         msg.member.roles.remove(rGerman)
         msg.member.roles.add(rPlayer)
         msg.member.roles.add(rEnglish)
-    } else if (msg.content.toLowerCase().trim() == 'german' || msg.content.toLowerCase().trim() == 'deutsch') {
+    } else if (msg.content.toLowerCase().trim().includes('german') || msg.content.toLowerCase().trim().includes('deutsch')) {
         msg.member.roles.remove(rEnglish)
         msg.member.roles.add(rPlayer)
         msg.member.roles.add(rGerman)
     } else {
-
+        console.log(msg)
     }
 
     await msg.delete()
