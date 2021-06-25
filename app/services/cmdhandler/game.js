@@ -24,11 +24,7 @@ exports.start = async function start() {
                 starting = false
                 console.log(sn + `Exited with code ${code}`)
                 if (code != 0) {
-                    global.sleep.timer(10).then(() => {
-                        this.start().then(res => {
-                            resolve(res)
-                        })
-                    })
+                    this.execScript('do_restart.py', true, true)
                 } else {
                     global.commands = {}
                     global.gameReady = true
