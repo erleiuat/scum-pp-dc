@@ -106,3 +106,9 @@ dist
 *.pyc
 app/storage/maps/
 app/storage/logs/*.json
+app/storage/logs/admin.json
+app/storage/logs/admin.json
+app/storage/logs/chat.json
+app/storage/logs/kill.json
+app/storage/logs/mines.json
+app/storage/logs/login.json
