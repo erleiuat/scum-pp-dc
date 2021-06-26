@@ -87,8 +87,8 @@ exports.start = async function start(dcClient) {
         else if (msg.content.toLowerCase().startsWith('!buildserver')) buildServer(dcClient, msg)
         else if (msg.channel.id == process.env.DISCORD_CH_LANGUAGE) setLang(msg)
         else if (msg.author.id !== process.env.DISCORD_BOT_ID) {
-            if (msg.content.toLowerCase().includes('i\'m')) imBot(msg.channel, msg.content.substring(msg.content.toLowerCase().indexOf('i\'m')))
-            if (msg.content.toLowerCase().includes('i am')) imBot(msg.channel, msg.content.substring(msg.content.toLowerCase().indexOf('i am')))
+            if (msg.content.toLowerCase().includes('i\'m')) imBot(msg.channel, msg.content.substring(msg.content.toLowerCase().indexOf('i\'m')+3))
+            if (msg.content.toLowerCase().includes('i am')) imBot(msg.channel, msg.content.substring(msg.content.toLowerCase().indexOf('i am')+4))
         }
     })
 
