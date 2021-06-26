@@ -76,12 +76,17 @@ async function setLang(msg) {
 
 }
 
+function imBot(channel, msg) {
+    channel.send('Hello '+msg+', I\'m FictionBot' )
+}
+
 exports.start = async function start(dcClient) {
 
     dcClient.on('message', async msg => {
         if (msg.content.toLowerCase().startsWith('!clearchat')) clearchat(msg)
         else if (msg.content.toLowerCase().startsWith('!buildserver')) buildServer(dcClient, msg)
         else if (msg.channel.id == process.env.DISCORD_CH_LANGUAGE) setLang(msg)
+        else if (msg.content.toLowerCase().includes('i\'m')) imBot(msg.channel, msg.content.substring(msg.content.toLowerCase().indexOf('i\'m')))
     })
 
     buildServer(dcClient, false)
