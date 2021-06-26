@@ -1,7 +1,7 @@
 const sn = global.chalk.bgRed('[BOT] -> ')
 
 const Discord = require('discord.js')
-const dcClient = new Discord.Client()
+const dcClient = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] })
 const ftpWatcher = require('./services/ftpwatcher')
 const logProcessor = require('./services/logprocessor/logprocessor')
 const dcWriter = require('./services/dcwriter/dcwriter')
