@@ -16,7 +16,7 @@ def getMap(firstTime=False):
         scb.sleep(4)
     x, y = pyautogui.size()
     now = datetime.now()
-    folderName = now.strftime('%Y_%m_%d/%H_00')
+    folderName = now.strftime('%Y_%m_%d')
     fileName = now.strftime('%Y_%m_%d.%H_%M_%S')+'.png'
     Path('./app/storage/maps/'+folderName).mkdir(parents=True, exist_ok=True)
     fullPath = './app/storage/maps/'+folderName+'/'+fileName
