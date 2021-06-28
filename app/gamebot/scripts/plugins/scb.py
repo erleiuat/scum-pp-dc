@@ -1,24 +1,62 @@
 import win32clipboard
+import subprocess
 import pyautogui
 import keyboard
 import time
+import sys
+import os
 
 
+fullBatPath = os.path.dirname(os.path.realpath(__file__))
 path = './app/gamebot/scripts/'
 currentScope = ''
-
-regions = {
-    'scope': (385, 435, 60, 60),
-    'loading': (1200, 830, 125, 50),
-    'inventory': (405, 0, 630, 900),
-    'chat': (20, 70, 415, 400)
+props = {
+    'resolution': None,
+    'regions': None,
+    'windowPosition': None
 }
 
-#Teleport -116369 -65906 37144
-#Teleport -81703 38939 68214
-#stummScreenRegion = (20, 400, 70, 40)
-#roomScreenRegion = (385, 435, 60, 60)
-#roomScreenRegion = (380, 400, 440, 440)
+
+def reg(resolution=False, regions=False, windowPosition=False):
+    global props
+    if(resolution):
+        props['resolution'] = resolution
+    if(regions):
+        props['regions'] = regions
+    if(windowPosition):
+        offset_y = windowPosition['h'] - props['resolution']['y']
+        props['windowPosition'] = {
+            'x': windowPosition['x'],
+            'y': windowPosition['y'] + offset_y
+        }
+
+
+def getPoint(*coords):
+    winPos = props['windowPosition']
+    return (
+        coords[0]+winPos['x']-2,
+        coords[1]+winPos['y']-2,
+    )
+
+
+def getRegion(name):
+    reg = props['regions'][name]
+    winPos = props['windowPosition']
+    return (
+        reg[0]+winPos['x']-2,
+        reg[1]+winPos['y']-2,
+        reg[2]+2,
+        reg[3]+2
+    )
+
+
+def restartPC():
+    subprocess.call([fullBatPath + '\\restart.bat'])
+
+
+def doPrint(text):
+    print(text)
+    sys.stdout.flush()
 
 
 def sleep(duration=0.4):
@@ -26,11 +64,12 @@ def sleep(duration=0.4):
 
 
 def safeMouse():
-    pyautogui.moveTo(1200, 820)
+    pyautogui.moveTo(props['windowPosition']['x'] + 1200,
+                     props['windowPosition']['y'] + 820)
 
 
-def safeClick(x, y, double=False, button='left'):
-    pyautogui.moveTo(x, y)
+def safeClick(coords, double=False, button='left'):
+    pyautogui.moveTo(coords)
     pyautogui.move(40, 5, duration=0.005)
     pyautogui.move(-40, -5, duration=0.005)
     pyautogui.click(button=button)
@@ -44,27 +83,44 @@ def goScope(scopeName):
         return True
     isThere = onScreen(
         'img/chat/'+scopeName+'.png',
-        region=regions['scope']
+        region=getRegion('scope')
     )
     while(not isThere):
         pyautogui.press('tab')
         isThere = onScreen(
             'img/chat/'+scopeName+'.png',
-            region=regions['scope']
+            region=getRegion('scope')
         )
     currentScope = scopeName
 
 
 def loading():
     sleep(1)
-    while(onScreen('img/scb/laden.png', region=regions['loading'])):
+    while(onScreen('img/scb/laden.png', region=getRegion('loading'))):
         sleep(0.01)
 
 
+def getPosition():
+    sendMessage('#Location')
+    p = readMessage()['message'].split()
+    return {
+        'x': p[0][2:],
+        'y': p[1][2:],
+        'z': p[2][2:]
+    }
+
+
 def openTab():
-    while(not onScreen('img/scb/inventar.png', region=regions['inventory'])):
-        pyautogui.press('tab')
-    sleep(0.01)
+    i = 0
+    while(not onScreen('img/scb/inventar.png', region=getRegion('inventory'))):
+        pyautogui.keyDown('tab')
+        sleep(0.01)
+        pyautogui.keyUp('tab')
+        pyautogui.press('1')
+        i = i + 1
+        if(i > 5):
+            return False
+    return True
 
 
 def isTeleport():
@@ -83,11 +139,11 @@ def sendMessage(msg):
 
 
 def readMessage():
-    chatPos = onScreen('img/chat/stumm.png', region=regions['chat'])
-    safeClick(chatPos.x, (chatPos.y - 20))
+    chatPos = onScreen('img/chat/stumm.png', region=getRegion('chat'))
+    safeClick((chatPos.x, (chatPos.y - 20)))
     pyautogui.hotkey('ctrl','a')
     pyautogui.hotkey('ctrl', 'c')
-    safeClick((chatPos.x + 100), chatPos.y)
+    safeClick(((chatPos.x + 100), chatPos.y))
     win32clipboard.OpenClipboard()
     data = win32clipboard.GetClipboardData()
     win32clipboard.CloseClipboard()
@@ -99,8 +155,10 @@ def readMessage():
     }
 
 
-def onScreen(img, bw=False, sure=0.99, region=(0,0,1440,900)):
+def onScreen(img, bw=False, sure=0.99, region=False):
     global path
+    if(not region):
+        region = (props['windowPosition']['x'], props['windowPosition']['y'], 1440, 900)
     isThere = pyautogui.locateCenterOnScreen(
         path + img,
         grayscale=bw,
@@ -111,3 +169,36 @@ def onScreen(img, bw=False, sure=0.99, region=(0,0,1440,900)):
         return isThere
     else:
         return False
+
+
+def isReady():
+    parts = {
+        'chat': False,
+        'inventory': False
+    }
+    if(onScreen('img/scb/inventar.png', region=getRegion('inventory'))):
+        parts['inventory'] = True
+    if(onScreen('img/chat/stumm.png', region=getRegion('chat'))):
+        parts['chat'] = True
+    return parts
+
+
+def goReadyState(repeat=0):
+    safeMouse()
+    parts = isReady()
+    if (parts['chat'] and parts['inventory']):
+        return True
+    else:
+        pyautogui.press('esc')
+        openTab()
+        pyautogui.press('t')
+        if(repeat < 2):
+            return goReadyState(repeat+1)
+        else:
+            return False
+
+
+def regWindowPos(pos):
+    return True
+
+

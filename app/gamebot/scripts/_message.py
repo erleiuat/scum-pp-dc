@@ -1,11 +1,10 @@
 from plugins import scb
-import pyautogui
 
 
 def process():
     scope = input('Scope: ')
-    print(scope)
-
+    scb.doPrint(scope)
+    
     if(scope.lower() == 'global'):
         scb.goScope('global')
     elif(scope.lower() == 'local'):
@@ -14,5 +13,5 @@ def process():
         msg = input('No scope for message\n')
 
     msg = input('Message: ')
-    print(msg)
+    scb.doPrint(msg)
     scb.sendMessage(msg)
