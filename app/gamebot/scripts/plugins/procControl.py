@@ -27,7 +27,7 @@ def focus(window_name='scum', solve=False):
                 if(solve):
                     return solveProblems()
                 return True
-        raise Exception('Window not found')
+        return False
     except:
         if(solve):
             return solveProblems()
