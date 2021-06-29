@@ -45,7 +45,7 @@ scb.flushPrint()
 
 
 if(startup):
-    _action.startUp()
+    _action.startup()
 
 
 while (True):

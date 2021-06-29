@@ -20,7 +20,7 @@ def startup():
     eat()
 
 
-def process(startup=False):
+def process():
 
     actions = json.loads(input())
     scb.doPrint({'actions': actions})
