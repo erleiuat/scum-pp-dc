@@ -6,6 +6,9 @@ import json
 
 def startup():
     scb.goScope('global')
+    scb.sendMessage('#SetFakeName [SF-BOT]')
+    scb.sendMessage('#ListZombies')
+    scb.sendMessage('#ShowOtherPlayerInfo true')
     scb.sendMessage('I\'m getting prepared...')
     repair(actions[action])
     control.takeA('shit')

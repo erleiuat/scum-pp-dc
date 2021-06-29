@@ -33,9 +33,6 @@ try:
     scb.doPrint({
         'state': 'running'
     })
-    scb.sendMessage('#SetFakeName [SF-BOT]')
-    scb.sendMessage('#ListZombies')
-    scb.sendMessage('#ShowOtherPlayerInfo true')
 except Exception as e:
     scb.doPrint({
         'error': True,
@@ -45,6 +42,7 @@ except Exception as e:
     scb.restartPC()
 
 scb.flushPrint()
+
 
 if(startup):
     _action.startUp()
