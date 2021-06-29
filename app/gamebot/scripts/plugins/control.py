@@ -64,6 +64,7 @@ def act(victim, action, duration=1):
     itemLoc = scb.onScreen(victim, sure=0.8, region=scb.getRegion('inventory'))
     if(itemLoc):
         scb.safeClick(itemLoc, button='right')
+        scb.sleep(0.3)
         actionLoc = scb.onScreen(action, sure=0.8, region=scb.getRegion('inventory'))
         if(actionLoc):
             scb.safeClick(actionLoc)

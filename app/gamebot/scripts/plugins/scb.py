@@ -84,8 +84,8 @@ def safeMouse():
 
 def safeClick(coords, double=False, button='left'):
     pyautogui.moveTo(coords)
-    pyautogui.move(40, 5, duration=0.005)
-    pyautogui.move(-40, -5, duration=0.005)
+    pyautogui.move(40, 5, duration=0.01)
+    pyautogui.move(-40, -5, duration=0.01)
     pyautogui.click(button=button)
     if(double):
         pyautogui.click(button=button)
