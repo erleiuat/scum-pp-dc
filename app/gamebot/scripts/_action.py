@@ -115,7 +115,7 @@ def dress():
         control.act(
             'img/dress/'+item+'.png',
             'img/dress/ausruesten.png', 
-            duration=0.05
+            duration=0.5
         )
 
 
