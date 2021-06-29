@@ -1,5 +1,5 @@
 exports.console_msg = async function console_msg(cmd) {
-    let cmdArr = [{scope: 'global', message:'#SetFakeName [' + cmd.user + ']'}]
+    let cmdArr = [{scope: 'global', message:'#SetFakeName ' + cmd.user}]
     cmdArr = cmdArr.concat(cmd.content.split(';').map(s => {
         return {scope: 'global', message: s.trim()}
     }))

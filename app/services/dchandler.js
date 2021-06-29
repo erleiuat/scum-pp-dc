@@ -15,14 +15,16 @@ async function consoleMsg(msg) {
 }
 
 async function chatMsg(msgOrg) {
-    msg = {...msgOrg}
+    msg = {
+        ...msgOrg
+    }
     await msgOrg.delete()
     if (msg.author.id !== process.env.DISCORD_BOT_ID) {
-        if(msg.content.toLowerCase().includes('#')) return
+        if (msg.content.toLowerCase().includes('#')) return
         console.log(sn + 'Chat message detected!')
         global.commands[msg.id] = {
             message: 'console_msg',
-            user: '[DISCORD]'+msg.author.username,
+            user: '[DISCORD]' + msg.author.username,
             content: msg.content
         }
     }
@@ -31,6 +33,6 @@ async function chatMsg(msgOrg) {
 exports.start = async function start(dcClient) {
     dcClient.on('message', async msg => {
         if (msg.channel.id == process.env.DISCORD_CH_CONSOLE) consoleMsg(msg)
-        else if(msg.channel.id == process.env.DISCORD_CH_CHAT) chatMsg(msg)
+        else if (msg.channel.id == process.env.DISCORD_CH_CHAT) chatMsg(msg)
     })
 }
