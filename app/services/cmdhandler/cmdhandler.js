@@ -105,6 +105,7 @@ async function cmdHandler() {
         for (const cmd in newCmds) {
             await execute(newCmds[cmd])
         }
+        global.newCmds = false
 
     } while (true)
 }
