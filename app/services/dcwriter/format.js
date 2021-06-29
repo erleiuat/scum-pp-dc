@@ -161,7 +161,7 @@ exports.kill = async function kill(entry, dump = false) {
 
 exports.chat = async function chat(entry) {
     return {
-        'color': '000000',
+        'color': 'ffffff',
         'fields': [{
             'name': entry.user,
             'value': entry.message
