@@ -27,6 +27,8 @@ def focus(window_name='scum', solve=False):
                 if(solve):
                     return solveProblems()
                 return True
+        if(solve):
+            return solveProblems()
         return False
     except:
         if(solve):
