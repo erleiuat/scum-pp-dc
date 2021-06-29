@@ -14,12 +14,8 @@ async function consoleMsg(msg) {
     }
 }
 
-async function chatMsg(msgOrg) {
-    msg = {
-        ...msgOrg
-    }
+async function chatMsg(msg) {
     if (msg.author.id !== process.env.DISCORD_BOT_ID) {
-        await msgOrg.delete()
         if (msg.content.toLowerCase().includes('#')) return
         console.log(sn + 'Chat message detected!')
         global.commands[msg.id] = {
@@ -27,6 +23,7 @@ async function chatMsg(msgOrg) {
             user: '[DISCORD]' + msg.author.username,
             content: msg.content
         }
+        await msg.delete()
     }
 }
 
