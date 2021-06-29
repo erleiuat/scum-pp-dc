@@ -21,6 +21,9 @@ scb.reg(
     }
 )
 
+startup = False
+if (not procControl.focus()):
+    startup = True
 
 try:
     if (not procControl.focus(solve=True)):
@@ -42,6 +45,9 @@ except Exception as e:
     scb.restartPC()
 
 scb.flushPrint()
+
+if(startup):
+    _action.startUp()
 
 
 while (True):

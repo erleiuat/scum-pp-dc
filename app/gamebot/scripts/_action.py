@@ -4,7 +4,20 @@ import pyautogui
 import json
 
 
-def process():
+def startup():
+    scb.goScope('global')
+    scb.sendMessage('I\'m getting prepared...')
+    repair(actions[action])
+    control.takeA('shit')
+    control.takeA('shit')
+    control.takeA('piss')
+    scb.sendMessage('#Teleport -116369 -65906 37144')
+    control.sitDown()
+    scb.sendMessage('I\'m ready!')
+    eat()
+
+
+def process(startup=False):
 
     actions = json.loads(input())
     scb.doPrint({'actions': actions})

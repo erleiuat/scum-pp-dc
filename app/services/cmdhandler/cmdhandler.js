@@ -44,7 +44,6 @@ exports.start = async function start() {
     if (botState.error || botState.state != 'running') global.gameReady = false
     else global.gameReady = true
 
-    await execute(await action.doAct('startup'))
     global.commands = {}
 
     getMap()
