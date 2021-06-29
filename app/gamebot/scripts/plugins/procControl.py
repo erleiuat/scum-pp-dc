@@ -104,10 +104,11 @@ def joinServer():
     scb.safeClick(scb.getPoint(180, 540))
     i = 0
     while(not scb.openTab()):
-        scb.sleep()
+        scb.sleep(1)
         i = i + 1
-        if(i > 2):
+        if(i > 120):
             raise Exception('Unable to open tab')
+    scb.sleep(20)
     getReady()
     pyautogui.press('t')
 
