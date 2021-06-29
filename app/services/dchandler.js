@@ -14,7 +14,9 @@ async function consoleMsg(msg) {
     }
 }
 
-async function chatMsg(msg) {
+async function chatMsg(msgOrg) {
+    msg = {...msgOrg}
+    await msgOrg.delete()
     if (msg.author.id !== process.env.DISCORD_BOT_ID) {
         if(msg.content.toLowerCase().includes('#')) return
         console.log(sn + 'Chat message detected!')
