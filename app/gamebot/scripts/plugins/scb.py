@@ -3,6 +3,7 @@ import subprocess
 import pyautogui
 import keyboard
 import time
+import json
 import sys
 import os
 
@@ -15,6 +16,23 @@ props = {
     'regions': None,
     'windowPosition': None
 }
+printCache = {
+    'error': False
+}
+
+
+def doPrint(text):
+    global printCache
+    printCache.update(text)
+
+
+def flushPrint():
+    global printCache
+    print(json.dumps(printCache))
+    sys.stdout.flush()
+    printCache = {
+        'error': False
+    }
 
 
 def reg(resolution=False, regions=False, windowPosition=False):
@@ -45,18 +63,14 @@ def getRegion(name):
     return (
         reg[0]+winPos['x']-2,
         reg[1]+winPos['y']-2,
-        reg[2]+2,
-        reg[3]+2
+        reg[2]+4,
+        reg[3]+4
     )
 
 
 def restartPC():
-    subprocess.call([fullBatPath + '\\restart.bat'])
-
-
-def doPrint(text):
-    print(text)
-    sys.stdout.flush()
+    #subprocess.call([fullBatPath + '\\restart.bat'])
+    raise Exception('I WOULD RESTART NOW')
 
 
 def sleep(duration=0.4):
@@ -85,12 +99,16 @@ def goScope(scopeName):
         'img/chat/'+scopeName+'.png',
         region=getRegion('scope')
     )
+    i = 0
     while(not isThere):
+        i = i + 1
         pyautogui.press('tab')
         isThere = onScreen(
             'img/chat/'+scopeName+'.png',
             region=getRegion('scope')
         )
+        if(i>10):
+            raise Exception('Could not change scope')
     currentScope = scopeName
 
 
@@ -130,6 +148,8 @@ def isTeleport():
 
 
 def sendMessage(msg):
+    pyautogui.hotkey('ctrl','a')
+    pyautogui.press('backspace')
     keyboard.write(msg)
     pyautogui.press('enter')
     if(msg.lower().startswith('#teleport')):
@@ -155,7 +175,7 @@ def readMessage():
     }
 
 
-def onScreen(img, bw=False, sure=0.99, region=False):
+def onScreen(img, bw=False, sure=0.97, region=False):
     global path
     if(not region):
         region = (props['windowPosition']['x'], props['windowPosition']['y'], 1440, 900)

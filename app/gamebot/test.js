@@ -8,24 +8,120 @@ function timer(seconds) {
 
 
 async function testIt() {
-    await bot.start()
+    resp = await bot.start()
+    if(resp.error || resp.state != 'running') {
+        console.log('not working smh')
+        return False
+    }
+    
+    await timer(5)
 
-    await timer(2)
-    //await bot.action(['piss'])
-    await bot.message('global', '[AUTH]: >>> blabla left <<<')
+    resp = await bot.messages([{
+        scope: 'local',
+        message: '1'
+    },{
+        scope: 'local',
+        message: '2'
+    },{
+        scope: 'local',
+        message: '3'
+    },{
+        scope: 'global',
+        message: '1'
+    },{
+        scope: 'global',
+        message: '2'
+    },{
+        scope: 'global',
+        message: '3'
+    }])
+    
+    
+    /*
+    resp = await bot.actions({
+        light: [
+            '#Teleport -119367 -68301 36808',
+            '#Teleport -105285 -69285 36718'
+        ]
+    })
+    
+    console.log(resp)
+
+    resp = await bot.action('shit')
+    console.log(resp)
+
+    resp = await bot.messages([{
+        scope: 'local',
+        message: '1'
+    },{
+        scope: 'local',
+        message: '2'
+    },{
+        scope: 'local',
+        message: '3'
+    },{
+        scope: 'global',
+        message: '1'
+    },{
+        scope: 'global',
+        message: '2'
+    },{
+        scope: 'global',
+        message: '3'
+    }])
+
+    console.log(resp)
+
+    resp = await bot.message('global', '#setweather 0')
+    console.log(resp)
+
+    resp = await bot.message('local', 'Hallo')
+    console.log(resp)
+
+    resp = await bot.message('global', 'Du Sau')
+    console.log(resp)
+
+    resp = await bot.message('global', '1')
+    console.log(resp)
+    resp = await bot.message('global', '2')
+    console.log(resp)
+    resp = await bot.message('global', '3')
+    console.log(resp)
+    resp = await bot.message('global', '4')
+    console.log(resp)
+    resp = await bot.message('global', '5')
+    console.log(resp)
+    resp = await bot.message('local', '1')
+    console.log(resp)
+    resp = await bot.message('local', '2')
+    console.log(resp)
+    resp = await bot.message('local', '3')
+    console.log(resp)
+    resp = await bot.message('local', '4')
+    console.log(resp)
+    resp = await bot.message('local', '5')
+    console.log(resp)
+    
+    
+    
+    
     
     //await timer(5)
     //await bot.action(['dress'])
-    //await bot.message('local', '#Teleport -119367 -68301 36808')
-    //await bot.action(['idle'])
+    let resp = await bot.action(['mapshot'])
+    console.log(resp)
 
+    resp = await bot.message('local', '#Teleport -119367 -68301 36808')
+    console.log(resp)
     
-
+    resp = await bot.action(['idle'])
+    console.log(resp)
+    resp = await bot.action(['dress'])
+    console.log(resp)
     await timer(2)
     await bot.message('global', '[AUTH]: >>> blabla is joining <<<')
-    await bot.action(['eat'])
-
-    /*
+    //await bot.action(['piss'])
+    await bot.message('global', '[AUTH]: >>> blabla left <<<')
     await bot.action([
         'repair',
         [

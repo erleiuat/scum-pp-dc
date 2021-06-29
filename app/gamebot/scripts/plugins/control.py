@@ -1,5 +1,27 @@
 from plugins import scb
+from datetime import datetime
+from pathlib import Path
 import pyautogui
+
+
+def mapshot():
+    pyautogui.press('esc')
+    pyautogui.press('m')
+    pyautogui.press('subtract')
+    now = datetime.now()
+    folderName = now.strftime('%Y_%m_%d')
+    fileName = now.strftime('%Y_%m_%d.%H_%M_%S')+'.png'
+    Path('./app/storage/maps/'+folderName).mkdir(parents=True, exist_ok=True)
+    fullPath = './app/storage/maps/'+folderName+'/'+fileName
+    pyautogui.screenshot(fullPath,region=scb.getRegion('map'))
+    scb.sleep(2)
+    pyautogui.press('subtract')
+    scb.openTab()
+    pyautogui.press('t')
+    scb.doPrint({'data': {
+        'fileName': fileName,
+        'fullPath': fullPath
+    }})
 
 
 def takeA(action):
@@ -12,12 +34,12 @@ def takeA(action):
         scb.safeClick(scb.getPoint(870, 365))
         scb.sleep()
         pyautogui.keyUp('tab')
-        scb.sleep(1)
+        scb.sleep(35)
     elif(action == 'piss'):
         scb.safeClick(scb.getPoint(810, 300))
         scb.sleep()
         pyautogui.keyUp('tab')
-        scb.sleep(1)
+        scb.sleep(15)
     else:
         pyautogui.keyUp('tab')
     scb.openTab()

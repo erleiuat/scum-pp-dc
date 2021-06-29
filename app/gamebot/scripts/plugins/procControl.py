@@ -7,7 +7,7 @@ import win32con
 import psutil
 
 
-def focus(window_name, solve=False):
+def focus(window_name='scum', solve=False):
     if(window_name.lower() in win32gui.GetWindowText(win32gui.GetForegroundWindow()).lower()):
         return True
 
@@ -24,6 +24,8 @@ def focus(window_name, solve=False):
                 win32gui.SetForegroundWindow(handle)
                 scb.sleep(0.5)
                 scb.reg(windowPosition=windowRect.get(handle))
+                if(solve):
+                    return solveProblems()
                 return True
         raise Exception('Window not found')
     except:
@@ -57,16 +59,17 @@ def getState():
     else:
         return parts
 
+    parts['onServer'] = True
 
     i = 0
     while(not scb.onScreen('img/scb/fortsetzen.png', bw=True, region=scb.getRegion('inventory'))):
         pyautogui.press('esc')
         i = i + 1
         if(i > 10):
+            parts['onServer'] = False
             break
 
-    if(scb.onScreen('img/scb/fortsetzen.png', bw=True, region=scb.getRegion('inventory'))):
-        parts['onServer'] = True
+    if(parts['onServer']):
         pyautogui.press('esc')
         scb.openTab()
         pyautogui.press('t')
@@ -97,10 +100,12 @@ def joinServer():
         scb.safeClick(needOK)
         scb.sleep(1)
     scb.safeClick(scb.getPoint(180, 540))
+    i = 0
     while(not scb.openTab()):
-        scb.sleep(1)
-    scb.sleep(2)
-    scb.openTab()
+        scb.sleep()
+        i = i + 1
+        if(i > 2):
+            raise Exception('Unable to open tab')
     getReady()
     pyautogui.press('t')
 
@@ -117,19 +122,16 @@ def startGame():
 
 
 def solveProblems():
-    try:
-        parts = getState()
-        if(not parts['onServer']):
-            if(not parts['gameRunning']):
-                if(not parts['steamRunning']):
-                    startGame()
-                else:
-                    scb.restartPC()
+    parts = getState()
+    if(not parts['onServer']):
+        if(not parts['gameRunning']):
+            if(not parts['steamRunning']):
+                startGame()
             else:
-                joinServer()
+                scb.restartPC()
         else:
-            getReady()
-
-        return True
-    except:
-        scb.restartPC()
+            joinServer()
+    else:
+        getReady()
+        
+    return focus()

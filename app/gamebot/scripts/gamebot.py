@@ -3,6 +3,8 @@ from plugins import scb
 import pyautogui
 import _message
 import _action
+import sys
+
 
 scb.reg(
     resolution={
@@ -14,36 +16,59 @@ scb.reg(
         'loading': (1205, 805, 110, 40),
         'inventory': (400, 0, 640, 800),
         'chat': (20, 250, 415, 185),
-        'invDrag': (700, 0, 35, 900)
+        'invDrag': (700, 0, 35, 900),
+        'map': (270 ,0 ,900 ,900 )
     }
 )
 
-if (not procControl.focus('scum', solve=True)):
-    raise Exception('Window not found')
 
+try:
+    if (not procControl.focus(solve=True)):
+        raise Exception('Window not found')
+    if (not scb.goReadyState()):
+        raise Exception('Game not ready')
+    scb.doPrint({
+        'state': 'running'
+    })
+    scb.sendMessage('#SetFakeName [SF-BOT]')
+    scb.sendMessage('#ListZombies')
+    scb.sendMessage('#ShowOtherPlayerInfo true')
+except Exception as e:
+    scb.doPrint({
+        'error': True,
+        'errorMessage': str(e),
+        'restart': True
+    })
+    scb.restartPC()
 
-if (not scb.goReadyState()):
-    procControl.solveProblems()
-    raise Exception('Game not ready')
+scb.flushPrint()
 
 
 while (True):
-    cmd = input('\nCommand: ')
-    scb.doPrint(cmd)
-
     try:
+        cmd = input()
+        scb.doPrint({'command': cmd})
 
-        if(cmd == 'MESSAGE'):
+        procControl.focus(solve=True)
+        scb.safeMouse()
+
+        if(cmd == 'MESSAGES'):
             _message.process()
         elif(cmd == 'ACTION'):
             _action.process()
         else:
-            scb.doPrint('Error: Command not recognized\n')
-
-    except:
-        scb.doPrint('Something went wrong...')
-        if (not procControl.focus('scum', solve=True)):
+            scb.doPrint({'Error': 'Command not recognized'})
+    except Exception as e:
+        scb.doPrint({
+            'error': True,
+            'errorMessage': str(e)
+        })
+        if (not procControl.focus(solve=True)):
+            scb.restartPC()
             raise Exception('Window not found')
         if (not scb.goReadyState()):
-            scb.restart()
+            scb.restartPC()
             raise Exception('Game not ready')
+
+    scb.flushPrint()
+    scb.safeMouse()

@@ -4,19 +4,59 @@ const sn = global.chalk.magenta('[CMD-Handler] -> ')
 const messages = require('./messages').list
 const cmdsPublic = require('./cmd/public')
 const cmdsInternal = require('./cmd/internal')
-const scum = require('./game')
+const action = require('./actions')
+const bot = require('../../gamebot/gamebot')
 let hasStarterkit = []
 let checkCounter = 0
 
-exports.start = async function start() {
-    if (!await scum.isReady()) await scum.start()
 
-    //makeBreak()
+async function execute(cmd) {
+    if (!cmd || !cmd.commands || !cmd.commands.length) return
+    let resp = {error: false}
+    for (const command of cmd.commands) {
+        for (const cmdType in command) {
+
+            if (cmdType == 'messages') {
+                resp = {...resp, ...await bot.messages(command[cmdType])}
+            } else if (cmdType == 'actions') {
+                resp = {...resp, ...await bot.actions(command[cmdType])}
+            } else if (cmdType == 'function') {
+                (command[cmdType])()
+            } else {
+                continue
+            }
+
+            if (resp.error) {
+                if (resp.errorMessage) console.log(sn + 'Error: ' + resp.errorMessage)
+                else console.log(sn + 'Error while executing (no message)')
+            }
+
+        }
+    }
+
+    return resp
+}
+
+
+exports.start = async function start() {
+
+    let botState = await bot.start()
+    if (botState.error || botState.state != 'running') global.gameReady = false
+    else global.gameReady = true
+
+    await execute(await action.doAct('startup'))
+    global.commands = {}
+
+    getMap()
+    cmdHandler()
     makeBusiness()
     checkStatus()
+    makeBreak()
     announce()
-    getMap()
 
+}
+
+async function cmdHandler() {
     let i = 0
     do {
         await global.sleep.timer(0.01)
@@ -39,27 +79,35 @@ exports.start = async function start() {
             else if (cmdStart == '!ready') newCmds[e] = await tReady(cmd)
             else if (cmdStart == '!exec') newCmds['exec_' + cmd.steamID] = await cmdsInternal['exec'](cmd)
             else if (cmdStart == '!spawn') newCmds['spawn_' + cmd.steamID] = await cmdsInternal['spawn'](cmd)
-            else if (cmdStart == 'welcome_new') newCmds['welcome_' + cmd.joined.getTime] = await cmdsInternal['welcome_new'](cmd)
+            else if (cmdStart == 'welcome_new') newCmds['welcome_' + e] = await cmdsInternal['welcome_new'](cmd)
             else if (cmdStart == 'console_msg') newCmds['console_' + e] = await cmdsInternal['console_msg'](cmd)
             else if (cmdStart == 'kill_feed') newCmds[e] = await cmdsInternal['kill_feed'](cmd)
             else if (cmdStart == 'auth_log') newCmds[e] = await cmdsInternal['auth_log'](cmd)
             else if (cmdStart == 'mine_armed') newCmds[e] = await cmdsInternal['mine_armed'](cmd)
             else {
-                if (cmdStart == '!break') await doExecute('act_break.py')
-                else if (cmdStart == '!business') await doExecute('act_business.py')
-                else if (cmdStart == '!dress') await doExecute('act_dress.py')
-                else if (cmdStart == '!firework') await doExecute('act_firework.py')
-                else if (cmdStart == '!idle') await doExecute('act_idle.py')
-                else if (cmdStart == '!lightup') await doExecute('act_light.py', true)
-                else if (cmdStart == '!repair') await doExecute('act_repair.py')
+                if (cmdStart == '!break') await execute(await action.doAct('eat'))
+                else if (cmdStart == '!shit') await execute(await action.doAct('shit'))
+                else if (cmdStart == '!piss') await execute(await action.doAct('piss'))
+                else if (cmdStart == '!business') await execute(await action.doAct('business'))
+                else if (cmdStart == '!dress') await execute(await action.doAct('dress'))
+                else if (cmdStart == '!idle') await execute(await action.doAct('idle'))
+                else if (cmdStart == '!lightup') await execute(await action.doAct('light'))
+                else if (cmdStart == '!repair') await execute(await action.doAct('repair'))
+                else if (cmdStart == '!startup') await execute(await action.doAct('startup'))
+                else {
+                    console.log(sn + 'Unknown command: ' + cmdStart)
+                }
             }
 
         }
 
         i++
-        await sendCommands(newCmds)
-    } while (true)
 
+        for (const cmd in newCmds) {
+            await execute(newCmds[cmd])
+        }
+
+    } while (true)
 }
 
 async function getMap() {
@@ -69,17 +117,17 @@ async function getMap() {
         if (global.updates) continue
         if (!global.gameReady) continue
         if (global.updatingFTP) continue
-
+        
         console.log(sn + 'Getting current player positions')
-        let imgInfo = await doExecute('get_map.py', false, true)
+        let imgInfo = await execute({commands:[{actions: {mapshot: true}}]})
         if (!imgInfo) {
             console.log(sn + 'No image info received')
             continue
         }
 
         try {
-            imgInfo = JSON.parse(imgInfo)
-    
+            imgInfo = imgInfo.data
+
             let d = new Date()
             global.newEntries.maps[imgInfo.fileName] = {
                 ...imgInfo,
@@ -139,8 +187,8 @@ async function receivesStarterkit(steamID, name) {
 }
 
 async function tStarterkit(cmd) {
-    hasStarterkit = await loadStatus('starterkits.json')
     if (cmd.type.toLowerCase() != 'global') return null
+    hasStarterkit = await loadStatus('starterkits.json')
     if (!hasStarterkit[cmd.steamID]) return await cmdsInternal['sk_legal'](cmd)
     else return await cmdsInternal['sk_illegal'](cmd)
 }
@@ -148,25 +196,8 @@ async function tStarterkit(cmd) {
 async function tReady(cmd) {
     hasStarterkit = await loadStatus('starterkits.json')
     if (!hasStarterkit[cmd.steamID]) {
-        await receivesStarterkit(cmd.steamID, cmd.user)
-        return await cmdsInternal['sk_ready'](cmd)
+        return await cmdsInternal['sk_ready'](cmd, () => receivesStarterkit(cmd.steamID, cmd.user))
     } else return await cmdsInternal['sk_illegal'](cmd)
-}
-
-async function sendCommands(cmdObj) {
-    try {
-        for (const e in cmdObj) {
-            let cmdArr = []
-            if (!cmdObj[e] || !cmdObj[e].commands || cmdObj[e].commands.length < 1) continue
-            for (const cmd of cmdObj[e].commands) cmdArr.push(cmd)
-            if (!await scum.send(cmdArr)) {
-                if (!await scum.isReady()) await scum.start()
-            } else checkCounter = 0
-        }
-        global.newCmds = false
-    } catch (error) {
-        throw new Error(error)
-    }
 }
 
 async function checkStatus() {
@@ -178,7 +209,13 @@ async function checkStatus() {
         if (global.updates) continue
         if (!global.gameReady) continue
         if (global.updatingFTP) continue
-        if (!await scum.isReady()) await doExecute('do_restart.py', true, true)
+        execute({
+            commands: [{
+                actions: {
+                    awake: true
+                }
+            }]
+        })
         checkCounter = 0
     } while (true)
 }
@@ -194,7 +231,7 @@ async function makeBusiness() {
 
         now = new Date()
         if (!bTimes.includes(now.getMinutes())) continue
-        doExecute('act_business.py', false, true)
+        await execute(await action.doAct('business'))
         await global.sleep.timer(60)
 
     } while (true)
@@ -211,44 +248,30 @@ async function makeBreak() {
 
         now = new Date()
         if (!bTimes.includes(now.getMinutes())) continue
-        doExecute('act_break.py', false, true)
+        await execute(await action.doAct('eat'))
         await global.sleep.timer(60)
 
     } while (true)
 }
 
-async function doExecute(scriptName, clearCmds = false, force = false) {
-    global.gameReady = false
-    let data = await scum.execScript(scriptName, clearCmds, force)
-    if (!data) {
-        if (!await scum.isReady()) await scum.execScript('do_restart.py', true, true)
-    } else {
-        checkCounter = 0
-        return data
-    }
-}
 
 async function announce() {
     do {
-        await global.sleep.timer(5)
+        await global.sleep.timer(10)
 
         let now = new Date()
         let time = now.getHours() + ':' + now.getMinutes()
         if (messages[time]) {
             if (messages[time].done) continue
-            let key = 'announce_' + now.getHours() + '_' + now.getMinutes()
-            let tmpObj = {}
-            tmpObj[key] = {
-                type: 'global',
-                commands: [
-                    '#SetFakeName [SF-BOT][RESTART]',
-                    messages[time].text,
-                    '#ClearFakeName'
-                ]
-            }
+            await execute({
+                commands: [{
+                    messages: [{
+                        scope: 'global',
+                        message: messages[time].text
+                    }]
+                }]
+            })
             messages[time].done = true
-            await sendCommands(tmpObj)
-
         } else {
             for (const e in messages) {
                 messages[e].done = false
