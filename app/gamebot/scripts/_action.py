@@ -120,9 +120,9 @@ def dress():
 
 
 def eat():
-    scb.sendMessage('#SpawnItem Corn')
+    scb.sendMessage('#SpawnItem Ganoderma_Lucidum')
     control.act(
-        'img/act/corn.png',
+        'img/act/mushroom.png',
         'img/act/eat.png',
         0.005
     )
