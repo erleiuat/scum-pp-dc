@@ -46,10 +46,12 @@ exports.vote_night = async function vote_night(cmd) {
         time: cmd.time.time,
         type: 'global',
         commands: [
-            '#SetFakeName [SF-BOT][VOTING]',
-            'Nighttime-Voting begins! (10:00 PM)',
-            '#vote SetTimeOfDay 22',
-            '#ClearFakeName'
+            {
+                messages: [
+                    {scope: 'global', message: '[VOTING]: Nighttime-Voting begins! (10:00 PM)'},
+                    {scope: 'global', message: '#vote SetTimeOfDay 22'},
+                ]
+            }
         ]
     }
 }
@@ -61,11 +63,13 @@ exports.help = async function help(cmd) {
         time: cmd.time.time,
         type: 'global',
         commands: [
-            '#SetFakeName [SF-BOT][HELP]',
-            'Available commands (if bot is online):',
-            '!voteday, !votesun, !online, !restart, !joke, !starterkit',
-            '> Will only work in GLOBAL Chat! (Press "TAB" to change chatroom)',
-            '#ClearFakeName'
+            {
+                messages: [
+                    {scope: 'global', message: '[HELP]: Available commands (if bot is online):'},
+                    {scope: 'global', message: '[HELP]: !voteday, !votesun, !online, !restart, !joke, !starterkit, !time'},
+                    {scope: 'global', message: '[HELP]: -> Will only work in GLOBAL Chat! (Press "TAB" to change chatroom)'}
+                ]
+            }
         ]
     }
 }
@@ -79,9 +83,11 @@ exports.joke = async function joke(cmd) {
         time: cmd.time.time,
         type: 'global',
         commands: [
-            '#SetFakeName [SF-BOT][JOKE]',
-            joke,
-            '#ClearFakeName'
+            {
+                messages: [
+                    {scope: 'global', message: '[JOKE]: ' + joke}
+                ]
+            }
         ]
     }
 }
@@ -93,10 +99,12 @@ exports.what_is_going_on = async function what_is_going_on(cmd) {
         time: cmd.time.time,
         type: 'global',
         commands: [
-            '#SetFakeName [SF-BOT][WOT]',
-            '...is going on here',
-            'BREKFEST',
-            '#ClearFakeName'
+            {
+                messages: [
+                    {scope: 'global', message: '[WOT]: ...is going on here'},
+                    {scope: 'global', message: '[WOT]: BREKFEST'}
+                ]
+            }
         ]
     }
 }
@@ -108,10 +116,12 @@ exports.vote_weather_sun = async function vote_weather_sun(cmd) {
         time: cmd.time.time,
         type: 'global',
         commands: [
-            '#SetFakeName [SF-BOT][VOTING]',
-            'Weather voting begins!',
-            '#vote SetWeather 0',
-            '#ClearFakeName'
+            {
+                messages: [
+                    {scope: 'global', message: '[VOTING]: Weather voting begins!'},
+                    {scope: 'global', message: '#vote SetWeather 0'}
+                ]
+            }
         ]
     }
 }
@@ -123,10 +133,12 @@ exports.vote_day = async function vote_day(cmd) {
         time: cmd.time.time,
         type: 'global',
         commands: [
-            '#SetFakeName [SF-BOT][VOTING]',
-            'Daytime-Voting begins! (7:00 AM)',
-            '#vote SetTimeOfDay 7',
-            '#ClearFakeName'
+            {
+                messages: [
+                    {scope: 'global', message: '[VOTING]: Daytime-Voting begins! (7:00 AM)'},
+                    {scope: 'global', message: '#vote SetTimeOfDay 7'}
+                ]
+            }
         ]
     }
 }
@@ -138,9 +150,11 @@ exports.ping = async function ping(cmd) {
         time: cmd.time.time,
         type: 'global',
         commands: [
-            '#SetFakeName [SF-BOT][BADABONG]',
-            'Pong right back at you @' + cmd.user + ' ;)',
-            '#ClearFakeName'
+            {
+                messages: [
+                    {scope: 'global', message: '[BADABONG]: Pong right back at you @' + cmd.user + ' ;)'}
+                ]
+            }
         ]
     }
 }
@@ -152,23 +166,29 @@ exports.online = async function online(cmd) {
         time: cmd.time.time,
         type: 'global',
         commands: [
-            '#SetFakeName [SF-BOT][PLAYERS]',
-            'There are currently ' + global.playersOnline + ' Players online.',
-            '#ClearFakeName'
+            {
+                messages: [
+                    {scope: 'global', message: '[PLAYERS]: There are currently ' + global.playersOnline + ' Players online.'}
+                ]
+            }
         ]
     }
 }
 
 exports.time = async function time(cmd) {
     if (cmd.type.toLowerCase() != 'global') return null
+    let time = '<unavailable>'
+    if(global.ingameTime) time = global.ingameTime
     return {
         date: cmd.time.date,
         time: cmd.time.time,
         type: 'global',
         commands: [
-            '#SetFakeName [SF-BOT][TIME]',
-            'It is currently about ' + global.ingameTime || '<unavailable>' + '. ',
-            '#ClearFakeName'
+            {
+                messages: [
+                    {scope: 'global', message: '[TIME]: It is currently about ' +  time  + '. '}
+                ]
+            }
         ]
     }
 }
@@ -195,9 +215,11 @@ exports.restart_countdown = async function restart_countdown(cmd) {
         time: cmd.time.time,
         type: 'global',
         commands: [
-            '#SetFakeName [SF-BOT][RESTART]',
-            'Next restart will be in: ' + hours + ' hours and ' + minutes + ' minutes.',
-            '#ClearFakeName'
+            {
+                messages: [
+                    {scope: 'global', message: '[RESTART]: Next restart will be in: ' + hours + ' hours and ' + minutes + ' minutes.'}
+                ]
+            }
         ]
     }
 }

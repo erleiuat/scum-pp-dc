@@ -1,39 +1,46 @@
 from plugins import control
 from plugins import scb
 import pyautogui
+import json
 
 
 def process():
-    action = input('Action: ')
-    scb.doPrint(action)
 
-    scb.safeMouse()
+    actions = json.loads(input())
+    scb.doPrint({'actions': actions})
 
-    if(action.lower() == 'eat'):
-        eat()
-    elif(action.lower() == 'shit'):
-        control.takeA('shit')
-    elif(action.lower() == 'piss'):
-        control.takeA('piss')
-    elif(action.lower() == 'idle'):
-        control.sitDown()
-    elif(action.lower() == 'dress'):
-        dress()
-    elif(action.lower() == 'light'):
-        light()
-    elif(action.lower() == 'repair'):
-        repair()
-    elif(action.lower() == 'restart'):
-        scb.restart()
+    for action in actions:
+        action = action.lower()
+        if(action == 'repair'):
+            repair(actions[action])
+        elif(action == 'light'):
+            light(actions[action])
+        elif(action == 'shit'):
+            control.takeA('shit')
+        elif(action == 'piss'):
+            control.takeA('piss')
+        elif(action == 'eat'):
+            eat()
+        elif(action == 'idle'):
+            control.sitDown()
+        elif(action == 'dress'):
+            dress()
+        elif(action == 'mapshot'):
+            control.mapshot()
+        elif(action == 'restart'):
+            scb.restart()
+        elif(action == 'awake'):
+            if (not scb.goReadyState()):
+                raise Exception('Game not ready')
+        else:
+            scb.doPrint({
+                'error': True,
+                'errorMessage': 'Unknown action'
+            })
 
-    scb.safeMouse()
 
-
-def repair():
+def repair(teleports):
     currentPosition = scb.getPosition()
-    teleports = input('Teleports: ')
-    teleports = teleports.split(';')
-    scb.doPrint(teleports)
 
     for teleport in teleports:
         scb.sendMessage(teleport)
@@ -44,11 +51,9 @@ def repair():
     scb.sendMessage(
         '#Teleport '+currentPosition['x']+' '+currentPosition['y']+' '+currentPosition['z'])
 
-def light():
+
+def light(teleports):
     currentPosition = scb.getPosition()
-    teleports = input('Teleports: ')
-    teleports = teleports.split(';')
-    scb.doPrint(teleports)
 
     scb.sendMessage('#SpawnItem Lighter')
     control.act(
