@@ -61,10 +61,10 @@ def getRegion(name):
     reg = props['regions'][name]
     winPos = props['windowPosition']
     return (
-        reg[0]+winPos['x']-2,
-        reg[1]+winPos['y']-2,
-        reg[2]+4,
-        reg[3]+4
+        reg[0]+winPos['x'],
+        reg[1]+winPos['y'],
+        reg[2],
+        reg[3]
     )
 
 
