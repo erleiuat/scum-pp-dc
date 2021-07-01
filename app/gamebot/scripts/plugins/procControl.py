@@ -103,12 +103,20 @@ def joinServer():
         scb.sleep(1)
     scb.safeClick(scb.getPoint(180, 540))
     i = 0
+
+    while(not scb.onScreen('img/scb/fortsetzen.png', bw=True, region=scb.getRegion('inventory'))):
+        pyautogui.press('esc')
+        i = i + 1
+        if(i > 120):
+            raise Exception('Unable to join')
+
+    scb.sleep(20)
     while(not scb.openTab()):
         scb.sleep(1)
         i = i + 1
         if(i > 120):
             raise Exception('Unable to open tab')
-    scb.sleep(20)
+
     getReady()
     pyautogui.press('t')
 
