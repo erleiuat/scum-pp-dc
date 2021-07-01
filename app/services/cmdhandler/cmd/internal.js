@@ -20,7 +20,7 @@ exports.mine_armed = async function mine_armed(cmd) {
 }
 
 exports.spawn = async function spawn(cmd) {
-    cmd.message = '#Teleport -116077 -66395 37065; ' + cmd.message.replace('!spawn', '').trim()
+    cmd.message = '#Teleport -116077 -66395 37065; ' + cmd.message.replace('/spawn', '').trim()
     return await this.exec(cmd)
 }
 
@@ -32,7 +32,7 @@ exports.exec = async function exec(cmd) {
     let tmpCmd = cmdBuilder.getTmpCmd()
     cmdBuilder.addMessage('global', '#SetFakeName ' + cmd.user)
 
-    let msgCmds = cmd.message.toLowerCase().replace('!exec', '').trim().split(';').map(s => s.trim())
+    let msgCmds = cmd.message.toLowerCase().replace('/exec', '').trim().split(';').map(s => s.trim())
     for (const el of msgCmds) {
         let command = el.split(' ')[0].toLowerCase().trim()
         if (aList[cmd.steamID].canExecute[command] || aList[cmd.steamID].canExecute['#*']) cmdBuilder.addMessage('global', el)
