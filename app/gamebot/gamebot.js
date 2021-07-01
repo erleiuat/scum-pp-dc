@@ -5,12 +5,41 @@ const cp = require('child_process')
 let bot = false
 let ingame = false
 
+exports.execute = async function execute(cmd) {
+    if (!cmd || !cmd.commands || !cmd.commands.length) return
 
-exports.state = async function state() {
-    return {
-        bot: bot,
-        ingame: ingame
+    let resp = {
+        error: false
     }
+
+    for (const command of cmd.commands) {
+        for (const cmdType in command) {
+
+            if (cmdType == 'messages') {
+                resp = {
+                    ...resp,
+                    ...await bot.messages(command[cmdType])
+                }
+            } else if (cmdType == 'actions') {
+                resp = {
+                    ...resp,
+                    ...await bot.actions(command[cmdType])
+                }
+            } else if (cmdType == 'function') {
+                (command[cmdType])()
+            } else {
+                continue
+            }
+
+            if (resp.error) {
+                if (resp.errorMessage) console.log(sn + 'Error: ' + resp.errorMessage)
+                else console.log(sn + 'Error while executing (no message)')
+            }
+
+        }
+    }
+
+    return resp
 }
 
 
@@ -55,7 +84,7 @@ exports.actions = async function actions(action) {
         console.log(sn + 'Doing actions')
         resOutput(resolve, 'Actions done')
         bot.stdin.write('ACTION\n')
-        if(typeof action == 'object')
+        if (typeof action == 'object')
             bot.stdin.write(JSON.stringify(action) + '\n')
         else {
             let actObj = {}

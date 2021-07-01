@@ -28,12 +28,16 @@ if (not procControl.focus()):
 
 try:
     if (not procControl.focus(solve=True)):
+        scb.doPrint({'error': True})
         raise Exception('Window not found')
-    if (not scb.goReadyState()):
-        raise Exception('Game not ready')
+    botstate = scb.goReadyState()
     scb.doPrint({
-        'state': 'running'
+        'data': botstate
     })
+    if (not botstate['chat'] or not botstate['inventory']):
+        scb.doPrint({'error': True})
+        raise Exception('Game not ready')
+        
 except Exception as e:
     scb.doPrint({
         'error': True,
@@ -69,10 +73,15 @@ while (True):
             'errorMessage': str(e)
         })
         if (not procControl.focus(solve=True)):
+            scb.doPrint({'error': True})
             scb.restartPC()
             raise Exception('Window not found')
-        if (not scb.goReadyState()):
-            scb.restartPC()
+        botstate = scb.goReadyState()
+        scb.doPrint({
+            'data': botstate
+        })
+        if (not botstate['chat'] or not botstate['inventory']):
+            scb.doPrint({'error': True})
             raise Exception('Game not ready')
 
     scb.flushPrint()

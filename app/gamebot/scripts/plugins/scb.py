@@ -225,7 +225,7 @@ def goReadyState(repeat=0):
     safeMouse()
     parts = isReady()
     if (parts['chat'] and parts['inventory']):
-        return True
+        return parts
     else:
         pyautogui.press('esc')
         openTab()
@@ -233,7 +233,7 @@ def goReadyState(repeat=0):
         if(repeat < 2):
             return goReadyState(repeat+1)
         else:
-            return False
+            return parts
 
 
 def regWindowPos(pos):

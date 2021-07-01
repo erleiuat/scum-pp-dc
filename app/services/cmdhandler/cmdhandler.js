@@ -9,63 +9,42 @@ const bot = require('../../gamebot/gamebot')
 let hasStarterkit = []
 let checkCounter = 0
 
-
-async function execute(cmd) {
-    if (!cmd || !cmd.commands || !cmd.commands.length) return
-    let resp = {error: false}
-    for (const command of cmd.commands) {
-        for (const cmdType in command) {
-
-            if (cmdType == 'messages') {
-                resp = {...resp, ...await bot.messages(command[cmdType])}
-            } else if (cmdType == 'actions') {
-                resp = {...resp, ...await bot.actions(command[cmdType])}
-            } else if (cmdType == 'function') {
-                (command[cmdType])()
-            } else {
-                continue
-            }
-
-            if (resp.error) {
-                if (resp.errorMessage) console.log(sn + 'Error: ' + resp.errorMessage)
-                else console.log(sn + 'Error while executing (no message)')
-            }
-
-        }
-    }
-
-    return resp
+function isReady() {
+    if (global.newCmds) return false
+    if (global.updates) return false
+    if (!global.gameReady) return false
+    if (global.updatingFTP) return false
+    return true
 }
 
-
 exports.start = async function start() {
-
     let botState = await bot.start()
-    if (botState.error || botState.state != 'running') global.gameReady = false
-    else global.gameReady = true
 
-    global.commands = {}
+    if (botState.error) {
+        console.log('Gambot status in error!')
+        if (botState.data) console.log('Status checked. Chat = ' + resp.data.chat + ', Inventory = ' + resp.data.inventory)
+        global.gameReady = false
+    } else global.gameReady = true
 
     getMap()
-    cmdHandler()
     makeBusiness()
     checkStatus()
     makeBreak()
     announce()
 
+    global.commands = {}
+    cmdHandler()
+
 }
 
 async function cmdHandler() {
-    let i = 0
     do {
         await global.sleep.timer(0.01)
-        if (global.updates) continue
-        if (global.updatingFTP) continue
-        if (!global.gameReady) continue
+        if(!isReady()) continue
         if (Object.keys(global.commands).length < 1) continue
-
         global.newCmds = true
         let newCmds = {}
+
         for (const e in global.commands) {
             let cmd = {
                 ...global.commands[e]
@@ -73,26 +52,26 @@ async function cmdHandler() {
             delete global.commands[e]
             let cmdStart = cmd.message.split(' ')[0].toLowerCase()
 
-            if (cmdsPublic.list[cmdStart]) newCmds[e] = await cmdsPublic[cmdsPublic.list[cmdStart]](cmd)
-            else if (cmdStart == '/starterkit') newCmds[e] = await tStarterkit(cmd)
-            else if (cmdStart == '/ready') newCmds[e] = await tReady(cmd)
-            else if (cmdStart == '/exec') newCmds['exec_' + cmd.steamID] = await cmdsInternal['exec'](cmd)
-            else if (cmdStart == '/spawn') newCmds['spawn_' + cmd.steamID] = await cmdsInternal['spawn'](cmd)
-            else if (cmdStart == 'welcome_new') newCmds['welcome_' + e] = await cmdsInternal['welcome_new'](cmd)
-            else if (cmdStart == 'console_msg') newCmds['console_' + e] = await cmdsInternal['console_msg'](cmd)
-            else if (cmdStart == 'kill_feed') newCmds[e] = await cmdsInternal['kill_feed'](cmd)
-            else if (cmdStart == 'auth_log') newCmds[e] = await cmdsInternal['auth_log'](cmd)
-            else if (cmdStart == 'mine_armed') newCmds[e] = await cmdsInternal['mine_armed'](cmd)
+            if (cmdsPublic.list[cmdStart]) await bot.execute(await cmdsPublic[cmdsPublic.list[cmdStart]](cmd))
+            else if (cmdStart == '/starterkit') await bot.execute(await tStarterkit(cmd))
+            else if (cmdStart == '/ready') await bot.execute(await tReady(cmd))
+            else if (cmdStart == '/exec') await bot.execute(await cmdsInternal['exec'](cmd))
+            else if (cmdStart == '/spawn') await bot.execute(await cmdsInternal['spawn'](cmd))
+            else if (cmdStart == 'welcome_new') await bot.execute(await cmdsInternal['welcome_new'](cmd))
+            else if (cmdStart == 'console_msg') await bot.execute(await cmdsInternal['console_msg'](cmd))
+            else if (cmdStart == 'kill_feed') await bot.execute(await cmdsInternal['kill_feed'](cmd))
+            else if (cmdStart == 'auth_log') await bot.execute(await cmdsInternal['auth_log'](cmd))
+            else if (cmdStart == 'mine_armed') await bot.execute(cmdsInternal['mine_armed'](cmd))
             else {
-                if (cmdStart == '/break') await execute(await action.doAct('eat'))
-                else if (cmdStart == '/shit') await execute(await action.doAct('shit'))
-                else if (cmdStart == '/piss') await execute(await action.doAct('piss'))
-                else if (cmdStart == '/business') await execute(await action.doAct('business'))
-                else if (cmdStart == '/dress') await execute(await action.doAct('dress'))
-                else if (cmdStart == '/idle') await execute(await action.doAct('idle'))
-                else if (cmdStart == '/lightup') await execute(await action.doAct('light'))
-                else if (cmdStart == '/repair') await execute(await action.doAct('repair'))
-                else if (cmdStart == '/startup') await execute(await action.doAct('startup'))
+                if (cmdStart == '/break') await bot.execute(await action.doAct('eat'))
+                else if (cmdStart == '/shit') await bot.execute(await action.doAct('shit'))
+                else if (cmdStart == '/piss') await bot.execute(await action.doAct('piss'))
+                else if (cmdStart == '/business') await bot.execute(await action.doAct('business'))
+                else if (cmdStart == '/dress') await bot.execute(await action.doAct('dress'))
+                else if (cmdStart == '/idle') await bot.execute(await action.doAct('idle'))
+                else if (cmdStart == '/lightup') await bot.execute(await action.doAct('light'))
+                else if (cmdStart == '/repair') await bot.execute(await action.doAct('repair'))
+                else if (cmdStart == '/startup') await bot.execute(await action.doAct('startup'))
                 else {
                     console.log(sn + 'Unknown command: ' + cmdStart)
                 }
@@ -100,11 +79,6 @@ async function cmdHandler() {
 
         }
 
-        i++
-
-        for (const cmd in newCmds) {
-            await execute(newCmds[cmd])
-        }
         global.newCmds = false
 
     } while (true)
@@ -113,13 +87,11 @@ async function cmdHandler() {
 async function getMap() {
     do {
         await global.sleep.timer(60)
-        if (global.newCmds) continue
-        if (global.updates) continue
-        if (!global.gameReady) continue
-        if (global.updatingFTP) continue
-        
+        if(!isReady()) continue
+
         console.log(sn + 'Getting current player positions')
-        let imgInfo = await execute({commands:[{actions: {mapshot: true}}]})
+        let imgInfo = await bot.execute(await action.doAct('mapshot'))
+        
         if (!imgInfo) {
             console.log(sn + 'No image info received')
             continue
@@ -143,7 +115,6 @@ async function getMap() {
 
     } while (true)
 }
-
 
 async function ftpCon() {
     try {
@@ -202,21 +173,27 @@ async function tReady(cmd) {
 
 async function checkStatus() {
     do {
-        await global.sleep.timer(1)
         checkCounter++
+        await global.sleep.timer(1)
         if (checkCounter < 120) continue
-        if (global.newCmds) continue
-        if (global.updates) continue
-        if (!global.gameReady) continue
-        if (global.updatingFTP) continue
-        execute({
+        if(!isReady()) continue
+        
+        checkCounter = 0
+        console.log(sn + 'Checking gamebot status')
+        resp = bot.execute({
             commands: [{
                 actions: {
                     awake: true
                 }
             }]
         })
-        checkCounter = 0
+        
+        if (resp.error) {
+            global.gameReady = false
+            console.log(sn + 'Gambot status in error!')
+            if (resp.data) console.log(sn + 'Status checked. Chat = ' + resp.data.chat + ', Inventory = ' + resp.data.inventory)
+        } else global.gameReady = true
+
     } while (true)
 }
 
@@ -224,14 +201,11 @@ async function makeBusiness() {
     let bTimes = [30]
     do {
         await global.sleep.timer(10)
-        if (global.newCmds) continue
-        if (global.updates) continue
-        if (!global.gameReady) continue
-        if (global.updatingFTP) continue
+        if(!isReady()) continue
 
         now = new Date()
         if (!bTimes.includes(now.getMinutes())) continue
-        await execute(await action.doAct('business'))
+        await bot.execute(await action.doAct('business'))
         await global.sleep.timer(60)
 
     } while (true)
@@ -241,14 +215,11 @@ async function makeBreak() {
     let bTimes = [15, 45]
     do {
         await global.sleep.timer(10)
-        if (global.newCmds) continue
-        if (global.updates) continue
-        if (!global.gameReady) continue
-        if (global.updatingFTP) continue
+        if(!isReady()) continue
 
         now = new Date()
         if (!bTimes.includes(now.getMinutes())) continue
-        await execute(await action.doAct('eat'))
+        await bot.execute(await action.doAct('eat'))
         await global.sleep.timer(60)
 
     } while (true)
@@ -263,7 +234,7 @@ async function announce() {
         let time = now.getHours() + ':' + now.getMinutes()
         if (messages[time]) {
             if (messages[time].done) continue
-            await execute({
+            await bot.execute({
                 commands: [{
                     messages: [{
                         scope: 'global',

@@ -51,8 +51,14 @@ def process():
         elif(action == 'restart'):
             scb.restart()
         elif(action == 'awake'):
-            if (not scb.goReadyState()):
+            botstate = scb.goReadyState()
+            scb.doPrint({
+                'data': botstate
+            })
+            if (not botstate['chat'] or not botstate['inventory']):
+                scb.doPrint({'error': True})
                 raise Exception('Game not ready')
+                
         else:
             scb.doPrint({
                 'error': True,

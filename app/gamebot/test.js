@@ -9,12 +9,13 @@ function timer(seconds) {
 
 async function testIt() {
     resp = await bot.start()
-    if(resp.error || resp.state != 'running') {
-        console.log('not working smh')
-        return False
+    if (resp.error) {
+        console.log('Gambot status in error!')
+        if (resp.data) console.log('Status checked. Chat = ' + resp.data.chat + ', Inventory = ' + resp.data.inventory)
+        return false
     }
-    
 
+    /*
     resp = await bot.messages([{
         scope: 'local',
         message: '1'
@@ -54,12 +55,13 @@ async function testIt() {
     }])
     
     console.log(resp)
-
+    */
     resp = await bot.actions({
-        dress: true
+        awake: true
     })
-    
+
     console.log(resp)
+    console.log('Status checked. Chat = ' + resp.data.chat + ', Inventory = ' + resp.data.inventory)
     /*
     
     resp = await bot.actions({
