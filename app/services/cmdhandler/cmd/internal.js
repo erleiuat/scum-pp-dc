@@ -47,7 +47,7 @@ exports.exec = async function exec(cmd) {
 exports.sk_legal = async function sk_legal(cmd) {
     if (!cmdBuilder.begin(cmd, 'global')) return null
     cmdBuilder.addMessage('global', '[STARTERKIT]: @' + cmd.user + ' you will be teleported to the trading-zone (green circle in B2) to receive your starterkit. Make sure you are ready and not driving a vehicle.')
-    cmdBuilder.addMessage('global', '[STARTERKIT]: You will get a quad to get out of the trading-zone again. If you are ready to be teleported type \'/ready\' ')
+    cmdBuilder.addMessage('global', '[STARTERKIT]: You will get a quad to get out of the trading-zone again. If you are ready to be teleported type: /ready ')
     return cmdBuilder.fullCommand(cmd)
 }
 
@@ -88,7 +88,7 @@ exports.sk_illegal = async function sk_illegal(cmd) {
 exports.welcome_new = async function welcome_new(newUser) {
     cmdBuilder.begin()
     let tmpCmd = cmdBuilder.getTmpCmd()
-    cmdBuilder.addMessage('global', '[WELCOME]: Welcome to the Server @' + newUser.user + '! If you have any questions, please don\'t hesitate to contact us. You are also entitled to a starterkit! Get it with: !starterkit (in global-chat).')
+    cmdBuilder.addMessage('global', '[WELCOME]: Welcome to the Server @' + newUser.user + '! If you have any questions, please don\'t hesitate to contact us. You are also entitled to a starterkit! Get it with: /starterkit (in global-chat).')
     return cmdBuilder.fullCommand(tmpCmd)
 }
 
