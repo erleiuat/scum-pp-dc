@@ -111,6 +111,7 @@ def joinServer():
         if(i > 120):
             raise Exception('Unable to join')
 
+    pyautogui.press('esc')
     scb.sleep(20)
     while(not scb.openTab()):
         scb.sleep(1)

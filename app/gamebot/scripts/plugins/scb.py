@@ -130,7 +130,7 @@ def getPosition():
 
 def openTab():
     i = 0
-    while(not onScreen('img/scb/inventar.png', region=getRegion('inventory'))):
+    while(not onScreen('img/scb/inventar.png', bw=True, region=getRegion('inventory'))):
         pyautogui.keyDown('tab')
         sleep(0.01)
         pyautogui.keyUp('tab')
@@ -175,7 +175,7 @@ def readMessage():
     }
 
 
-def onScreen(img, bw=False, sure=0.9, region=False):
+def onScreen(img, bw=False, sure=0.95, region=False):
     global path
     if(not region):
         region = (props['windowPosition']['x'], props['windowPosition']['y'], 1440, 900)
