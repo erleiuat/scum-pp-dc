@@ -84,7 +84,7 @@ def restartPC():
     raise Exception('I WOULD RESTART NOW')
 
 
-def sleep(duration=0.4):
+def sleep(duration=0.3):
     time.sleep(duration)
 
 
@@ -144,7 +144,7 @@ def openTab():
     i = 0
     while(not onScreen('img/scb/inventar.png', bw=True, region=getRegion('inventory'))):
         pyautogui.keyDown('tab')
-        sleep(0.01)
+        #sleep(0.01)
         pyautogui.keyUp('tab')
         pyautogui.press('1')
         i = i + 1
@@ -167,7 +167,7 @@ def sendMessage(msg):
     if(msg.lower().startswith('#teleport')):
         isTeleport()
     else:
-        sleep(0.4)
+        sleep(0.37)
 
 
 def readMessage():
