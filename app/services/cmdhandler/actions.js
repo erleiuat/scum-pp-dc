@@ -34,94 +34,28 @@ exports.doAct = async function doAct(action, force = false) {
     switch (action) {
 
         case 'startup':
-            actCmds.push({
-                messages: [{
-                    scope: 'global',
-                    message: 'I will be unavailable for a minute.'
-                }]
-            })
-            actCmds.push({
-                actions: {
-                    repair: [
-                        '#Teleport -117564.797 -67794.680 36809.430',
-                        '#Teleport -107551.336 -67783.750 36857.059'
-                    ]
-                }
-            })
-            actCmds.push({
-                messages: [{
-                    scope: 'global',
-                    message: '#Teleport -117331 -66059 37065'
-                }]
-            })
-            actCmds.push({
-                actions: {
-                    piss: true
-                }
-            })
-            actCmds.push({
-                actions: {
-                    shit: true
-                }
-            })
-            actCmds.push({
-                actions: {
-                    shit: true
-                }
-            })
-            global.commands = {}
-            actCmds.push({
-                messages: [{
-                        scope: 'global',
-                        message: '#Teleport -116369 -65906 37144'
-                    },
-                    {
-                        scope: 'global',
-                        message: 'I\'m available again.'
-                    }
-                ],
-                actions: {
-                    idle: true
-                }
-            })
+            addMessage('global', 'I will be unavailable for a minute.')
+            addAction('repair', [
+                '#Teleport -117564.797 -67794.680 36809.430',
+                '#Teleport -107551.336 -67783.750 36857.059'
+            ])
+            addMessage('global', '#Teleport -117331 -66059 37065')
+            addAction('shit')
+            addAction('shit')
+            addAction('piss')
+            addMessage('global', '#Teleport -116369 -65906 37144')
+            addMessage('global', 'I\'m available again.')
+            addAction('idle')
             break
 
         case 'business':
-            actCmds.push({
-                messages: [{
-                        scope: 'global',
-                        message: 'I will be unavailable for a minute.'
-                    },
-                    {
-                        scope: 'global',
-                        message: '#Teleport -117331 -66059 37065'
-                    }
-                ]
-            })
-            actCmds.push({
-                actions: {
-                    piss: true
-                }
-            })
-            actCmds.push({
-                actions: {
-                    shit: true
-                }
-            })
-            actCmds.push({
-                messages: [{
-                        scope: 'global',
-                        message: '#Teleport -116369 -65906 37144'
-                    },
-                    {
-                        scope: 'global',
-                        message: 'I\'m available again.'
-                    }
-                ],
-                actions: {
-                    idle: true
-                }
-            })
+            addMessage('global', 'I will be unavailable for a minute.')
+            addMessage('global', '#Teleport -117331 -66059 37065')
+            addAction('piss')
+            addAction('shit')
+            addMessage('global', '#Teleport -116369 -65906 37144')
+            addMessage('global', 'I\'m available again.')
+            addAction('idle')
             break
 
         case 'shit':
@@ -134,165 +68,75 @@ exports.doAct = async function doAct(action, force = false) {
             break
 
         case 'piss':
-            actCmds.push({
-                messages: [{
-                        scope: 'global',
-                        message: 'I will be unavailable for a minute.'
-                    },
-                    {
-                        scope: 'global',
-                        message: '#Teleport -117331 -66059 37065'
-                    }
-                ],
-                actions: {
-                    piss: true
-                }
-            })
-            actCmds.push({
-                messages: [{
-                        scope: 'global',
-                        message: '#Teleport -116369 -65906 37144'
-                    },
-                    {
-                        scope: 'global',
-                        message: 'I\'m available again.'
-                    }
-                ],
-                actions: {
-                    idle: true
-                }
-            })
+            addMessage('global', 'I will be unavailable for a minute.')
+            addMessage('global', '#Teleport -117331 -66059 37065')
+            addAction('piss')
+            addMessage('global', '#Teleport -116369 -65906 37144')
+            addMessage('global', 'I\'m available again.')
+            addAction('idle')
             break
 
         case 'dress':
-            actCmds.push({
-                messages: [{
-                        scope: 'global',
-                        message: 'I will be unavailable for a minute.'
-                    },
-                    {
-                        scope: 'global',
-                        message: '#Teleport -117331 -66059 37065'
-                    }
-                ],
-                actions: {
-                    dress: true
-                }
-            })
-            global.commands = {}
-            actCmds.push({
-                messages: [{
-                        scope: 'global',
-                        message: '#Teleport -116369 -65906 37144'
-                    },
-                    {
-                        scope: 'global',
-                        message: 'I\'m available again.'
-                    }
-                ],
-                actions: {
-                    idle: true
-                }
-            })
+            addMessage('global', 'I will be unavailable for a minute.')
+            addMessage('global', '#Teleport -117331 -66059 37065')
+            addAction('dress')
+            addMessage('global', '#Teleport -116369 -65906 37144')
+            addMessage('global', 'I\'m available again.')
+            addAction('idle')
             break
 
         case 'repair':
-            actCmds.push({
-                messages: [{
-                    scope: 'global',
-                    message: 'I will be unavailable for a minute.'
-                }],
-                actions: {
-                    repair: [
-                        '#Teleport -117564.797 -67794.680 36809.430',
-                        '#Teleport -107551.336 -67783.750 36857.059'
-                    ]
-                }
-            })
-            actCmds.push({
-                messages: [{
-                        scope: 'global',
-                        message: '#Teleport -116369 -65906 37144'
-                    },
-                    {
-                        scope: 'global',
-                        message: 'I\'m available again.'
-                    }
-                ],
-                actions: {
-                    idle: true
-                }
-            })
+            addMessage('global', 'I will be unavailable for a minute.')
+            addAction('repair', [
+                '#Teleport -117564.797 -67794.680 36809.430',
+                '#Teleport -107551.336 -67783.750 36857.059'
+            ])
+            addMessage('global', '#Teleport -116369 -65906 37144')
+            addMessage('global', 'I\'m available again.')
+            addAction('idle')
             break
 
         case 'light':
-            actCmds.push({
-                messages: [{
-                    scope: 'global',
-                    message: 'I will be unavailable for 5 minutes.'
-                }],
-                actions: {
-                    light: [
-                        '#Teleport -116806 -65842 37065',
-                        '#Teleport -117327 -66464 37064',
-                        '#Teleport -117317 -66969 37064',
-                        '#Teleport -116066 -65673 37065',
-                        '#Teleport -116066 -66445 37065',
-                        '#Teleport -116066 -66714 37065',
-                        '#Teleport -116066 -67103 37064',
-                        '#Teleport -113569 -66546 36994',
-                        '#Teleport -113786 -67711 36987',
-                        '#Teleport -111791 -68827 36999',
-                        '#Teleport -111650 -67672 36998',
-                        '#Teleport -111521 -66752 36999',
-                        '#Teleport -110207 -66393 37023',
-                        '#Teleport -111963 -63041 37290',
-                        '#Teleport -110792 -63462 37263',
-                        '#Teleport -112727 -71093 36757',
-                        '#Teleport -112653 -72299 36621',
-                        '#Teleport -111485 -72208 36588'
-                    ]
-                }
-            })
-            actCmds.push({
-                messages: [{
-                        scope: 'global',
-                        message: '#Teleport -116369 -65906 37144'
-                    },
-                    {
-                        scope: 'global',
-                        message: 'I\'m available again.'
-                    }
-                ],
-                actions: {
-                    idle: true
-                }
-            })
+            addMessage('global', 'I will be unavailable for 5 minutes.')
+            addMessage('global', '#Teleport -117331 -66059 37065')
+            addAction('light', [
+                '#Teleport -116806 -65842 37065',
+                '#Teleport -117327 -66464 37064',
+                '#Teleport -117317 -66969 37064',
+                '#Teleport -116066 -65673 37065',
+                '#Teleport -116066 -66445 37065',
+                '#Teleport -116066 -66714 37065',
+                '#Teleport -116066 -67103 37064',
+                '#Teleport -113569 -66546 36994',
+                '#Teleport -113786 -67711 36987',
+                '#Teleport -111791 -68827 36999',
+                '#Teleport -111650 -67672 36998',
+                '#Teleport -111521 -66752 36999',
+                '#Teleport -110207 -66393 37023',
+                '#Teleport -111963 -63041 37290',
+                '#Teleport -110792 -63462 37263',
+                '#Teleport -112727 -71093 36757',
+                '#Teleport -112653 -72299 36621',
+                '#Teleport -111485 -72208 36588'
+            ])
+            addMessage('global', '#Teleport -116369 -65906 37144')
+            addMessage('global', 'I\'m available again.')
+            addAction('idle')
             break
 
         case 'idle':
-            actCmds.push({
-                messages: [{
-                    scope: 'global',
-                    message: '#Teleport -116369 -65906 37144'
-                }],
-                actions: {
-                    idle: true
-                }
-            })
+            addMessage('global', '#Teleport -116369 -65906 37144')
+            addAction('idle')
             break
 
         default:
-            let actions = {}
-            actions[action] = true
-            actCmds.push({
-                actions: actions
-            })
+            addAction(action)
             break
 
     }
 
     lastDone[action] = now
+    
     return {
         commands: actCmds
     }
