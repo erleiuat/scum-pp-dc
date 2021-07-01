@@ -50,7 +50,7 @@ exports.tooEarly = function tooEarly(action, waitMins) {
     waitMins = waitMins * 60 * 1000
     if (lastDone[action] && lastDone[action] > now - waitMins) {
         let waitFor = Math.round((waitMins - (now - lastDone[action])) / 1000 / 60)
-        addMessage('global', 'Sorry, you are too fast. Please wait ' + waitFor + ' minutes.')
+        this.addMessage('global', 'Sorry, you are too fast. Please wait ' + waitFor + ' minutes.')
         return true
     }
     lastDone[action] = now
