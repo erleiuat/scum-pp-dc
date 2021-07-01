@@ -18,12 +18,12 @@ exports.execute = async function execute(cmd) {
             if (cmdType == 'messages') {
                 resp = {
                     ...resp,
-                    ...await bot.messages(command[cmdType])
+                    ...await this.messages(command[cmdType])
                 }
             } else if (cmdType == 'actions') {
                 resp = {
                     ...resp,
-                    ...await bot.actions(command[cmdType])
+                    ...await this.actions(command[cmdType])
                 }
             } else if (cmdType == 'function') {
                 (command[cmdType])()
