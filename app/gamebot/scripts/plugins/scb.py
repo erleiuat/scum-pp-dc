@@ -60,11 +60,22 @@ def getPoint(*coords):
 def getRegion(name):
     reg = props['regions'][name]
     winPos = props['windowPosition']
+    posX = reg[0]+winPos['x'] - 2
+    posY = reg[1]+winPos['y'] - 2
+    w = reg[2] + 4
+    h = reg[3] + 4
+    if(posX < 0):
+        posX = 0
+        w = reg[2]
+    if(posY < 0):
+        posY = 0
+        h = reg[3]
+
     return (
-        reg[0]+winPos['x'],
-        reg[1]+winPos['y'],
-        reg[2],
-        reg[3]
+        posX,
+        posY,
+        w,
+        h
     )
 
 
