@@ -3,7 +3,7 @@ let lastDone = {}
 let actCmds = []
 
 function addMessage(scope, msg) {
-    if (actCmds[actCmds.length - 1]['messages']) {
+    if (actCmds[actCmds.length - 1] && actCmds[actCmds.length - 1]['messages']) {
         actCmds[actCmds.length - 1]['messages'].push({
             scope: scope,
             message: msg
