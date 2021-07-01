@@ -3,12 +3,19 @@ let lastDone = {}
 let actCmds = []
 
 function addMessage(scope, msg) {
-    actCmds.push({
-        messages: [{
+    if (actCmds[actCmds.length - 1]['messages']) {
+        actCmds[actCmds.length - 1]['messages'].push({
             scope: scope,
             message: msg
-        }]
-    })
+        })
+    } else {
+        actCmds.push({
+            messages: [{
+                scope: scope,
+                message: msg
+            }]
+        })
+    }
 }
 
 function addAction(action, acteurs = true) {
@@ -19,13 +26,32 @@ function addAction(action, acteurs = true) {
     })
 }
 
+function begin(cmd, allowScope = 'global') {
+    actCmds = []
+    if (cmd.type.toLowerCase() != allowScope) return false
+    return true
+}
+
 function fullCommand(cmd, type = 'global') {
-    return {
+    let fCmd = {
         date: cmd.time.date,
         time: cmd.time.time,
         type: type,
-        commands: actCmds
+        commands: [...actCmds]
     }
+    actCmds = []
+    return fCmd
+}
+
+function tooEarly(waitMins, action) {
+    if (!action) {
+        addMessage('global', 'Sorry, I can\'t do that more than once every ' + waitMins + ' minutes.')
+        return fullCommand(cmd)
+    }
+    let now = new Date().getTime()
+    if (lastDone[action] && lastDone[action] > now - waitMins * 60 * 1000) return true
+    lastDone[action] = now
+    return false
 }
 
 exports.list = {
@@ -68,160 +94,84 @@ async function getJoke() {
 }
 
 exports.vote_night = async function vote_night(cmd) {
-    if (cmd.type.toLowerCase() != 'global') return null
+    if (!begin(cmd, 'global')) return null
+    if (tooEarly(15, 'vote_night')) return tooEarly()
 
-    actCmds = []
-    let now = new Date().getTime()
-    if (lastDone['vote_night'] && lastDone['vote_night'] > now - 30 * 60 * 1000) {
-        addMessage('global', 'Sorry, I can\'t do that more than once every 30 minutes.')
-        return fullCommand(cmd)
-    }
-
-    lastDone['vote_night'] = now
     addMessage('global', '[VOTING]: Nighttime-Voting begins! (10:00 PM)')
     addMessage('global', '#vote SetTimeOfDay 22')
     return fullCommand(cmd)
 }
 
 exports.help = async function help(cmd) {
-    if (cmd.type.toLowerCase() != 'global') return null
-    return {
-        date: cmd.time.date,
-        time: cmd.time.time,
-        type: 'global',
-        commands: [
-            {
-                messages: [
-                    {scope: 'global', message: '[HELP]: Available commands (if bot is online):'},
-                    {scope: 'global', message: '[HELP]: /voteday, /votesun, /online, /restart, /joke, /starterkit, /time'},
-                    {scope: 'global', message: '[HELP]: -> Will only work in GLOBAL Chat! (Press "TAB" to change chatroom)'}
-                ]
-            }
-        ]
-    }
+    if (!begin(cmd, 'global')) return null
+
+    addMessage('global', '[HELP]: Available commands (if bot is online):')
+    addMessage('global', '[HELP]: /voteday, /votesun, /online, /restart, /joke, /starterkit, /time')
+    addMessage('global', '[HELP]: -> Will only work in GLOBAL Chat! (Press "TAB" to change chatroom)')
+    return fullCommand(cmd)
 }
 
 exports.joke = async function joke(cmd) {
-    if (cmd.type.toLowerCase() != 'global') return null
+    if (!begin(cmd, 'global')) return null
+    if (tooEarly(5, 'joke')) return tooEarly()
+
     let joke = await getJoke()
-    while (joke.length > 200) joke = await getJoke()
-    return {
-        date: cmd.time.date,
-        time: cmd.time.time,
-        type: 'global',
-        commands: [
-            {
-                messages: [
-                    {scope: 'global', message: '[JOKE]: ' + joke}
-                ]
-            }
-        ]
-    }
+    while (joke.length > 195) joke = await getJoke()
+    addMessage('global', '[JOKE]: ' + joke)
+    return fullCommand(cmd)
 }
 
 exports.what_is_going_on = async function what_is_going_on(cmd) {
-    if (cmd.type.toLowerCase() != 'global') return null
-    return {
-        date: cmd.time.date,
-        time: cmd.time.time,
-        type: 'global',
-        commands: [
-            {
-                messages: [
-                    {scope: 'global', message: '[WOT]: ...is going on here'},
-                    {scope: 'global', message: '[WOT]: BREKFEST'}
-                ]
-            }
-        ]
-    }
+    if (!begin(cmd, 'global')) return null
+    addMessage('global', '[WOT]: ...is going on here')
+    addMessage('global', '[WOT]: BREKFEST')
+    return fullCommand(cmd)
 }
 
 exports.vote_weather_sun = async function vote_weather_sun(cmd) {
-    if (cmd.type.toLowerCase() != 'global') return null
-    return {
-        date: cmd.time.date,
-        time: cmd.time.time,
-        type: 'global',
-        commands: [
-            {
-                messages: [
-                    {scope: 'global', message: '[VOTING]: Weather voting begins!'},
-                    {scope: 'global', message: '#vote SetWeather 0'}
-                ]
-            }
-        ]
-    }
+    if (!begin(cmd, 'global')) return null
+    if (tooEarly(15, 'vote_weather_sun')) return tooEarly()
+
+    addMessage('global', '[VOTING]: Weather voting begins!')
+    addMessage('global', '#vote SetWeather 0')
+    return fullCommand(cmd)
 }
 
 exports.vote_day = async function vote_day(cmd) {
-    if (cmd.type.toLowerCase() != 'global') return null
-    return {
-        date: cmd.time.date,
-        time: cmd.time.time,
-        type: 'global',
-        commands: [
-            {
-                messages: [
-                    {scope: 'global', message: '[VOTING]: Daytime-Voting begins! (7:00 AM)'},
-                    {scope: 'global', message: '#vote SetTimeOfDay 7'}
-                ]
-            }
-        ]
-    }
+    if (!begin(cmd, 'global')) return null
+    if (tooEarly(15, 'vote_day')) return tooEarly()
+
+    addMessage('global', '[VOTING]: Daytime-Voting begins! (7:00 AM)')
+    addMessage('global', '#vote SetTimeOfDay 7')
+    return fullCommand(cmd)
 }
 
 exports.ping = async function ping(cmd) {
-    if (cmd.type.toLowerCase() != 'global') return null
-    return {
-        date: cmd.time.date,
-        time: cmd.time.time,
-        type: 'global',
-        commands: [
-            {
-                messages: [
-                    {scope: 'global', message: '[BADABONG]: Pong right back at you @' + cmd.user + ' ;)'}
-                ]
-            }
-        ]
-    }
+    if (!begin(cmd, 'global')) return null
+
+    addMessage('global', '[BADABONG]: Pong right back at you @' + cmd.user + ' ;)')
+    return fullCommand(cmd)
 }
 
 exports.online = async function online(cmd) {
-    if (cmd.type.toLowerCase() != 'global') return null
-    return {
-        date: cmd.time.date,
-        time: cmd.time.time,
-        type: 'global',
-        commands: [
-            {
-                messages: [
-                    {scope: 'global', message: '[PLAYERS]: There are currently ' + global.playersOnline + ' Players online.'}
-                ]
-            }
-        ]
-    }
+    if (!begin(cmd, 'global')) return null
+
+    addMessage('global', '[PLAYERS]: There are currently ' + global.playersOnline + ' Players online.')
+    return fullCommand(cmd)
 }
 
 exports.time = async function time(cmd) {
-    if (cmd.type.toLowerCase() != 'global') return null
+    if (!begin(cmd, 'global')) return null
+
     let time = '<unavailable>'
-    if(global.ingameTime) time = global.ingameTime
-    return {
-        date: cmd.time.date,
-        time: cmd.time.time,
-        type: 'global',
-        commands: [
-            {
-                messages: [
-                    {scope: 'global', message: '[TIME]: It is currently about ' +  time  + '. '}
-                ]
-            }
-        ]
-    }
+    if (global.ingameTime) time = global.ingameTime
+    addMessage('global', '[TIME]: It is currently about ' + time + '.')
+    return fullCommand(cmd)
 }
 
 exports.restart_countdown = async function restart_countdown(cmd) {
-    if (cmd.type.toLowerCase() != 'global') return null
+    if (!begin(cmd, 'global')) return null
+
     let now = new Date()
     let curHour = now.getHours()
     let countDownDate = new Date()
@@ -237,16 +187,7 @@ exports.restart_countdown = async function restart_countdown(cmd) {
     let distance = countDownDate.getTime() - now.getTime()
     let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
     let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
-    return {
-        date: cmd.time.date,
-        time: cmd.time.time,
-        type: 'global',
-        commands: [
-            {
-                messages: [
-                    {scope: 'global', message: '[RESTART]: Next restart will be in: ' + hours + ' hours and ' + minutes + ' minutes.'}
-                ]
-            }
-        ]
-    }
+
+    addMessage('global', '[RESTART]: Next restart will be in: ' + hours + ' hours and ' + minutes + ' minutes.')
+    return fullCommand(cmd)
 }
