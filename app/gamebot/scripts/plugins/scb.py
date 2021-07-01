@@ -186,7 +186,7 @@ def readMessage():
     }
 
 
-def onScreen(img, bw=False, sure=0.95, region=False):
+def onScreen(img, bw=False, sure=0.98, region=False):
     global path
     if(not region):
         region = (props['windowPosition']['x'], props['windowPosition']['y'], 1440, 900)
