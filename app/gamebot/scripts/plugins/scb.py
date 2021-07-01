@@ -57,6 +57,10 @@ def getPoint(*coords):
     winPos = props['windowPosition']
     posX = coords[0]+winPos['x'] - 2
     posY = coords[1]+winPos['y'] - 2
+    if(posX < 0):
+        posX = 0
+    if(posY < 0):
+        posY = 0
     return (
         posX
         posY
