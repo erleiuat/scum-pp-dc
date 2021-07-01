@@ -1,4 +1,32 @@
 const request = require('request')
+let lastDone = {}
+let actCmds = []
+
+function addMessage(scope, msg) {
+    actCmds.push({
+        messages: [{
+            scope: scope,
+            message: msg
+        }]
+    })
+}
+
+function addAction(action, acteurs = true) {
+    tmpAct = {}
+    tmpAct[action] = acteurs
+    actCmds.push({
+        actions: tmpAct
+    })
+}
+
+function fullCommand(cmd, type = 'global') {
+    return {
+        date: cmd.time.date,
+        time: cmd.time.time,
+        type: type,
+        commands: actCmds
+    }
+}
 
 exports.list = {
     '/voteday': 'vote_day',
@@ -41,19 +69,18 @@ async function getJoke() {
 
 exports.vote_night = async function vote_night(cmd) {
     if (cmd.type.toLowerCase() != 'global') return null
-    return {
-        date: cmd.time.date,
-        time: cmd.time.time,
-        type: 'global',
-        commands: [
-            {
-                messages: [
-                    {scope: 'global', message: '[VOTING]: Nighttime-Voting begins! (10:00 PM)'},
-                    {scope: 'global', message: '#vote SetTimeOfDay 22'},
-                ]
-            }
-        ]
+
+    actCmds = []
+    let now = new Date().getTime()
+    if (lastDone[action] && lastDone[action] > now - 30 * 60 * 1000) {
+        addMessage('global', 'Sorry, I can\'t do that more than once every 30 minutes.')
+        return fullCommand(cmd)
     }
+
+    lastDone[action] = now
+    addMessage('global', '[VOTING]: Nighttime-Voting begins! (10:00 PM)')
+    addMessage('global', '#vote SetTimeOfDay 22')
+    return fullCommand(cmd)
 }
 
 exports.help = async function help(cmd) {
