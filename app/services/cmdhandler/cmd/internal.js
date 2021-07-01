@@ -45,122 +45,61 @@ exports.exec = async function exec(cmd) {
 }
 
 exports.sk_legal = async function sk_legal(cmd) {
-    if (cmd.type.toLowerCase() != 'global') return null
-    return {
-        date: cmd.time.date,
-        time: cmd.time.time,
-        commands: [
-            {
-                messages: [
-                    {scope: 'global', message: '[STARTERKIT]: @' + cmd.user + ' you will be teleported to the trading-zone (green circle in B2) to receive your starterkit. Make sure you are ready and not driving a vehicle.'},
-                    {scope: 'global', message: '[STARTERKIT]: You will get a quad to get out of the trading-zone again. If you are ready to be teleported type \'!ready\' '}
-                ]
-            }
-        ]
-        
-    }
+    if (!cmdBuilder.begin(cmd, 'global')) return null
+    cmdBuilder.addMessage('global', '[STARTERKIT]: @' + cmd.user + ' you will be teleported to the trading-zone (green circle in B2) to receive your starterkit. Make sure you are ready and not driving a vehicle.')
+    cmdBuilder.addMessage('global', '[STARTERKIT]: You will get a quad to get out of the trading-zone again. If you are ready to be teleported type \'!ready\' ')
+    return cmdBuilder.fullCommand(cmd)
 }
 
 exports.sk_ready = async function sk_ready(cmd, updateFunction) {
-    if (cmd.type.toLowerCase() != 'global') return null
-    return {
-        date: cmd.time.date,
-        time: cmd.time.time,
-        type: 'global',
-        commands: [
-            {
-                messages: [
-                    {scope: 'global', message: '[STARTERKIT]: @' + cmd.user + ' you will be transported to the trading zone in a few seconds.'},
-                    {scope: 'local', message: '#Teleport -117129 -66713 37065'},
-                    {scope: 'local', message: '#TeleportToMe ' + cmd.steamID},
-                    {scope: 'local', message: '#SpawnItem Backpack_01_07'},
-                    {scope: 'local', message: '#SpawnItem MRE_Stew 2'},
-                    {scope: 'local', message: '#SpawnItem MRE_CheeseBurger 2'},
-                    {scope: 'local', message: '#SpawnItem MRE_TunaSalad 2'},
-                    {scope: 'local', message: '#SpawnItem Milk 2'},
-                    {scope: 'local', message: '#SpawnItem Canteen 2'},
-                    {scope: 'local', message: '#SpawnItem Emergency_Bandage_Big'},
-                    {scope: 'local', message: '#SpawnItem Painkillers_03'},
-                    {scope: 'local', message: '#SpawnItem Vitamins_03'},
-                    {scope: 'local', message: '#SpawnItem BP_Compass_Advanced'},
-                    {scope: 'local', message: '#SpawnItem 1H_Small_Axe'},
-                    {scope: 'local', message: '#SpawnItem 2H_Baseball_Bat_With_Wire'},
-                    {scope: 'local', message: '#SpawnItem Car_Repair_Kit'},
-                    {scope: 'local', message: '#SpawnItem Lock_Item_Basic'},
-                    {scope: 'local', message: '#SpawnItem Lock_Item_Advanced'},
-                    {scope: 'local', message: '#Teleport -116453 -66401 37477'},
-                    {scope: 'local', message: '#SpawnVehicle BP_Quad_01_A'},
-                    {scope: 'local', message: '[STARTERKIT]: @' + cmd.user + ' your starterkit should now be there any your Quad should be waiting for you outside.'},
-                    {scope: 'local', message: '#Teleport -116369 -65906 37144'}
-                ]
-            },
-            {
-                actions: {
-                    idle: true
-                }
-            },
-            {
-                function: updateFunction
-            }
-        ]
-    }
+    if (!cmdBuilder.begin(cmd, 'global')) return null
+    cmdBuilder.addMessage('global', '[STARTERKIT]: @' + cmd.user + ' you will be transported to the trading zone in a few seconds.')
+    cmdBuilder.addMessage('global', '#Teleport -117129 -66713 37065')
+    cmdBuilder.addMessage('global', '#TeleportToMe ' + cmd.steamID)
+    cmdBuilder.addMessage('global', '#SpawnItem Backpack_01_07')
+    cmdBuilder.addMessage('global', '#SpawnItem MRE_Stew 2')
+    cmdBuilder.addMessage('global', '#SpawnItem MRE_CheeseBurger 2')
+    cmdBuilder.addMessage('global', '#SpawnItem MRE_TunaSalad 2')
+    cmdBuilder.addMessage('global', '#SpawnItem Milk 2')
+    cmdBuilder.addMessage('global', '#SpawnItem Canteen 2')
+    cmdBuilder.addMessage('global', '#SpawnItem Emergency_Bandage_Big')
+    cmdBuilder.addMessage('global', '#SpawnItem Painkillers_03')
+    cmdBuilder.addMessage('global', '#SpawnItem Vitamins_03')
+    cmdBuilder.addMessage('global', '#SpawnItem BP_Compass_Advanced')
+    cmdBuilder.addMessage('global', '#SpawnItem 1H_Small_Axe')
+    cmdBuilder.addMessage('global', '#SpawnItem 2H_Baseball_Bat_With_Wire')
+    cmdBuilder.addMessage('global', '#SpawnItem Car_Repair_Kit')
+    cmdBuilder.addMessage('global', '#SpawnItem Lock_Item_Basic')
+    cmdBuilder.addMessage('global', '#SpawnItem Lock_Item_Advanced')
+    cmdBuilder.addMessage('global', '#Teleport -116453 -66401 37477')
+    cmdBuilder.addMessage('global', '#SpawnVehicle BP_Quad_01_A')
+    cmdBuilder.addMessage('local', '[STARTERKIT]: @' + cmd.user + ' your starterkit should now be there any your Quad should be waiting for you outside.')
+    cmdBuilder.addMessage('global', '#Teleport -116369 -65906 37144')
+    cmdBuilder.addAction('idle')
+    return cmdBuilder.fullCommand(cmd)
 }
 
 exports.sk_illegal = async function sk_illegal(cmd) {
-    if (cmd.type.toLowerCase() != 'global') return null
-    return {
-        date: cmd.time.date,
-        time: cmd.time.time,
-        type: 'global',
-        commands: [
-            {
-                messages: [
-                    {scope: 'global', message: '[STARTERKIT]: @' + cmd.user + ' you should have already received your starterkit ;) If not, please contact support.'},
-                ]
-            }
-        ]
-    }
+    if (!cmdBuilder.begin(cmd, 'global')) return null
+    cmdBuilder.addMessage('local', '[STARTERKIT]: @' + cmd.user + ' you should have already received your starterkit ;) If not, please contact support.')
+    return cmdBuilder.fullCommand(cmd)
 }
 
 exports.welcome_new = async function welcome_new(newUser) {
-    return {
-        type: 'global',
-        commands: [
-            {
-                messages: [
-                    {scope: 'global', message: '[WELCOME]: Welcome to the Server @' + newUser.user + '! If you have any questions, please don\'t hesitate to contact us. You are also entitled to a starterkit! Get it with: !starterkit (in global-chat).'}
-                ]
-            }
-        ]
-    }
+    cmdBuilder.begin()
+    let tmpCmd = cmdBuilder.getTmpCmd()
+    cmdBuilder.addMessage('global', '[WELCOME]: Welcome to the Server @' + newUser.user + '! If you have any questions, please don\'t hesitate to contact us. You are also entitled to a starterkit! Get it with: !starterkit (in global-chat).')
+    return cmdBuilder.fullCommand(tmpCmd)
 }
 
 exports.auth_log = async function auth_log(cmd) {
-    return {
-        date: cmd.time.date,
-        time: cmd.time.time,
-        type: 'global',
-        commands: [
-            {
-                messages: [
-                    {scope: 'global', message: '[AUTH]:  >> ' + cmd.user + ' ' + cmd.text + ' << '}
-                ]
-            }
-        ]
-    }
+    cmdBuilder.begin()
+    cmdBuilder.addMessage('global', '[AUTH]:  >> ' + cmd.user + ' ' + cmd.text + ' << ')
+    return cmdBuilder.fullCommand(cmd)
 }
 
 exports.kill_feed = async function kill_feed(cmd) {
-    return {
-        date: cmd.time.date,
-        time: cmd.time.time,
-        type: 'global',
-        commands: [
-            {
-                messages: [
-                    {scope: 'global', message: '[KILLFEED]: ' + cmd.killer + ' killed ' + cmd.victim}
-                ]
-            }
-        ]
-    }
+    cmdBuilder.begin()
+    cmdBuilder.addMessage('global', '[KILLFEED]: ' + cmd.killer + ' killed ' + cmd.victim)
+    return cmdBuilder.fullCommand(cmd)
 }
