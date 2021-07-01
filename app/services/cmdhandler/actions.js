@@ -1,4 +1,4 @@
-const cmdBuilder = require('../cmdbuilder')
+const cmdBuilder = require('./cmdbuilder')
 
 
 exports.doAct = async function doAct(action, force = false) {
