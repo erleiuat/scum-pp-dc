@@ -62,7 +62,7 @@ def getPoint(*coords):
     if(posY < 0):
         posY = 0
     return (
-        posX
+        posX,
         posY
     )
 
