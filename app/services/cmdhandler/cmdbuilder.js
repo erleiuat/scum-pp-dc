@@ -1,6 +1,18 @@
 let actCmds = []
 let lastDone = {}
 
+
+exports.getTmpCmd = function getTmpCmd() {
+    let d = new Date()
+    return {
+        time: {
+            date: global.nZero.form(d.getDate()) + '.' + global.nZero.form((d.getMonth() + 1)) + '.' + d.getFullYear(),
+            time: global.nZero.form(d.getHours()) + ':' + global.nZero.form(d.getMinutes()) + ':' + global.nZero.form(d.getSeconds())
+        }
+    }
+}
+
+
 exports.begin = function begin(cmd, allowScope) {
     actCmds = []
     if (allowScope && cmd.type.toLowerCase() != allowScope) return false

@@ -3,14 +3,7 @@ const cmdBuilder = require('./cmdbuilder')
 
 exports.doAct = async function doAct(action, force = false) {
     cmdBuilder.begin()
-
-    let d = new Date()
-    tmpCmd = {
-        time: {
-            date: global.nZero.form(d.getDate()) + '.' + global.nZero.form((d.getMonth() + 1)) + '.' + d.getFullYear(),
-            time: global.nZero.form(d.getHours()) + ':' + global.nZero.form(d.getMinutes()) + ':' + global.nZero.form(d.getSeconds())
-        }
-    }
+    let tmpCmd = cmdBuilder.getTmpCmd()
 
     if (!force && cmdBuilder.tooEarly(action, 15)) return cmdBuilder.fullCommand(tmpCmd)
 

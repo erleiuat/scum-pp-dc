@@ -1,17 +1,15 @@
 const cmdBuilder = require('../cmdbuilder')
 
 exports.console_msg = async function console_msg(cmd) {
-    let cmdArr = [{scope: 'global', message:'#SetFakeName ' + cmd.user}]
-    cmdArr = cmdArr.concat(cmd.content.split(';').map(s => {
-        return {scope: 'global', message: s.trim()}
-    }))
-    cmdArr.push({scope: 'global', message:'#SetFakeName [SF-BOT]'})
-    return {
-        message: 'console_msg',
-        commands: [{
-            messages: cmdArr
-        }]
-    }
+    cmdBuilder.begin()
+    let tmpCmd = cmdBuilder.getTmpCmd()
+
+    cmdBuilder.addMessage('global', '#SetFakeName ' + cmd.user)
+    let cmds = cmd.content.split(';')
+    for (const cmd of cmds) cmdBuilder.addMessage('global', cmd.trim())
+    cmdBuilder.addMessage('global', '#SetFakeName [SF-BOT]')
+
+    return cmdBuilder.fullCommand(tmpCmd)
 }
 
 exports.mine_armed = async function mine_armed(cmd) {
