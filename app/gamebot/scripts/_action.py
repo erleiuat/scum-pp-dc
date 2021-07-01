@@ -20,6 +20,7 @@ def startup():
     control.takeA('piss')
     scb.sendMessage('#Teleport -116369 -65906 37144')
     control.sitDown()
+    scb.goScope('global')
     scb.sendMessage('I\'m ready!')
     eat()
 
