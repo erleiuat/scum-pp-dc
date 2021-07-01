@@ -7,7 +7,9 @@ import pyautogui
 def mapshot():
     pyautogui.press('esc')
     pyautogui.press('m')
-    pyautogui.press('subtract')
+    pyautogui.keyDown('subtract')
+    scb.sleep(0.1)
+    pyautogui.keyUp('subtract')
     now = datetime.now()
     folderName = now.strftime('%Y_%m_%d')
     fileName = now.strftime('%Y_%m_%d.%H_%M_%S')+'.png'
@@ -15,7 +17,10 @@ def mapshot():
     fullPath = './app/storage/maps/'+folderName+'/'+fileName
     pyautogui.screenshot(fullPath,region=scb.getRegion('map'))
     scb.sleep(2)
-    pyautogui.press('subtract')
+    pyautogui.keyDown('subtract')
+    scb.sleep(0.1)
+    pyautogui.keyUp('subtract')
+    scb.sleep(0.1)
     scb.openTab()
     pyautogui.press('t')
     scb.doPrint({'data': {
