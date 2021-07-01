@@ -5,11 +5,15 @@ import json
 
 
 def startup():
-    scb.goScope('global')
     scb.sendMessage('#SetFakeName [SF-BOT]')
+    scb.goScope('global')
+    scb.sendMessage('I\'m getting prepared...')
     scb.sendMessage('#ListZombies')
     scb.sendMessage('#ShowOtherPlayerInfo true')
-    scb.sendMessage('I\'m getting prepared...')
+    repair([
+        '#Teleport -117564.797 -67794.680 36809.430',
+        '#Teleport -107551.336 -67783.750 36857.059'
+    ])
     control.takeA('shit')
     control.takeA('shit')
     control.takeA('piss')
