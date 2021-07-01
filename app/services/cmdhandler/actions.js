@@ -22,7 +22,7 @@ exports.doAct = async function doAct(action, force = false) {
 
     actCmds = []
     let now = new Date().getTime()
-    if (!force && lastDone[action] && lastDone[action] < now - 30 * 60 * 1000) return {
+    if (!force && lastDone[action] && lastDone[action] > now - 30 * 60 * 1000) return {
         commands: [{
             messages: [{
                 scope: 'global',
@@ -136,7 +136,7 @@ exports.doAct = async function doAct(action, force = false) {
     }
 
     lastDone[action] = now
-    
+
     return {
         commands: actCmds
     }
