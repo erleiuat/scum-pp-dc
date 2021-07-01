@@ -93,6 +93,7 @@ async function getMap() {
         console.log(sn + 'Getting current player positions')
         let imgInfo = await bot.execute(await action.doAct('mapshot', true))
 
+        global.newCmds = false
         if (!imgInfo.data) {
             console.log(sn + 'No image info received')
             continue
@@ -112,8 +113,6 @@ async function getMap() {
         } catch (error) {
             console.log(sn + 'Error: ' + error)
         }
-
-        global.newCmds = false
 
     } while (true)
 }
@@ -200,15 +199,15 @@ async function checkStatus() {
 async function makeBusiness() {
     let bTimes = [30]
     do {
-        await global.sleep.timer(10)
-        if (!isReady()) continue
-        global.newCmds = true
-
+        await global.sleep.timer(30)
+        
         now = new Date()
         if (!bTimes.includes(now.getMinutes())) continue
+        if (!isReady()) continue
+        global.newCmds = true
         await bot.execute(await action.doAct('business', true))
-        await global.sleep.timer(60)
         global.newCmds = false
+        await global.sleep.timer(60)
 
     } while (true)
 }
@@ -216,15 +215,15 @@ async function makeBusiness() {
 async function makeBreak() {
     let bTimes = [15, 45]
     do {
-        await global.sleep.timer(10)
-        if (!isReady()) continue
-        global.newCmds = true
-
+        await global.sleep.timer(30)
+        
         now = new Date()
         if (!bTimes.includes(now.getMinutes())) continue
+        if (!isReady()) continue
+        global.newCmds = true
         await bot.execute(await action.doAct('eat', true))
-        await global.sleep.timer(60)
         global.newCmds = false
+        await global.sleep.timer(60)
 
     } while (true)
 }
