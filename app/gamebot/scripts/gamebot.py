@@ -59,6 +59,7 @@ while (True):
         scb.doPrint({'command': cmd})
 
         procControl.focus(solve=True)
+        pyautogui.click(scb.getPoint(120, 415))
         scb.safeMouse()
 
         if(cmd == 'MESSAGES'):

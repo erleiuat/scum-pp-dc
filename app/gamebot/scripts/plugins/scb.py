@@ -55,9 +55,11 @@ def reg(resolution=False, regions=False, windowPosition=False, failSafe=False):
 
 def getPoint(*coords):
     winPos = props['windowPosition']
+    posX = coords[0]+winPos['x'] - 2
+    posY = coords[1]+winPos['y'] - 2
     return (
-        coords[0]+winPos['x']-2,
-        coords[1]+winPos['y']-2,
+        posX
+        posY
     )
 
 
