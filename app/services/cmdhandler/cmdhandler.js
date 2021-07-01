@@ -180,13 +180,7 @@ async function checkStatus() {
 
         checkCounter = 0
         console.log(sn + 'Checking gamebot status')
-        resp = bot.execute({
-            commands: [{
-                actions: {
-                    awake: true
-                }
-            }]
-        })
+        resp = await bot.execute(await action.doAct('awake', true))
 
         if (resp.error) {
             global.gameReady = false
