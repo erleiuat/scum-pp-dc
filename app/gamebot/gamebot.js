@@ -45,9 +45,11 @@ exports.execute = async function execute(cmd) {
 
 async function resOutput(resolve, logTxt) {
     bot.stdout.once('data', data => {
+        data = `${data}`
+        console.log(sn + data)
         console.log(sn + logTxt)
         try {
-            resolve(JSON.parse(`${data}`))
+            resolve(JSON.parse(data))
         } catch (err) {
             console.log(err)
             resolve(false)
