@@ -106,6 +106,7 @@ def joinServer():
 
     while(not scb.onScreen('img/scb/fortsetzen.png', bw=True, region=scb.getRegion('inventory'))):
         pyautogui.press('esc')
+        scb.sleep(1)
         i = i + 1
         if(i > 120):
             raise Exception('Unable to join')
