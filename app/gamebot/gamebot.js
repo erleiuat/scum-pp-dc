@@ -79,12 +79,6 @@ exports.actions = async function actions(action) {
         console.log(sn + 'Doing actions')
         resOutput(resolve, 'Actions done')
         bot.stdin.write('ACTION\n')
-        if (typeof action == 'object')
-            bot.stdin.write(JSON.stringify(action) + '\n')
-        else {
-            let actObj = {}
-            actObj[action] = null
-            bot.stdin.write(JSON.stringify(actObj) + '\n')
-        }
+        bot.stdin.write(JSON.stringify(action) + '\n')
     })
 }

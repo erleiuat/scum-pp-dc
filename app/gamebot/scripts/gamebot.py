@@ -9,16 +9,16 @@ import sys
 scb.reg(
     failSafe = 0.1,
     resolution={
-        'x': 1440,
-        'y': 900
+        'x': 1920,
+        'y': 1080
     },
     regions={
-        'scope': (380, 405, 55, 25),
-        'loading': (1205, 805, 110, 40),
-        'inventory': (400, 0, 640, 800),
-        'chat': (20, 250, 415, 185),
-        'invDrag': (700, 0, 35, 900),
-        'map': (270 ,0 ,900 ,900 )
+        'scope': (515, 490, 60, 20),
+        'loading': (1640, 960, 125, 45),
+        'inventory': (480, 0, 955, 850),
+        'chat': (30, 145, 550, 375),
+        'invDrag': (935, 0, 45, 950),
+        'map': (420, 0, 1080, 1080)
     }
 )
 
@@ -26,8 +26,10 @@ startup = False
 if (not procControl.focus()):
     startup = True
 
+procControl.solveProblems()
+
 try:
-    if (not procControl.focus(solve=True)):
+    if (not procControl.focus()):
         scb.doPrint({'error': True})
         raise Exception('Window not found')
     botstate = scb.goReadyState()
@@ -44,6 +46,7 @@ except Exception as e:
         'errorMessage': str(e),
         'restart': True
     })
+    scb.flushPrint()
     scb.restartPC()
 
 scb.flushPrint()
@@ -58,8 +61,8 @@ while (True):
         cmd = input()
         scb.doPrint({'command': cmd})
 
-        procControl.focus(solve=True)
-        pyautogui.click(scb.getPoint(120, 415))
+        procControl.focus()
+        pyautogui.click(scb.getPoint(160, 500))
         scb.safeMouse()
 
         if(cmd == 'MESSAGES'):
@@ -73,16 +76,19 @@ while (True):
             'error': True,
             'errorMessage': str(e)
         })
-        if (not procControl.focus(solve=True)):
+        if (not procControl.focus()):
+            procControl.solveProblems()
             scb.doPrint({'error': True})
-            scb.restartPC()
-            raise Exception('Window not found')
+            if (not procControl.focus()):
+                scb.restartPC()
+                raise Exception('Window not found')
         botstate = scb.goReadyState()
         scb.doPrint({
             'data': botstate
         })
         if (not botstate['chat'] or not botstate['inventory']):
             scb.doPrint({'error': True})
+            scb.restartPC()
             raise Exception('Game not ready')
 
     scb.flushPrint()

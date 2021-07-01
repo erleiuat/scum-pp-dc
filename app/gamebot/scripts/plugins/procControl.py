@@ -7,7 +7,7 @@ import win32con
 import psutil
 
 
-def focus(window_name='scum', solve=False):
+def focus(window_name='scum'):
     if(window_name.lower() in win32gui.GetWindowText(win32gui.GetForegroundWindow()).lower()):
         return True
 
@@ -24,15 +24,9 @@ def focus(window_name='scum', solve=False):
                 win32gui.SetForegroundWindow(handle)
                 scb.sleep(0.5)
                 scb.reg(windowPosition=windowRect.get(handle))
-                if(solve):
-                    return solveProblems()
                 return True
-        if(solve):
-            return solveProblems()
         return False
     except:
-        if(solve):
-            return solveProblems()
         return False
 
 
@@ -81,7 +75,7 @@ def getState():
 
 def getReady():
     ist = scb.onScreen('img/scb/invDrag.png', region=scb.getRegion('invDrag'))
-    soll = scb.getPoint(720, 720)
+    soll = scb.getPoint(955, 855)
     while(ist.y < (soll[1] - 50) or ist.y > (soll[1] + 50)):
         pyautogui.moveTo(ist)
         scb.sleep()
@@ -101,14 +95,15 @@ def joinServer():
     if(needOK):
         scb.safeClick(needOK)
         scb.sleep(1)
-    scb.safeClick(scb.getPoint(180, 540))
-    i = 0
 
+    i = 0
     while(not scb.onScreen('img/scb/fortsetzen.png', bw=True, region=scb.getRegion('inventory'))):
+        scb.safeClick(scb.getPoint(230, 645))
+        scb.sleep(1)
         pyautogui.press('esc')
         scb.sleep(1)
         i = i + 1
-        if(i > 120):
+        if(i > 90):
             raise Exception('Unable to join')
 
     pyautogui.press('esc')

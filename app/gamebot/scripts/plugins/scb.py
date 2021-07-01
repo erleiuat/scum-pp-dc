@@ -98,8 +98,8 @@ def sleep(duration=0.4):
     time.sleep(duration + props['failSafe'])
 
 def safeMouse():
-    pyautogui.moveTo(props['windowPosition']['x'] + 1200,
-                     props['windowPosition']['y'] + 820)
+    pyautogui.moveTo(props['windowPosition']['x'] + 1650,
+                     props['windowPosition']['y'] + 640)
 
 
 def safeClick(coords, double=False, button='left'):
@@ -231,6 +231,8 @@ def goReadyState(repeat=0):
     safeMouse()
     parts = isReady()
     if (parts['chat'] and parts['inventory']):
+        sendMessage('#ListZombies')
+        sendMessage('#ShowOtherPlayerInfo true')
         return parts
     else:
         pyautogui.press('esc')

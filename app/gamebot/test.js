@@ -15,26 +15,8 @@ async function testIt() {
         return false
     }
 
-    /*
+    
     resp = await bot.messages([{
-        scope: 'local',
-        message: '1'
-    },{
-        scope: 'local',
-        message: '2'
-    },{
-        scope: 'local',
-        message: '3'
-    },{
-        scope: 'local',
-        message: '3'
-    },{
-        scope: 'local',
-        message: '2'
-    },{
-        scope: 'local',
-        message: '1'
-    },{
         scope: 'local',
         message: '1'
     },{
@@ -55,13 +37,22 @@ async function testIt() {
     }])
     
     console.log(resp)
-    */
-    resp = await bot.actions({
-        awake: true
-    })
+    
+    resp = await bot.actions([{
+        type: 'awake',
+        properties: null
+    }])
 
     console.log(resp)
     console.log('Status checked. Chat = ' + resp.data.chat + ', Inventory = ' + resp.data.inventory)
+    
+    resp = await bot.actions([{
+        type: 'dress',
+        properties: null
+    }])
+
+    console.log(resp)
+    
     /*
     
     resp = await bot.actions({
