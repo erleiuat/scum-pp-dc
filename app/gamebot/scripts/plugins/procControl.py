@@ -58,7 +58,7 @@ def getState():
     parts['onServer'] = True
 
     i = 0
-    while(not scb.onScreen('img/scb/fortsetzen.png', bw=True, region=scb.getRegion('inventory'))):
+    while(not scb.onScreen('img/scb/fortsetzen.png', bw=True, sure=0.8, region=scb.getRegion('inventory'))):
         pyautogui.press('esc')
         scb.sleep(1)
         i = i + 1
