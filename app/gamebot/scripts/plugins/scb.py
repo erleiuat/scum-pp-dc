@@ -114,6 +114,7 @@ def goScope(scopeName):
     while(not isThere):
         i = i + 1
         pyautogui.press('tab')
+        scb.sleep(0.5)
         isThere = onScreen(
             'img/chat/'+scopeName+'.png',
             region=getRegion('scope')
