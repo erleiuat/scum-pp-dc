@@ -33,6 +33,7 @@ exports.start = async function start() {
     announce()
 
     global.commands = {}
+    global.newCmds = false
     cmdHandler()
 
 }
