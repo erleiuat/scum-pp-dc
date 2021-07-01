@@ -20,7 +20,10 @@ function addAction(action, acteurs = true) {
         properties: acteurs
     })
     else actCmds.push({
-        actions: [...tmpAct]
+        actions: [{
+            type: action,
+            properties: acteurs
+        }]
     })
 }
 
