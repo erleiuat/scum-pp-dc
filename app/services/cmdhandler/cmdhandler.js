@@ -52,7 +52,6 @@ async function cmdHandler() {
             delete global.commands[e]
             let cmdStart = cmd.message.split(' ')[0].toLowerCase()
 
-            console.log(cmdStart)
             if (cmdsPublic.list[cmdStart]) await bot.execute(await cmdsPublic[cmdsPublic.list[cmdStart]](cmd))
             else if (cmdStart == '/starterkit') await bot.execute(await tStarterkit(cmd))
             else if (cmdStart == '/ready') await bot.execute(await tReady(cmd))
