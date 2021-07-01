@@ -40,7 +40,7 @@ exports.start = async function start() {
 async function cmdHandler() {
     do {
         await global.sleep.timer(0.01)
-        if(!isReady()) continue
+        if (!isReady()) continue
         if (Object.keys(global.commands).length < 1) continue
         global.newCmds = true
         let newCmds = {}
@@ -87,11 +87,11 @@ async function cmdHandler() {
 async function getMap() {
     do {
         await global.sleep.timer(60)
-        if(!isReady()) continue
+        if (!isReady()) continue
 
         console.log(sn + 'Getting current player positions')
-        let imgInfo = await bot.execute(await action.doAct('mapshot'))
-        
+        let imgInfo = await bot.execute(await action.doAct('mapshot', true))
+
         if (!imgInfo) {
             console.log(sn + 'No image info received')
             continue
@@ -176,8 +176,8 @@ async function checkStatus() {
         checkCounter++
         await global.sleep.timer(1)
         if (checkCounter < 120) continue
-        if(!isReady()) continue
-        
+        if (!isReady()) continue
+
         checkCounter = 0
         console.log(sn + 'Checking gamebot status')
         resp = bot.execute({
@@ -187,7 +187,7 @@ async function checkStatus() {
                 }
             }]
         })
-        
+
         if (resp.error) {
             global.gameReady = false
             console.log(sn + 'Gambot status in error!')
@@ -201,7 +201,7 @@ async function makeBusiness() {
     let bTimes = [30]
     do {
         await global.sleep.timer(10)
-        if(!isReady()) continue
+        if (!isReady()) continue
 
         now = new Date()
         if (!bTimes.includes(now.getMinutes())) continue
@@ -215,7 +215,7 @@ async function makeBreak() {
     let bTimes = [15, 45]
     do {
         await global.sleep.timer(10)
-        if(!isReady()) continue
+        if (!isReady()) continue
 
         now = new Date()
         if (!bTimes.includes(now.getMinutes())) continue

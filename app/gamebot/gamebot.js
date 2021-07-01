@@ -3,7 +3,6 @@ const sn = global.chalk.bgMagenta('[GAMEBOT] -> ')
 const cp = require('child_process')
 
 let bot = false
-let ingame = false
 
 exports.execute = async function execute(cmd) {
     if (!cmd || !cmd.commands || !cmd.commands.length) return
