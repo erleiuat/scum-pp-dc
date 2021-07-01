@@ -43,13 +43,13 @@ function fullCommand(cmd, type = 'global') {
     return fCmd
 }
 
-function tooEarly(waitMins, action) {
-    if (!action) {
-        addMessage('global', 'Sorry, I can\'t do that more than once every ' + waitMins + ' minutes.')
-        return fullCommand(cmd)
-    }
+function tooEarly(action, waitMins) {
     let now = new Date().getTime()
-    if (lastDone[action] && lastDone[action] > now - waitMins * 60 * 1000) return true
+    let waitMins = waitMins * 60 * 1000
+    if (lastDone[action] && lastDone[action] > now - waitMins) {
+        let waitFor = round(waitMins - (now - lastDone[action]))
+        addMessage('global', 'Sorry, you are too fast. Please wait ' + waitFor + ' minutes.')
+    }
     lastDone[action] = now
     return false
 }
@@ -95,7 +95,7 @@ async function getJoke() {
 
 exports.vote_night = async function vote_night(cmd) {
     if (!begin(cmd, 'global')) return null
-    if (tooEarly(15, 'vote_night')) return tooEarly()
+    if (tooEarly('vote_night', 15)) return fullCommand(cmd)
 
     addMessage('global', '[VOTING]: Nighttime-Voting begins! (10:00 PM)')
     addMessage('global', '#vote SetTimeOfDay 22')
@@ -113,7 +113,7 @@ exports.help = async function help(cmd) {
 
 exports.joke = async function joke(cmd) {
     if (!begin(cmd, 'global')) return null
-    if (tooEarly(5, 'joke')) return tooEarly()
+    if (tooEarly('joke', 5)) return fullCommand(cmd)
 
     let joke = await getJoke()
     while (joke.length > 195) joke = await getJoke()
@@ -130,7 +130,7 @@ exports.what_is_going_on = async function what_is_going_on(cmd) {
 
 exports.vote_weather_sun = async function vote_weather_sun(cmd) {
     if (!begin(cmd, 'global')) return null
-    if (tooEarly(15, 'vote_weather_sun')) return tooEarly()
+    if (tooEarly('vote_weather_sun', 5)) return fullCommand(cmd)
 
     addMessage('global', '[VOTING]: Weather voting begins!')
     addMessage('global', '#vote SetWeather 0')
@@ -139,7 +139,7 @@ exports.vote_weather_sun = async function vote_weather_sun(cmd) {
 
 exports.vote_day = async function vote_day(cmd) {
     if (!begin(cmd, 'global')) return null
-    if (tooEarly(15, 'vote_day')) return tooEarly()
+    if (tooEarly('vote_day', 5)) return fullCommand(cmd)
 
     addMessage('global', '[VOTING]: Daytime-Voting begins! (7:00 AM)')
     addMessage('global', '#vote SetTimeOfDay 7')
