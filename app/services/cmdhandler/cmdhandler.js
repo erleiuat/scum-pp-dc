@@ -28,7 +28,7 @@ exports.start = async function start() {
 
     getMap()
     makeBusiness()
-    checkStatus()
+    //checkStatus()
     makeBreak()
     announce()
 
@@ -43,7 +43,6 @@ async function cmdHandler() {
         if (!isReady()) continue
         if (Object.keys(global.commands).length < 1) continue
         global.newCmds = true
-        let newCmds = {}
 
         for (const e in global.commands) {
             let cmd = {
@@ -88,6 +87,7 @@ async function getMap() {
     do {
         await global.sleep.timer(60)
         if (!isReady()) continue
+        global.newCmds = true
 
         console.log(sn + 'Getting current player positions')
         let imgInfo = await bot.execute(await action.doAct('mapshot', true))
@@ -111,6 +111,8 @@ async function getMap() {
         } catch (error) {
             console.log(sn + 'Error: ' + error)
         }
+
+        global.newCmds = false
 
     } while (true)
 }
@@ -178,6 +180,7 @@ async function checkStatus() {
         await global.sleep.timer(1)
         if (checkCounter < 120) continue
         if (!isReady()) continue
+        global.newCmds = true
 
         checkCounter = 0
         console.log(sn + 'Checking gamebot status')
@@ -189,6 +192,7 @@ async function checkStatus() {
             if (resp.data) console.log(sn + 'Status checked. Chat = ' + resp.data.chat + ', Inventory = ' + resp.data.inventory)
         } else global.gameReady = true
 
+        global.newCmds = false
     } while (true)
 }
 
@@ -197,11 +201,13 @@ async function makeBusiness() {
     do {
         await global.sleep.timer(10)
         if (!isReady()) continue
+        global.newCmds = true
 
         now = new Date()
         if (!bTimes.includes(now.getMinutes())) continue
         await bot.execute(await action.doAct('business', true))
         await global.sleep.timer(60)
+        global.newCmds = false
 
     } while (true)
 }
@@ -211,11 +217,13 @@ async function makeBreak() {
     do {
         await global.sleep.timer(10)
         if (!isReady()) continue
+        global.newCmds = true
 
         now = new Date()
         if (!bTimes.includes(now.getMinutes())) continue
         await bot.execute(await action.doAct('eat', true))
         await global.sleep.timer(60)
+        global.newCmds = false
 
     } while (true)
 }
@@ -229,6 +237,7 @@ async function announce() {
         let time = now.getHours() + ':' + now.getMinutes()
         if (messages[time]) {
             if (messages[time].done) continue
+            global.newCmds = true
             await bot.execute({
                 commands: [{
                     messages: [{
@@ -237,6 +246,7 @@ async function announce() {
                     }]
                 }]
             })
+            global.newCmds = false
             messages[time].done = true
         } else {
             for (const e in messages) {
