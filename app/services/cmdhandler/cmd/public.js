@@ -1,48 +1,6 @@
 const request = require('request')
-let lastDone = {}
-let actCmds = []
+const cmdBuilder = require('../cmdbuilder')
 
-function addMessage(scope, msg) {
-    if (actCmds[actCmds.length - 1] && actCmds[actCmds.length - 1]['messages']) actCmds[actCmds.length - 1]['messages'].push({
-        scope: scope,
-        message: msg
-    })
-    else actCmds.push({
-        messages: [{
-            scope: scope,
-            message: msg
-        }]
-    })
-}
-
-function begin(cmd, allowScope = 'global') {
-    actCmds = []
-    if (cmd.type.toLowerCase() != allowScope) return false
-    return true
-}
-
-function fullCommand(cmd, type = 'global') {
-    let fCmd = {
-        date: cmd.time.date,
-        time: cmd.time.time,
-        type: type,
-        commands: [...actCmds]
-    }
-    actCmds = []
-    return fCmd
-}
-
-function tooEarly(action, waitMins) {
-    let now = new Date().getTime()
-    waitMins = waitMins * 60 * 1000
-    if (lastDone[action] && lastDone[action] > now - waitMins) {
-        let waitFor = Math.round((waitMins - (now - lastDone[action])) / 1000 / 60)
-        addMessage('global', 'Sorry, you are too fast. Please wait ' + waitFor + ' minutes.')
-        return true
-    }
-    lastDone[action] = now
-    return false
-}
 
 exports.list = {
     '/voteday': 'vote_day',
@@ -84,83 +42,83 @@ async function getJoke() {
 }
 
 exports.vote_night = async function vote_night(cmd) {
-    if (!begin(cmd, 'global')) return null
-    if (tooEarly('vote_night', 15)) return fullCommand(cmd)
+    if (!cmdBuilder.begin(cmd, 'global')) return null
+    if (cmdBuilder.tooEarly('vote_night', 15)) return cmdBuilder.fullCommand(cmd)
 
-    addMessage('global', '[VOTING]: Nighttime-Voting begins! (10:00 PM)')
-    addMessage('global', '#vote SetTimeOfDay 22')
-    return fullCommand(cmd)
+    cmdBuilder.addMessage('global', '[VOTING]: Nighttime-Voting begins! (10:00 PM)')
+    cmdBuilder.addMessage('global', '#vote SetTimeOfDay 22')
+    return cmdBuilder.fullCommand(cmd)
 }
 
 exports.help = async function help(cmd) {
-    if (!begin(cmd, 'global')) return null
+    if (!cmdBuilder.begin(cmd, 'global')) return null
 
-    addMessage('global', '[HELP]: Available commands (if bot is online):')
-    addMessage('global', '[HELP]: /voteday, /votesun, /online, /restart, /joke, /starterkit, /time')
-    addMessage('global', '[HELP]: -> Will only work in GLOBAL Chat! (Press "TAB" to change chatroom)')
-    return fullCommand(cmd)
+    cmdBuilder.addMessage('global', '[HELP]: Available commands (if bot is online):')
+    cmdBuilder.addMessage('global', '[HELP]: /voteday, /votesun, /online, /restart, /joke, /starterkit, /time')
+    cmdBuilder.addMessage('global', '[HELP]: -> Will only work in GLOBAL Chat! (Press "TAB" to change chatroom)')
+    return cmdBuilder.fullCommand(cmd)
 }
 
 exports.joke = async function joke(cmd) {
-    if (!begin(cmd, 'global')) return null
-    if (tooEarly('joke', 5)) return fullCommand(cmd)
+    if (!cmdBuilder.begin(cmd, 'global')) return null
+    if (cmdBuilder.tooEarly('joke', 5)) return cmdBuilder.fullCommand(cmd)
 
     let joke = await getJoke()
     while (joke.length > 195) joke = await getJoke()
-    addMessage('global', '[JOKE]: ' + joke)
-    return fullCommand(cmd)
+    cmdBuilder.addMessage('global', '[JOKE]: ' + joke)
+    return cmdBuilder.fullCommand(cmd)
 }
 
 exports.what_is_going_on = async function what_is_going_on(cmd) {
-    if (!begin(cmd, 'global')) return null
-    addMessage('global', '[WOT]: ...is going on here')
-    addMessage('global', '[WOT]: BREKFEST')
-    return fullCommand(cmd)
+    if (!cmdBuilder.begin(cmd, 'global')) return null
+    cmdBuilder.addMessage('global', '[WOT]: ...is going on here')
+    cmdBuilder.addMessage('global', '[WOT]: BREKFEST')
+    return cmdBuilder.fullCommand(cmd)
 }
 
 exports.vote_weather_sun = async function vote_weather_sun(cmd) {
-    if (!begin(cmd, 'global')) return null
-    if (tooEarly('vote_weather_sun', 5)) return fullCommand(cmd)
+    if (!cmdBuilder.begin(cmd, 'global')) return null
+    if (cmdBuilder.tooEarly('vote_weather_sun', 5)) return cmdBuilder.fullCommand(cmd)
 
-    addMessage('global', '[VOTING]: Weather voting begins!')
-    addMessage('global', '#vote SetWeather 0')
-    return fullCommand(cmd)
+    cmdBuilder.addMessage('global', '[VOTING]: Weather voting begins!')
+    cmdBuilder.addMessage('global', '#vote SetWeather 0')
+    return cmdBuilder.fullCommand(cmd)
 }
 
 exports.vote_day = async function vote_day(cmd) {
-    if (!begin(cmd, 'global')) return null
-    if (tooEarly('vote_day', 5)) return fullCommand(cmd)
+    if (!cmdBuilder.begin(cmd, 'global')) return null
+    if (cmdBuilder.tooEarly('vote_day', 5)) return cmdBuilder.fullCommand(cmd)
 
-    addMessage('global', '[VOTING]: Daytime-Voting begins! (7:00 AM)')
-    addMessage('global', '#vote SetTimeOfDay 7')
-    return fullCommand(cmd)
+    cmdBuilder.addMessage('global', '[VOTING]: Daytime-Voting begins! (7:00 AM)')
+    cmdBuilder.addMessage('global', '#vote SetTimeOfDay 7')
+    return cmdBuilder.fullCommand(cmd)
 }
 
 exports.ping = async function ping(cmd) {
-    if (!begin(cmd, 'global')) return null
+    if (!cmdBuilder.begin(cmd, 'global')) return null
 
-    addMessage('global', '[BADABONG]: Pong right back at you @' + cmd.user + ' ;)')
-    return fullCommand(cmd)
+    cmdBuilder.addMessage('global', '[BADABONG]: Pong right back at you @' + cmd.user + ' ;)')
+    return cmdBuilder.fullCommand(cmd)
 }
 
 exports.online = async function online(cmd) {
-    if (!begin(cmd, 'global')) return null
+    if (!cmdBuilder.begin(cmd, 'global')) return null
 
-    addMessage('global', '[PLAYERS]: There are currently ' + global.playersOnline + ' Players online.')
-    return fullCommand(cmd)
+    cmdBuilder.addMessage('global', '[PLAYERS]: There are currently ' + global.playersOnline + ' Players online.')
+    return cmdBuilder.fullCommand(cmd)
 }
 
 exports.time = async function time(cmd) {
-    if (!begin(cmd, 'global')) return null
+    if (!cmdBuilder.begin(cmd, 'global')) return null
 
     let time = '<unavailable>'
     if (global.ingameTime) time = global.ingameTime
-    addMessage('global', '[TIME]: It is currently about ' + time + '.')
-    return fullCommand(cmd)
+    cmdBuilder.addMessage('global', '[TIME]: It is currently about ' + time + '.')
+    return cmdBuilder.fullCommand(cmd)
 }
 
 exports.restart_countdown = async function restart_countdown(cmd) {
-    if (!begin(cmd, 'global')) return null
+    if (!cmdBuilder.begin(cmd, 'global')) return null
 
     let now = new Date()
     let curHour = now.getHours()
@@ -178,6 +136,6 @@ exports.restart_countdown = async function restart_countdown(cmd) {
     let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
     let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
 
-    addMessage('global', '[RESTART]: Next restart will be in: ' + hours + ' hours and ' + minutes + ' minutes.')
-    return fullCommand(cmd)
+    cmdBuilder.addMessage('global', '[RESTART]: Next restart will be in: ' + hours + ' hours and ' + minutes + ' minutes.')
+    return cmdBuilder.fullCommand(cmd)
 }

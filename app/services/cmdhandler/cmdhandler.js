@@ -201,7 +201,7 @@ async function makeBusiness() {
 
         now = new Date()
         if (!bTimes.includes(now.getMinutes())) continue
-        await bot.execute(await action.doAct('business'))
+        await bot.execute(await action.doAct('business', true))
         await global.sleep.timer(60)
 
     } while (true)
@@ -215,7 +215,7 @@ async function makeBreak() {
 
         now = new Date()
         if (!bTimes.includes(now.getMinutes())) continue
-        await bot.execute(await action.doAct('eat'))
+        await bot.execute(await action.doAct('eat', true))
         await global.sleep.timer(60)
 
     } while (true)

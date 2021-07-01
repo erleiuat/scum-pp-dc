@@ -1,114 +1,88 @@
-let lastDone = {}
-let actCmds = []
+const cmdBuilder = require('../cmdbuilder')
 
-function addMessage(scope, msg) {
-    if (actCmds[actCmds.length - 1] && actCmds[actCmds.length - 1]['messages']) actCmds[actCmds.length - 1]['messages'].push({
-        scope: scope,
-        message: msg
-    })
-    else actCmds.push({
-        messages: [{
-            scope: scope,
-            message: msg
-        }]
-    })
-}
-
-function addAction(action, acteurs = true) {
-    if (actCmds[actCmds.length - 1] && actCmds[actCmds.length - 1]['actions']) actCmds[actCmds.length - 1]['actions'].push({
-        type: action,
-        properties: acteurs
-    })
-    else actCmds.push({
-        actions: [{
-            type: action,
-            properties: acteurs
-        }]
-    })
-}
 
 exports.doAct = async function doAct(action, force = false) {
+    cmdBuilder.begin()
 
-    actCmds = []
-    let now = new Date().getTime()
-    if (!force && lastDone[action] && lastDone[action] > now - 30 * 60 * 1000) return {
-        commands: [{
-            messages: [{
-                scope: 'global',
-                message: 'Sorry, I can\'t do that more than once every 30 minutes.'
-            }]
-        }]
+    let d = new Date()
+    tmpCmd = {
+        time: {
+            date: global.nZero.form(d.getDate()) + '.' + global.nZero.form((d.getMonth() + 1)) + '.' + d.getFullYear(),
+            time: global.nZero.form(d.getHours()) + ':' + global.nZero.form(d.getMinutes()) + ':' + global.nZero.form(d.getSeconds())
+        }
     }
+
+    if (!force && cmdBuilder.tooEarly(action, 15)) return cmdBuilder.fullCommand(tmpCmd)
 
     switch (action) {
 
         case 'startup':
-            addMessage('global', 'I will be unavailable for a minute.')
-            addAction('repair', [
+            cmdBuilder.addMessage('global', 'I will be unavailable for a minute.')
+            cmdBuilder.addAction('repair', [
                 '#Teleport -117564.797 -67794.680 36809.430',
                 '#Teleport -107551.336 -67783.750 36857.059'
             ])
-            addMessage('global', '#Teleport -117331 -66059 37065')
-            addAction('shit')
-            addAction('shit')
-            addAction('piss')
-            addMessage('global', '#Teleport -116369 -65906 37144')
-            addMessage('global', 'I\'m available again.')
-            addAction('idle')
+            cmdBuilder.addMessage('global', '#Teleport -117331 -66059 37065')
+            cmdBuilder.addAction('shit')
+            cmdBuilder.addAction('shit')
+            cmdBuilder.addAction('piss')
+            cmdBuilder.addMessage('global', '#Teleport -116369 -65906 37144')
+            cmdBuilder.addMessage('global', 'I\'m available again.')
+            cmdBuilder.addAction('idle')
             break
 
         case 'business':
-            addMessage('global', 'I will be unavailable for a minute.')
-            addMessage('global', '#Teleport -117331 -66059 37065')
-            addAction('piss')
-            addAction('shit')
-            addMessage('global', '#Teleport -116369 -65906 37144')
-            addMessage('global', 'I\'m available again.')
-            addAction('idle')
+            cmdBuilder.addMessage('global', 'I will be unavailable for a minute.')
+            cmdBuilder.addMessage('global', '#Teleport -117331 -66059 37065')
+            cmdBuilder.addAction('piss')
+            cmdBuilder.addAction('shit')
+            cmdBuilder.addMessage('global', '#Teleport -116369 -65906 37144')
+            cmdBuilder.addMessage('global', 'I\'m available again.')
+            cmdBuilder.addAction('idle')
             break
 
         case 'shit':
-            addMessage('global', 'I will be unavailable for a minute.')
-            addMessage('global', '#Teleport -117331 -66059 37065')
-            addAction('shit')
-            addMessage('global', '#Teleport -116369 -65906 37144')
-            addMessage('global', 'I\'m available again.')
-            addAction('idle')
+            cmdBuilder.addMessage('global', 'I will be unavailable for a minute.')
+            cmdBuilder.addMessage('global', '#Teleport -117331 -66059 37065')
+            cmdBuilder.addAction('shit')
+            cmdBuilder.addMessage('global', '#Teleport -116369 -65906 37144')
+            cmdBuilder.addMessage('global', 'I\'m available again.')
+            cmdBuilder.addAction('idle')
             break
 
         case 'piss':
-            addMessage('global', 'I will be unavailable for a minute.')
-            addMessage('global', '#Teleport -117331 -66059 37065')
-            addAction('piss')
-            addMessage('global', '#Teleport -116369 -65906 37144')
-            addMessage('global', 'I\'m available again.')
-            addAction('idle')
+            cmdBuilder.addMessage('global', 'I will be unavailable for a minute.')
+            cmdBuilder.addMessage('global', '#Teleport -117331 -66059 37065')
+            cmdBuilder.addAction('piss')
+            cmdBuilder.addMessage('global', '#Teleport -116369 -65906 37144')
+            cmdBuilder.addMessage('global', 'I\'m available again.')
+            cmdBuilder.addAction('idle')
             break
 
         case 'dress':
-            addMessage('global', 'I will be unavailable for a minute.')
-            addMessage('global', '#Teleport -117331 -66059 37065')
-            addAction('dress')
-            addMessage('global', '#Teleport -116369 -65906 37144')
-            addMessage('global', 'I\'m available again.')
-            addAction('idle')
+            cmdBuilder.addMessage('global', 'I will be unavailable for a minute.')
+            cmdBuilder.addMessage('global', '#Teleport -117331 -66059 37065')
+            cmdBuilder.addAction('dress')
+            cmdBuilder.addMessage('global', '#Teleport -116369 -65906 37144')
+            cmdBuilder.addMessage('global', 'I\'m available again.')
+            cmdBuilder.addAction('idle')
             break
 
         case 'repair':
-            addMessage('global', 'I will be unavailable for a minute.')
-            addAction('repair', [
+            cmdBuilder.addMessage('global', 'I will be unavailable for a minute.')
+            cmdBuilder.addAction('repair', [
                 '#Teleport -117564.797 -67794.680 36809.430',
                 '#Teleport -107551.336 -67783.750 36857.059'
             ])
-            addMessage('global', '#Teleport -116369 -65906 37144')
-            addMessage('global', 'I\'m available again.')
-            addAction('idle')
+            cmdBuilder.addMessage('global', '#Teleport -116369 -65906 37144')
+            cmdBuilder.addMessage('global', 'I\'m available again.')
+            cmdBuilder.addAction('idle')
             break
 
         case 'light':
-            addMessage('global', 'I will be unavailable for 5 minutes.')
-            addMessage('global', '#Teleport -117331 -66059 37065')
-            addAction('light', [
+            cmdBuilder.addMessage('global', 'I will be unavailable for 5 minutes.')
+            cmdBuilder.addMessage('global', '#Teleport -117331 -66059 37065')
+            cmdBuilder.addAction('light', [
                 '#Teleport -116806 -65842 37065',
                 '#Teleport -117327 -66464 37064',
                 '#Teleport -117317 -66969 37064',
@@ -128,25 +102,21 @@ exports.doAct = async function doAct(action, force = false) {
                 '#Teleport -112653 -72299 36621',
                 '#Teleport -111485 -72208 36588'
             ])
-            addMessage('global', '#Teleport -116369 -65906 37144')
-            addMessage('global', 'I\'m available again.')
-            addAction('idle')
+            cmdBuilder.addMessage('global', '#Teleport -116369 -65906 37144')
+            cmdBuilder.addMessage('global', 'I\'m available again.')
+            cmdBuilder.addAction('idle')
             break
 
         case 'idle':
-            addMessage('global', '#Teleport -116369 -65906 37144')
-            addAction('idle')
+            cmdBuilder.addMessage('global', '#Teleport -116369 -65906 37144')
+            cmdBuilder.addAction('idle')
             break
 
         default:
-            addAction(action)
+            cmdBuilder.addAction(action)
             break
 
     }
 
-    lastDone[action] = now
-
-    return {
-        commands: actCmds
-    }
+    return cmdBuilder.fullCommand(tmpCmd)
 }
