@@ -104,7 +104,7 @@ def joinServer():
     scb.safeClick(scb.getPoint(180, 540))
     i = 0
 
-    while(not scb.onScreen('img/scb/fortsetzen.png', bw=True)):
+    while(not scb.onScreen('img/scb/main_fortsetzen.png', bw=True)):
         pyautogui.press('esc')
         scb.sleep(1)
         i = i + 1
