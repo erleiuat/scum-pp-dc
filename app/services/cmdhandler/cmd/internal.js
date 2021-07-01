@@ -47,7 +47,7 @@ exports.exec = async function exec(cmd) {
 exports.sk_legal = async function sk_legal(cmd) {
     if (!cmdBuilder.begin(cmd, 'global')) return null
     cmdBuilder.addMessage('global', '[STARTERKIT]: @' + cmd.user + ' you will be teleported to the trading-zone (green circle in B2) to receive your starterkit. Make sure you are ready and not driving a vehicle.')
-    cmdBuilder.addMessage('global', '[STARTERKIT]: You will get a quad to get out of the trading-zone again. If you are ready to be teleported type \'!ready\' ')
+    cmdBuilder.addMessage('global', '[STARTERKIT]: You will get a quad to get out of the trading-zone again. If you are ready to be teleported type \'/ready\' ')
     return cmdBuilder.fullCommand(cmd)
 }
 
@@ -81,7 +81,7 @@ exports.sk_ready = async function sk_ready(cmd, updateFunction) {
 
 exports.sk_illegal = async function sk_illegal(cmd) {
     if (!cmdBuilder.begin(cmd, 'global')) return null
-    cmdBuilder.addMessage('local', '[STARTERKIT]: @' + cmd.user + ' you should have already received your starterkit ;) If not, please contact support.')
+    cmdBuilder.addMessage('global', '[STARTERKIT]: @' + cmd.user + ' you should have already received your starterkit ;) If not, please contact support.')
     return cmdBuilder.fullCommand(cmd)
 }
 
