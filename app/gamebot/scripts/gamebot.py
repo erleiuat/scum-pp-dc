@@ -5,9 +5,9 @@ import _message
 import _action
 import sys
 
-pyautogui.PAUSE = 0.01
 
 scb.reg(
+    failSafe = 0.1,
     resolution={
         'x': 1440,
         'y': 900

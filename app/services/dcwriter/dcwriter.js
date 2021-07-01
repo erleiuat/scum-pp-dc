@@ -139,7 +139,7 @@ async function sendChats(dcClient) {
             await channel.send(new Discord.MessageEmbed(msg))
             console.log(sn + 'Chat sent: ' + el)
         }
-        if (global.newEntries.chat[el].message.trim().substring(0, 1) == '!') {
+        if (global.newEntries.chat[el].message.trim().substring(0, 1) == '/') {
             console.log(sn + 'Command detected!')
             global.commands[el] = global.newEntries.chat[el]
         }

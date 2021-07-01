@@ -14,7 +14,6 @@ async function testIt() {
         return False
     }
     
-    await timer(5)
 
     resp = await bot.messages([{
         scope: 'local',
@@ -26,18 +25,43 @@ async function testIt() {
         scope: 'local',
         message: '3'
     },{
-        scope: 'global',
-        message: '1'
+        scope: 'local',
+        message: '3'
     },{
-        scope: 'global',
+        scope: 'local',
         message: '2'
     },{
-        scope: 'global',
+        scope: 'local',
+        message: '1'
+    },{
+        scope: 'local',
+        message: '1'
+    },{
+        scope: 'local',
+        message: '2'
+    },{
+        scope: 'local',
         message: '3'
+    },{
+        scope: 'local',
+        message: '3'
+    },{
+        scope: 'local',
+        message: '2'
+    },{
+        scope: 'local',
+        message: '1'
     }])
     
+    console.log(resp)
+
+    resp = await bot.actions({
+        dress: true
+    })
     
+    console.log(resp)
     /*
+    
     resp = await bot.actions({
         light: [
             '#Teleport -119367 -68301 36808',
@@ -45,10 +69,7 @@ async function testIt() {
         ]
     })
     
-    console.log(resp)
 
-    resp = await bot.action('shit')
-    console.log(resp)
 
     resp = await bot.messages([{
         scope: 'local',

@@ -120,6 +120,13 @@ exports.doAct = async function doAct(action) {
             commands.push({actions: {idle: true}})
             break
 
+        case 'idle':
+            commands.push({messages: [
+                {scope:'global', message: '#Teleport -116369 -65906 37144'}
+            ]})
+            commands.push({actions: {idle: true}})
+            break
+
         default:
             let actions = {}
             actions[action] = true

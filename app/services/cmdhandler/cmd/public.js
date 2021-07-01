@@ -1,27 +1,27 @@
 const request = require('request')
 
 exports.list = {
-    '!voteday': 'vote_day',
-    '!dayvote': 'vote_day',
-    '!votenight': 'vote_night',
-    '!votesun': 'vote_weather_sun',
-    '!sunvote': 'vote_weather_sun',
-    '!voteweather': 'vote_weather_sun',
-    '!weathervote': 'vote_weather_sun',
-    '!ping': 'ping',
-    '!pong': 'ping',
-    '!online': 'online',
-    '!players': 'online',
-    '!playersonline': 'online',
-    '!onlineplayers': 'online',
-    '!whenrestart': 'restart_countdown',
-    '!restart': 'restart_countdown',
-    '!restartwhen': 'restart_countdown',
-    '!help': 'help',
-    '!commands': 'help',
-    '!joke': 'joke',
-    '!time': 'time',
-    '!what': 'what_is_going_on'
+    '/voteday': 'vote_day',
+    '/dayvote': 'vote_day',
+    '/votenight': 'vote_night',
+    '/votesun': 'vote_weather_sun',
+    '/sunvote': 'vote_weather_sun',
+    '/voteweather': 'vote_weather_sun',
+    '/weathervote': 'vote_weather_sun',
+    '/ping': 'ping',
+    '/pong': 'ping',
+    '/online': 'online',
+    '/players': 'online',
+    '/playersonline': 'online',
+    '/onlineplayers': 'online',
+    '/whenrestart': 'restart_countdown',
+    '/restart': 'restart_countdown',
+    '/restartwhen': 'restart_countdown',
+    '/help': 'help',
+    '/commands': 'help',
+    '/joke': 'joke',
+    '/time': 'time',
+    '/what': 'what_is_going_on'
 }
 
 async function getJoke() {
@@ -66,7 +66,7 @@ exports.help = async function help(cmd) {
             {
                 messages: [
                     {scope: 'global', message: '[HELP]: Available commands (if bot is online):'},
-                    {scope: 'global', message: '[HELP]: !voteday, !votesun, !online, !restart, !joke, !starterkit, !time'},
+                    {scope: 'global', message: '[HELP]: /voteday, /votesun, /online, /restart, /joke, /starterkit, /time'},
                     {scope: 'global', message: '[HELP]: -> Will only work in GLOBAL Chat! (Press "TAB" to change chatroom)'}
                 ]
             }

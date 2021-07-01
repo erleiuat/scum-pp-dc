@@ -14,7 +14,8 @@ currentScope = ''
 props = {
     'resolution': None,
     'regions': None,
-    'windowPosition': None
+    'windowPosition': None,
+    'failSafe': 0
 }
 printCache = {
     'error': False
@@ -35,8 +36,11 @@ def flushPrint():
     }
 
 
-def reg(resolution=False, regions=False, windowPosition=False):
+def reg(resolution=False, regions=False, windowPosition=False, failSafe=False):
     global props
+    if(failSafe):
+        props['failSafe'] = failSafe
+        pyautogui.PAUSE = failSafe
     if(resolution):
         props['resolution'] = resolution
     if(regions):
@@ -84,9 +88,8 @@ def restartPC():
     raise Exception('I WOULD RESTART NOW')
 
 
-def sleep(duration=0.3):
-    time.sleep(duration)
-
+def sleep(duration=0.4):
+    time.sleep(duration + props['failSafe'])
 
 def safeMouse():
     pyautogui.moveTo(props['windowPosition']['x'] + 1200,
@@ -95,8 +98,8 @@ def safeMouse():
 
 def safeClick(coords, double=False, button='left'):
     pyautogui.moveTo(coords)
-    pyautogui.move(40, 5, duration=0.01)
-    pyautogui.move(-40, -5, duration=0.01)
+    pyautogui.move(40, 5, duration=0.05)
+    pyautogui.move(-40, -5, duration=0.05)
     pyautogui.click(button=button)
     if(double):
         pyautogui.click(button=button)
@@ -144,7 +147,11 @@ def openTab():
     i = 0
     while(not onScreen('img/scb/inventar.png', bw=True, region=getRegion('inventory'))):
         pyautogui.keyDown('tab')
-        #sleep(0.01)
+        sleep(0.01)
+        pyautogui.keyUp('tab')
+        pyautogui.keyUp('tab')
+        pyautogui.keyUp('tab')
+        pyautogui.keyUp('tab')
         pyautogui.keyUp('tab')
         pyautogui.press('1')
         i = i + 1
@@ -158,16 +165,15 @@ def isTeleport():
     openTab()
     pyautogui.press('t')
 
-
 def sendMessage(msg):
     pyautogui.hotkey('ctrl','a')
     pyautogui.press('backspace')
     keyboard.write(msg)
     pyautogui.press('enter')
+    sleep(0.5 - (props['failSafe']*4))
     if(msg.lower().startswith('#teleport')):
         isTeleport()
-    else:
-        sleep(0.37)
+        
 
 
 def readMessage():
