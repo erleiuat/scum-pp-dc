@@ -45,7 +45,7 @@ function fullCommand(cmd, type = 'global') {
 
 function tooEarly(action, waitMins) {
     let now = new Date().getTime()
-    let waitMins = waitMins * 60 * 1000
+    waitMins = waitMins * 60 * 1000
     if (lastDone[action] && lastDone[action] > now - waitMins) {
         let waitFor = round(waitMins - (now - lastDone[action]))
         addMessage('global', 'Sorry, you are too fast. Please wait ' + waitFor + ' minutes.')
