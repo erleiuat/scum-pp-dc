@@ -10,7 +10,6 @@ def startup():
     scb.sendMessage('#ListZombies')
     scb.sendMessage('#ShowOtherPlayerInfo true')
     scb.sendMessage('I\'m getting prepared...')
-    repair(actions[action])
     control.takeA('shit')
     control.takeA('shit')
     control.takeA('piss')
