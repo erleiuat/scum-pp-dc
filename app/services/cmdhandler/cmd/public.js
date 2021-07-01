@@ -72,12 +72,12 @@ exports.vote_night = async function vote_night(cmd) {
 
     actCmds = []
     let now = new Date().getTime()
-    if (lastDone[action] && lastDone[action] > now - 30 * 60 * 1000) {
+    if (lastDone['vote_night'] && lastDone['vote_night'] > now - 30 * 60 * 1000) {
         addMessage('global', 'Sorry, I can\'t do that more than once every 30 minutes.')
         return fullCommand(cmd)
     }
 
-    lastDone[action] = now
+    lastDone['vote_night'] = now
     addMessage('global', '[VOTING]: Nighttime-Voting begins! (10:00 PM)')
     addMessage('global', '#vote SetTimeOfDay 22')
     return fullCommand(cmd)
