@@ -2,7 +2,11 @@ let lastDone = {}
 let actCmds = []
 
 function addMessage(scope, msg) {
-    actCmds.push({
+    if (actCmds[actCmds.length - 1] && actCmds[actCmds.length - 1]['messages']) actCmds[actCmds.length - 1]['messages'].push({
+        scope: scope,
+        message: msg
+    })
+    else actCmds.push({
         messages: [{
             scope: scope,
             message: msg
@@ -11,10 +15,12 @@ function addMessage(scope, msg) {
 }
 
 function addAction(action, acteurs = true) {
-    tmpAct = {}
-    tmpAct[action] = acteurs
-    actCmds.push({
-        actions: tmpAct
+    if (actCmds[actCmds.length - 1] && actCmds[actCmds.length - 1]['actions']) actCmds[actCmds.length - 1]['actions'].push({
+        type: action,
+        properties: acteurs
+    })
+    else actCmds.push({
+        actions: [...tmpAct]
     })
 }
 

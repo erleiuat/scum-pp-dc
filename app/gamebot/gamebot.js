@@ -14,21 +14,15 @@ exports.execute = async function execute(cmd) {
     for (const command of cmd.commands) {
         for (const cmdType in command) {
 
-            if (cmdType == 'messages') {
-                resp = {
-                    ...resp,
-                    ...await this.messages(command[cmdType])
-                }
-            } else if (cmdType == 'actions') {
-                resp = {
-                    ...resp,
-                    ...await this.actions(command[cmdType])
-                }
-            } else if (cmdType == 'function') {
-                (command[cmdType])()
-            } else {
-                continue
+            if (cmdType == 'messages') resp = {
+                ...resp,
+                ...await this.messages(command[cmdType])
             }
+            else if (cmdType == 'actions') resp = {
+                ...resp,
+                ...await this.actions(command[cmdType])
+            }
+            else continue
 
             if (resp.error) {
                 if (resp.errorMessage) console.log(sn + 'Error: ' + resp.errorMessage)

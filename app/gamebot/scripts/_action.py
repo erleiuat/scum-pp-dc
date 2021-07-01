@@ -31,26 +31,26 @@ def process():
     scb.doPrint({'actions': actions})
 
     for action in actions:
-        action = action.lower()
-        if(action == 'repair'):
-            repair(actions[action])
-        elif(action == 'light'):
-            light(actions[action])
-        elif(action == 'shit'):
+        actType = action['type'].lower()
+        if(actType == 'repair'):
+            repair(action['properties'])
+        elif(actType == 'light'):
+            light(action['properties'])
+        elif(actType == 'shit'):
             control.takeA('shit')
-        elif(action == 'piss'):
+        elif(actType == 'piss'):
             control.takeA('piss')
-        elif(action == 'eat'):
+        elif(actType == 'eat'):
             eat()
-        elif(action == 'idle'):
+        elif(actType == 'idle'):
             control.sitDown()
-        elif(action == 'dress'):
+        elif(actType == 'dress'):
             dress()
-        elif(action == 'mapshot'):
+        elif(actType == 'mapshot'):
             control.mapshot()
-        elif(action == 'restart'):
+        elif(actType == 'restart'):
             scb.restart()
-        elif(action == 'awake'):
+        elif(actType == 'awake'):
             botstate = scb.goReadyState()
             scb.doPrint({
                 'data': botstate

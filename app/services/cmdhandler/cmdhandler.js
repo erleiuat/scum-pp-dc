@@ -53,8 +53,8 @@ async function cmdHandler() {
             let cmdStart = cmd.message.split(' ')[0].toLowerCase()
 
             if (cmdsPublic.list[cmdStart]) await bot.execute(await cmdsPublic[cmdsPublic.list[cmdStart]](cmd))
-            else if (cmdStart == '/starterkit') await bot.execute(await tStarterkit(cmd))
-            else if (cmdStart == '/ready') await bot.execute(await tReady(cmd))
+            else if (cmdStart == '/ready') await tReady(cmd)
+            else if (cmdStart == '/starterkit') await tStarterkit(cmd)
             else if (cmdStart == '/exec') await bot.execute(await cmdsInternal['exec'](cmd))
             else if (cmdStart == '/spawn') await bot.execute(await cmdsInternal['spawn'](cmd))
             else if (cmdStart == 'welcome_new') await bot.execute(await cmdsInternal['welcome_new'](cmd))
@@ -160,15 +160,17 @@ async function receivesStarterkit(steamID, name) {
 async function tStarterkit(cmd) {
     if (cmd.type.toLowerCase() != 'global') return null
     hasStarterkit = await loadStatus('starterkits.json')
-    if (!hasStarterkit[cmd.steamID]) return await cmdsInternal['sk_legal'](cmd)
-    else return await cmdsInternal['sk_illegal'](cmd)
+    if (!hasStarterkit[cmd.steamID]) return await bot.execute(await cmdsInternal['sk_legal'](cmd))
+    else return await bot.execute(await cmdsInternal['sk_illegal'](cmd))
 }
 
 async function tReady(cmd) {
     hasStarterkit = await loadStatus('starterkits.json')
     if (!hasStarterkit[cmd.steamID]) {
-        return await cmdsInternal['sk_ready'](cmd, () => receivesStarterkit(cmd.steamID, cmd.user))
-    } else return await cmdsInternal['sk_illegal'](cmd)
+        let resp = await bot.execute(await cmdsInternal['sk_ready'](cmd))
+        if (!resp.error) receivesStarterkit(cmd.steamID, cmd.user)
+        return resp
+    } else return await await bot.execute(cmdsInternal['sk_illegal'](cmd))
 }
 
 async function checkStatus() {

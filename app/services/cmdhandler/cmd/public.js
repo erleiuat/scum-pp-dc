@@ -3,26 +3,15 @@ let lastDone = {}
 let actCmds = []
 
 function addMessage(scope, msg) {
-    if (actCmds[actCmds.length - 1] && actCmds[actCmds.length - 1]['messages']) {
-        actCmds[actCmds.length - 1]['messages'].push({
+    if (actCmds[actCmds.length - 1] && actCmds[actCmds.length - 1]['messages']) actCmds[actCmds.length - 1]['messages'].push({
+        scope: scope,
+        message: msg
+    })
+    else actCmds.push({
+        messages: [{
             scope: scope,
             message: msg
-        })
-    } else {
-        actCmds.push({
-            messages: [{
-                scope: scope,
-                message: msg
-            }]
-        })
-    }
-}
-
-function addAction(action, acteurs = true) {
-    tmpAct = {}
-    tmpAct[action] = acteurs
-    actCmds.push({
-        actions: tmpAct
+        }]
     })
 }
 
@@ -47,7 +36,7 @@ function tooEarly(action, waitMins) {
     let now = new Date().getTime()
     waitMins = waitMins * 60 * 1000
     if (lastDone[action] && lastDone[action] > now - waitMins) {
-        let waitFor = Math.round((waitMins - (now - lastDone[action]))/1000/60)
+        let waitFor = Math.round((waitMins - (now - lastDone[action])) / 1000 / 60)
         addMessage('global', 'Sorry, you are too fast. Please wait ' + waitFor + ' minutes.')
         return true
     }
