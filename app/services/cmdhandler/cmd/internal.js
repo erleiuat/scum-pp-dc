@@ -13,18 +13,10 @@ exports.console_msg = async function console_msg(cmd) {
 }
 
 exports.mine_armed = async function mine_armed(cmd) {
-    return {
-        date: cmd.time.date,
-        time: cmd.time.time,
-        type: 'global',
-        commands: [
-            {
-                messages: [
-                    {scope: 'global', message: '[MINE]: If you have just placed a mine, please note that this is only allowed in and immediately around your Base. Remove the mine if this is not the case.'}
-                ]
-            }
-        ]
-    }
+    cmdBuilder.begin()
+    let tmpCmd = cmdBuilder.getTmpCmd()
+    cmdBuilder.addMessage('global', '[MINE]: If you have just placed a mine, please note that this is only allowed in and immediately around your Base. Remove the mine if this is not the case.')
+    return cmdBuilder.fullCommand(tmpCmd)
 }
 
 exports.spawn = async function spawn(cmd) {
@@ -35,29 +27,21 @@ exports.spawn = async function spawn(cmd) {
 exports.exec = async function exec(cmd) {
     aList = await global.admins.list()
     if (!cmd.steamID || !aList[cmd.steamID]) return null
-    let message = cmd.message.toLowerCase().replace('!exec', '').trim()
-    let msgCmds = message.split(';').map(s => s.trim())
-    
-    let cmdArr = [{scope: 'global', message:'#SetFakeName [' + cmd.user + '][EXEC]'}]
+
+    cmdBuilder.begin()
+    let tmpCmd = cmdBuilder.getTmpCmd()
+    cmdBuilder.addMessage('global', '#SetFakeName ' + cmd.user)
+
+    let msgCmds = cmd.message.toLowerCase().replace('!exec', '').trim().split(';').map(s => s.trim())
     for (const el of msgCmds) {
         let command = el.split(' ')[0].toLowerCase().trim()
-        if (aList[cmd.steamID].canExecute[command] || aList[cmd.steamID].canExecute['#*']) cmdArr.push({scope: 'global', message: el})
+        if (aList[cmd.steamID].canExecute[command] || aList[cmd.steamID].canExecute['#*']) cmdBuilder.addMessage('global', el)
     }
 
-    cmdArr.push({scope: 'global', message:'#SetFakeName [SF-BOT]'})
-    cmdArr.push({scope: 'global', message: '#Teleport -116369 -65906 37144'})
-    return {
-        date: cmd.time.date,
-        time: cmd.time.time,
-        type: 'global',
-        commands: [{
-            messages: cmdArr
-        },{
-            actions: {
-                idle: true
-            }
-        }]
-    }
+    cmdBuilder.addMessage('global', '#SetFakeName [SF-BOT]')
+    cmdBuilder.addMessage('global', '#Teleport -116369 -65906 37144')
+    cmdBuilder.addAction('idle')
+    return cmdBuilder.fullCommand(tmpCmd)
 }
 
 exports.sk_legal = async function sk_legal(cmd) {
