@@ -92,17 +92,16 @@ async function getMap() {
         console.log(sn + 'Getting current player positions')
         let imgInfo = await bot.execute(await action.doAct('mapshot', true))
 
-        if (!imgInfo) {
+        if (!imgInfo.data) {
             console.log(sn + 'No image info received')
             continue
         }
 
         try {
-            imgInfo = imgInfo.data
 
             let d = new Date()
             global.newEntries.maps[imgInfo.fileName] = {
-                ...imgInfo,
+                ...imgInfo.data,
                 time: {
                     date: global.nZero.form(d.getDate()) + '.' + global.nZero.form((d.getMonth() + 1)) + '.' + d.getFullYear(),
                     time: global.nZero.form(d.getHours()) + ':' + global.nZero.form(d.getMinutes()) + ':' + global.nZero.form(d.getSeconds())

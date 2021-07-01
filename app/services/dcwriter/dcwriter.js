@@ -37,44 +37,6 @@ exports.start = async function start(dcClient) {
     // iterate(generateGif, dcClient, 60)
 }
 
-async function generateGif(dcClient) {
-    let now = new Date()
-    now.setHours(now.getHours() - 1)
-    let gifName = global.nZero.form(now.getHours()) + '_00.gif'
-    if (gifCreated.includes(gifName)) return
-
-    let path = './app/storage/maps/' + now.getFullYear() + '_' + global.nZero.form(now.getMonth() + 1) + '_' + global.nZero.form(now.getDate()) + '/'
-
-    let inputDir = path + global.nZero.form((now.getHours()) + '_00/')
-
-    try {
-        await gifMaker.createGif(gifName, inputDir, path)
-    } catch (error) {
-        console.log(sn + 'Error: ' + error)
-        return
-    }
-
-    let channel = dcClient.channels.cache.find(channel => channel.id === channels.playerActivity)
-    let attachment = new Discord.MessageAttachment(path + gifName, gifName)
-
-    await channel.send(new Discord.MessageEmbed({
-        'color': '73A832',
-        'type': 'image',
-        'files': [
-            attachment
-        ],
-        'image': {
-            'url': 'attachment://' + gifName
-        },
-        'footer': {
-            'text': global.nZero.form(now.getDate()) + '.' + global.nZero.form((now.getMonth() + 1)) + '.' + now.getFullYear() + ` - ` + global.nZero.form(now.getHours()) + ':00 (1H Timelapse)'
-        }
-    }))
-
-    gifCreated.push(gifName)
-
-}
-
 async function sendMaps(dcClient) {
     if (Object.keys(global.newEntries.maps).length <= 0) return
     let channel = dcClient.channels.cache.find(channel => channel.id === channels.maps)
