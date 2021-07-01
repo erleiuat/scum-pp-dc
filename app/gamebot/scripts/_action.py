@@ -14,6 +14,7 @@ def startup():
         '#Teleport -117564.797 -67794.680 36809.430',
         '#Teleport -107551.336 -67783.750 36857.059'
     ])
+    scb.sendMessage('#Teleport -117331 -66059 37065')
     control.takeA('shit')
     control.takeA('shit')
     control.takeA('piss')
