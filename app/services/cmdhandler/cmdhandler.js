@@ -197,7 +197,7 @@ async function checkStatus() {
 }
 
 async function makeBusiness() {
-    let bTimes = [30]
+    let bTimes = [1]
     do {
         await global.sleep.timer(30)
         
@@ -213,7 +213,7 @@ async function makeBusiness() {
 }
 
 async function makeBreak() {
-    let bTimes = [15, 45]
+    let bTimes = [30]
     do {
         await global.sleep.timer(30)
         
