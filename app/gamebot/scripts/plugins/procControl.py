@@ -118,12 +118,12 @@ def joinServer():
     pyautogui.press('esc')
     scb.sleep(20)
     while(not scb.openTab()):
-        scb.sleep(1)
+        scb.sleep(2)
         i = i + 1
         if(i > 120):
             raise Exception('Unable to open tab')
 
-    scb.sleep()
+    scb.sleep(1)
     getReady()
     scb.sleep()
     pyautogui.press('t')
