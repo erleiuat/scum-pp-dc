@@ -94,7 +94,7 @@ def restartPC():
     raise Exception('I WOULD RESTART NOW')
 
 
-def sleep(duration=0.4):
+def sleep(duration=0.5):
     time.sleep(duration + props['failSafe'])
 
 def safeMouse():
