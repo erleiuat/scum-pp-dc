@@ -54,6 +54,12 @@ async function formMsg(state) {
     let msgs = []
     state.sort((a, b) => (a.joined.getTime() > b.joined.getTime()) ? 1 : ((b.joined.getTime() > a.joined.getTime()) ? -1 : 0))
 
+    console.log(state)
+
+    let lastWeek = new Date().getTime() - (6 * 86400 * 1000)
+    let newAvg = 0
+    let newAvgDays = 0
+
     let msg = ''
     let curDate = ''
     let countUsers = 0
@@ -66,6 +72,10 @@ async function formMsg(state) {
 
         if (curDate != user.date) {
             msg += '\n**Total: ' + countUsers + '**\n\n-----\n\n**New Users from ' + user.date + ':**'
+            if (user.joined.getTime() > lastWeek) {
+                newAvg += countUsers
+                newAvgDays++
+            }
             curDate = user.date
             countUsers = 0
         }
@@ -75,7 +85,12 @@ async function formMsg(state) {
 
     }
 
+    newAvg += countUsers
+    newAvgDays++
+
     msg += '\n**Total: ' + countUsers + '**\n\n-----'
+    msg += '\n**Average: ' + Math.round((newAvg/newAvgDays)*100)/100 + '/day**'
+    msg += '\n_last week_'
     msgs.push(msg)
     return msgs
 
