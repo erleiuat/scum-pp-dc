@@ -60,7 +60,6 @@ def getState():
 
     i = 0
     while(not scb.onScreen('img/scb/fortsetzen.png', bw=True, sure=0.8, region=scb.getRegion('inventory'))):
-        scb.sleep()
         pyautogui.press('esc')
         scb.sleep(1)
         i = i + 1
@@ -77,9 +76,7 @@ def getState():
 
 
 def getReady():
-    scb.sleep()
     ist = scb.onScreen('img/scb/invDrag.png', region=scb.getRegion('invDrag'))
-    scb.sleep()
     soll = scb.getPoint(955, 855)
     scb.sleep()
     while(ist.y < (soll[1] - 50) or ist.y > (soll[1] + 50)):
@@ -93,7 +90,6 @@ def getReady():
         scb.sleep()
         ist = scb.onScreen('img/scb/invDrag.png', region=scb.getRegion('invDrag'))
     scb.safeMouse()
-    scb.sleep()
     return True
 
 
@@ -118,12 +114,11 @@ def joinServer():
     pyautogui.press('esc')
     scb.sleep(20)
     while(not scb.openTab()):
-        scb.sleep(2)
+        scb.sleep(1)
         i = i + 1
         if(i > 120):
             raise Exception('Unable to open tab')
 
-    scb.sleep(1)
     getReady()
     scb.sleep()
     pyautogui.press('t')
@@ -145,7 +140,6 @@ def solveProblems():
     if(not parts['onServer']):
         if(not parts['gameRunning']):
             if(not parts['steamRunning']):
-                scb.sleep()
                 startGame()
             else:
                 scb.restartPC()
