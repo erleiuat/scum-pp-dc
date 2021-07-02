@@ -163,8 +163,9 @@ def openTab():
         pyautogui.keyUp('tab')
         pyautogui.keyUp('tab')
         pyautogui.keyUp('tab')
+        sleep(0.1)
         pyautogui.press('1')
-        scb.sleep(0.5)
+        sleep(0.5)
         i = i + 1
         if(i > 5):
             return False
