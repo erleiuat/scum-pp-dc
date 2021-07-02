@@ -82,20 +82,20 @@ def repair(teleports):
 def light(teleports):
     currentPosition = scb.getPosition()
 
-    scb.sendMessage('#SpawnItem Lighter')
-    control.act(
-        'img/light/lighter.png',
-        'img/light/aufnehmen.png',
-        duration=0.05
-    )
+    scb.sendMessage('#SpawnItem Lighter 2')
+    control.act([
+        ('img/light/lighter.png', 'img/light/aufnehmen.png', 0.03), 
+        ('img/light/lighter.png', 'img/light/aufnehmen.png', 0.03)
+    ])
 
     for teleport in teleports:
         scb.sendMessage(teleport)
         scb.sendMessage('#SpawnItem Wooden_Plank 1')
-        control.act('img/light/fackel.png',
-                         'img/light/schueren.png', 2)
-        control.act('img/light/fackel.png',
-                         'img/light/anzuenden.png', 2)
+        control.act([
+            ('img/light/fackel.png', 'img/light/schueren.png', 2),
+            ('img/light/fackel.png', 'img/light/anzuenden.png', 1.6),
+            ('img/light/fackel.png', 'img/light/instand.png', 0.1)
+        ])
 
     scb.sendMessage(
         '#Teleport '+currentPosition['x']+' '+currentPosition['y']+' '+currentPosition['z'])
@@ -114,26 +114,25 @@ def dress():
     ]
 
     posi = scb.getPosition()
-    scb.sendMessage('#Teleport '+posi['x']+' '+posi['y']+' 99999')
+    scb.sendMessage('#Teleport '+posi['x']+' '+posi['y']+' 110000')
     pyautogui.press('esc')
     for x in range(12):
         scb.safeClick(scb.getPoint(435, 110), double=True)
     pyautogui.press('t')
     scb.sendMessage('#Teleport '+posi['x']+' '+posi['y']+' '+posi['z'])
+
+    itemsList = []
     for item in items:
         scb.sendMessage('#SpawnItem ' + item)
-    for item in items:
-        control.act(
-            'img/dress/'+item+'.png',
-            'img/dress/ausruesten.png', 
-            duration=0.5
-        )
+        itemsList.append(('img/dress/'+item+'.png', 'img/dress/ausruesten.png', 0.6))
+
+    control.act(itemsList)
 
 
 def eat():
     scb.sendMessage('#SpawnItem Ganoderma_Lucidum')
-    control.act(
+    control.act([
         'img/act/mushroom.png',
         'img/act/eatAll.png',
         0.005
-    )
+    ])

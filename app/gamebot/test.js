@@ -15,6 +15,98 @@ async function testIt() {
         return false
     }
 
+    /*
+    resp = await bot.actions([{
+        type: 'dress',
+        properties: null
+    }])
+    console.log(resp)
+
+    resp = await bot.messages([{
+        scope: 'local',
+        message: '1'
+    },{
+        scope: 'local',
+        message: '2'
+    },{
+        scope: 'local',
+        message: '3'
+    },{
+        scope: 'local',
+        message: '3'
+    },{
+        scope: 'local',
+        message: '2'
+    },{
+        scope: 'local',
+        message: '1'
+    },{
+        scope: 'local',
+        message: '1'
+    },{
+        scope: 'local',
+        message: '2'
+    },{
+        scope: 'local',
+        message: '3'
+    },{
+        scope: 'local',
+        message: '3'
+    },{
+        scope: 'local',
+        message: '2'
+    },{
+        scope: 'local',
+        message: '1'
+    }])
+    
+    console.log(resp)
+
+    */
+    
+    
+    
+    resp = await bot.actions([{
+        type: 'light',
+        properties: [
+            "#Teleport -112656 -71595 37542", //Turm 1.1        
+            "#Teleport -111670 -71516 37535", //Turm 1.2        
+            "#Teleport -112387 -71937 36626", //Einfahrt 1.1    
+            "#Teleport -111760 -71896 36634", //Einfahrt 1.2    
+            "#Teleport -112427 -71106 36729", //Einfahrt 1.3    
+            "#Teleport -111833 -71113 36741", //Einfahrt 1.4
+            "#Teleport -112095 -63900 38061", //Turm 2.1
+            "#Teleport -111026 -64267 38056", //Turm 2.2
+            "#Teleport -111708 -63749 37264", //Einfahrt 2.1
+            "#Teleport -111199 -63872 37276", //Einfahrt 2.2
+            "#Teleport -111898 -64515 37156", //Einfahrt 2.3
+            "#Teleport -111306 -64654 37146", //Einfahrt 2.4
+            "#Teleport -111795 -68849 36999", //Tanke 1
+            "#Teleport -111646 -67682 36999", //Tanke 2
+            "#Teleport -111520 -66718 36999", //Tanke 3
+            "#Teleport -112476 -66705 36997", //Tanke 4
+            "#Teleport -113510 -66588 36997", //Tanke 5
+            "#Teleport -113655 -67707 36997", //Tanke 6
+            "#Teleport -112593 -67862 36997", //Tanke 7
+            "#Teleport -110138 -66370 37031", //Tanke 8
+            "#Teleport -116818 -65894 37065", //Haus 1
+            "#Teleport -117260 -66462 37065", //Haus 2
+            "#Teleport -117259 -67017 37065", //Haus 3
+            "#Teleport -116793 -66869 37065", //Haus 4
+            "#Teleport -116077 -65691 37065", //VorHaus 1
+            "#Teleport -116077 -66253 37065", //VorHaus 2
+            "#Teleport -116077 -66665 37065", //VorHaus 3
+            "#Teleport -116077 -67096 37065", //VorHaus 4
+            "#Teleport -116658 -63151 37273", //Aussen 1
+            "#Teleport -118116 -69254 36806", //Aussen 2
+            "#Teleport -115002 -69334 36825", //Aussen 3
+            "#Teleport -113327 -70297 36840", //Aussen 4
+            "#Teleport -118151 -65352 37089", //Aussen 5
+            "#Teleport -114378 -63300 37302" //Aussen 6
+        ]
+    }])
+
+    /*
     
     resp = await bot.messages([{
         scope: 'local',
@@ -52,129 +144,8 @@ async function testIt() {
     }])
 
     console.log(resp)
-    
-    /*
-    
-    resp = await bot.actions({
-        light: [
-            '#Teleport -119367 -68301 36808',
-            '#Teleport -105285 -69285 36718'
-        ]
-    })
-    
-
-
-    resp = await bot.messages([{
-        scope: 'local',
-        message: '1'
-    },{
-        scope: 'local',
-        message: '2'
-    },{
-        scope: 'local',
-        message: '3'
-    },{
-        scope: 'global',
-        message: '1'
-    },{
-        scope: 'global',
-        message: '2'
-    },{
-        scope: 'global',
-        message: '3'
-    }])
-
-    console.log(resp)
-
-    resp = await bot.message('global', '#setweather 0')
-    console.log(resp)
-
-    resp = await bot.message('local', 'Hallo')
-    console.log(resp)
-
-    resp = await bot.message('global', 'Du Sau')
-    console.log(resp)
-
-    resp = await bot.message('global', '1')
-    console.log(resp)
-    resp = await bot.message('global', '2')
-    console.log(resp)
-    resp = await bot.message('global', '3')
-    console.log(resp)
-    resp = await bot.message('global', '4')
-    console.log(resp)
-    resp = await bot.message('global', '5')
-    console.log(resp)
-    resp = await bot.message('local', '1')
-    console.log(resp)
-    resp = await bot.message('local', '2')
-    console.log(resp)
-    resp = await bot.message('local', '3')
-    console.log(resp)
-    resp = await bot.message('local', '4')
-    console.log(resp)
-    resp = await bot.message('local', '5')
-    console.log(resp)
-    
-    
-    
-    
-    
-    //await timer(5)
-    //await bot.action(['dress'])
-    let resp = await bot.action(['mapshot'])
-    console.log(resp)
-
-    resp = await bot.message('local', '#Teleport -119367 -68301 36808')
-    console.log(resp)
-    
-    resp = await bot.action(['idle'])
-    console.log(resp)
-    resp = await bot.action(['dress'])
-    console.log(resp)
-    await timer(2)
-    await bot.message('global', '[AUTH]: >>> blabla is joining <<<')
-    //await bot.action(['piss'])
-    await bot.message('global', '[AUTH]: >>> blabla left <<<')
-    await bot.action([
-        'repair',
-        [
-            '#Teleport -119367 -68301 36808',
-            '#Teleport -105285 -69285 36718'
-        ]
-        
-    ])
-    
-    await bot.action('trade_count')
-    await bot.message('global', '#Teleport -116369 -65906 37144')
-    await bot.message('global', '1')
-    await bot.message('global', '2')
-    await bot.message('local', '1')
-    await bot.message('global', '3')
-    await bot.message('global', '4')
-    #Teleport -116369 -65906 37144
-    #Teleport -81703 38939 68214
-    await bot.message('global', '2')
-    await bot.message('global', '3')
-
-
-    await bot.message('global', '2')
-    await bot.message('global', '3')
-    await bot.message('global', '4')
-    await bot.message('global', '5')
-    await bot.message('global', '6')
-    await bot.message('global', '[AUTH]: >>> blabla is joining <<<')
-
-    await timer(5)
-
-    await bot.message('local', 'aaa aaa aaa')
-    await bot.message('local', 'bbb bbb bbb')
-    await bot.message('local', 'ccc ccc ccc')
-
-    await timer(2)
-
-    await bot.message('local', '#settime 8')
     */
+
 }
 
 testIt()

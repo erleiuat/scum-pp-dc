@@ -64,19 +64,21 @@ def sitDown():
     pyautogui.press('t')
 
 
-def act(victim, action, duration=1):
+def act(acts):
     pyautogui.press('esc')
     scb.sleep(0.2)
-    itemLoc = scb.onScreen(victim, sure=0.75, bw=True, region=scb.getRegion('inventory'))
-    if(itemLoc):
-        scb.safeClick(itemLoc, button='right')
-        scb.sleep(0.2)
-        actionLoc = scb.onScreen(action, sure=0.75, bw=True, region=scb.getRegion('inventory'))
-        if(actionLoc):
-            scb.safeClick(actionLoc)
-            scb.sleep(duration)
-        else:
-            pyautogui.press('esc')
+    for act in acts:
+        scb.safeMouse()
+        itemLoc = scb.onScreen(act[0], sure=0.75, bw=True, region=scb.getRegion('inventory'))
+        if(itemLoc):
+            scb.safeClick(itemLoc, button='right')
+            scb.sleep(0.2)
+            actionLoc = scb.onScreen(act[1], sure=0.75, bw=True, region=scb.getRegion('inventory'))
+            if(actionLoc):
+                scb.safeClick(actionLoc)
+                scb.sleep(act[2])
+            else:
+                pyautogui.press('esc')
     
     pyautogui.press('t')
 
