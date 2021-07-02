@@ -7,7 +7,7 @@ import sys
 
 
 scb.reg(
-    failSafe = 0.08,
+    failSafe = 0.04,
     resolution={
         'x': 1920,
         'y': 1080

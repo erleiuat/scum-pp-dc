@@ -94,8 +94,9 @@ def restartPC():
     raise Exception('I WOULD RESTART NOW')
 
 
-def sleep(duration=0.5):
+def sleep(duration=0.4):
     time.sleep(duration + props['failSafe'])
+
 
 def safeMouse():
     pyautogui.moveTo(props['windowPosition']['x'] + 1650,
@@ -163,7 +164,7 @@ def openTab():
         pyautogui.keyUp('tab')
         pyautogui.keyUp('tab')
         pyautogui.keyUp('tab')
-        sleep(0.1)
+        sleep(0.05)
         pyautogui.press('1')
         sleep(0.5)
         i = i + 1

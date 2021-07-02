@@ -15,7 +15,7 @@ async function testIt() {
         return false
     }
 
-    /*
+    
     resp = await bot.actions([{
         type: 'dress',
         properties: null
@@ -61,8 +61,8 @@ async function testIt() {
     }])
     
     console.log(resp)
-
-    */
+/*
+    
     
     
     
@@ -105,7 +105,7 @@ async function testIt() {
             "#Teleport -114378 -63300 37302" //Aussen 6
         ]
     }])
-
+    */
     /*
     
     resp = await bot.messages([{
