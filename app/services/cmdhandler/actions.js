@@ -12,8 +12,8 @@ exports.doAct = async function doAct(action, force = false) {
         case 'startup':
             cmdBuilder.addMessage('global', 'I will be unavailable for a minute.')
             cmdBuilder.addAction('repair', [
-                '#Teleport -117564.797 -67794.680 36809.430',
-                '#Teleport -107551.336 -67783.750 36857.059'
+                '#Teleport -117564.797 -67782.828 36810.059',
+                '#Teleport -107551.336 -67798.992 36856.250'
             ])
             cmdBuilder.addMessage('global', '#Teleport -117331 -66059 37065')
             cmdBuilder.addAction('shit')
@@ -73,7 +73,7 @@ exports.doAct = async function doAct(action, force = false) {
             break
 
         case 'light':
-            cmdBuilder.addMessage('global', 'I will be unavailable for 5 minutes.')
+            cmdBuilder.addMessage('global', 'I will be unavailable for 10 minutes.')
             cmdBuilder.addMessage('global', '#Teleport -117331 -66059 37065')
             cmdBuilder.addAction('light', [
                 "#Teleport -112656 -71595 37542", //Turm 1.1        

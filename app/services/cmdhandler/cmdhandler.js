@@ -86,7 +86,7 @@ async function cmdHandler() {
 
 async function getMap() {
     do {
-        await global.sleep.timer(60)
+        await global.sleep.timer(150)
         if (!isReady()) continue
         global.newCmds = true
 

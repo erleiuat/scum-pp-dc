@@ -239,6 +239,8 @@ def goReadyState(repeat=0):
     parts = isReady()
     if (parts['chat'] and parts['inventory']):
         sendMessage('#ListZombies')
+        sendMessage('#SetHairLength 0')
+        sendMessage('#SetFacialHairLength 0')
         sendMessage('#ShowOtherPlayerInfo true')
         return parts
     else:
