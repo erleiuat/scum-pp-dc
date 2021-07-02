@@ -157,7 +157,11 @@ def openTab():
     i = 0
     while(not onScreen('img/scb/inventar.png', bw=True, region=getRegion('inventory'))):
         pyautogui.keyDown('tab')
-        sleep(0.08)
+        sleep(0.01)
+        pyautogui.keyUp('tab')
+        pyautogui.keyUp('tab')
+        pyautogui.keyUp('tab')
+        pyautogui.keyUp('tab')
         pyautogui.keyUp('tab')
         sleep(0.1)
         pyautogui.press('1')
