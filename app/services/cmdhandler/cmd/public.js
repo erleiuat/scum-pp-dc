@@ -43,7 +43,7 @@ async function getJoke() {
 
 exports.vote_night = async function vote_night(cmd) {
     if (!cmdBuilder.begin(cmd, 'global')) return null
-    if (cmdBuilder.tooEarly('vote_night', 15)) return cmdBuilder.fullCommand(cmd)
+    if (cmdBuilder.tooEarly('vote_night', 5)) return cmdBuilder.fullCommand(cmd)
 
     cmdBuilder.addMessage('global', '[VOTING]: Nighttime-Voting begins! (10:00 PM)')
     cmdBuilder.addMessage('global', '#vote SetTimeOfDay 22')
