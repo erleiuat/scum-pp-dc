@@ -54,8 +54,6 @@ async function formMsg(state) {
     let msgs = []
     state.sort((a, b) => (a.joined.getTime() > b.joined.getTime()) ? 1 : ((b.joined.getTime() > a.joined.getTime()) ? -1 : 0))
 
-    console.log(state)
-
     let lastWeek = new Date().getTime() - (6 * 86400 * 1000)
     let newAvg = 0
     let newAvgDays = 0
