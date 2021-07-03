@@ -102,8 +102,11 @@ def joinServer():
 
     i = 0
     scb.sleep()
-    while(not scb.onScreen('img/scb/fortsetzen.png', bw=True, region=scb.getRegion('inventory'))):
+    while(scb.onScreen('img/scb/main_fortsetzen.png', bw=True, sure=0.8)):
         scb.safeClick(scb.getPoint(230, 645))
+        scb.sleep(1)
+
+    while(not scb.onScreen('img/scb/fortsetzen.png', bw=True, region=scb.getRegion('inventory'))):
         scb.sleep(1)
         pyautogui.press('esc')
         scb.sleep(1)
